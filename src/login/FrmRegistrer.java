@@ -11,27 +11,18 @@ import javax.swing.JOptionPane;
  *
  * @author aldry
  */
-public class FrmLogin extends javax.swing.JFrame {
-
+public class FrmRegistrer extends javax.swing.JFrame {
     
 
-    /**
-     * Creates new form FrmLogin
-     */
-    
-    private final ArrayList<RegistroIngreso> cuenta;
+    ArrayList<RegistroIngreso>cuenta;
     String usuario;
     String contraseña;
     
     
-    public FrmLogin(ArrayList<RegistroIngreso> cuenta) {
+    public FrmRegistrer() {
         initComponents();
-        this.cuenta = cuenta;
-        this.usuario = usuario;
-        this.contraseña = contraseña;
-        
-        
-        
+        cuenta = new ArrayList();
+        FrmLogin loginFrame = new FrmLogin(cuenta);
     }
 
     /**
@@ -43,28 +34,17 @@ public class FrmLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        LoginBtn = new javax.swing.JButton();
         Left = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtUsuarioIngreso = new javax.swing.JTextField();
+        txtUsuarioRegistro = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtContraseñaIngreso = new javax.swing.JPasswordField();
-        btnIngreso = new javax.swing.JButton();
+        txtContraseñaRegistro = new javax.swing.JPasswordField();
+        btnRegistro = new javax.swing.JButton();
         Right = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-
-        LoginBtn.setBackground(new java.awt.Color(0, 102, 102));
-        LoginBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        LoginBtn.setForeground(new java.awt.Color(255, 255, 255));
-        LoginBtn.setText("Login");
-        LoginBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LoginBtnActionPerformed(evt);
-            }
-        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,26 +53,26 @@ public class FrmLogin extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 102));
-        jLabel1.setText("INGRESO");
+        jLabel1.setText("REGISTRO");
 
         jLabel2.setBackground(new java.awt.Color(102, 102, 102));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Usuario");
 
-        txtUsuarioIngreso.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtUsuarioIngreso.setForeground(new java.awt.Color(102, 102, 102));
+        txtUsuarioRegistro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtUsuarioRegistro.setForeground(new java.awt.Color(102, 102, 102));
 
         jLabel3.setBackground(new java.awt.Color(102, 102, 102));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Contraseña");
 
-        btnIngreso.setBackground(new java.awt.Color(0, 102, 102));
-        btnIngreso.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnIngreso.setForeground(new java.awt.Color(255, 255, 255));
-        btnIngreso.setText("Ingresar");
-        btnIngreso.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistro.setBackground(new java.awt.Color(0, 102, 102));
+        btnRegistro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnRegistro.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistro.setText("Registrar");
+        btnRegistro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIngresoActionPerformed(evt);
+                btnRegistroActionPerformed(evt);
             }
         });
 
@@ -106,33 +86,33 @@ public class FrmLogin extends javax.swing.JFrame {
                         .addGap(30, 30, 30)
                         .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2)
-                            .addComponent(txtUsuarioIngreso)
+                            .addComponent(txtUsuarioRegistro)
                             .addComponent(jLabel3)
-                            .addComponent(txtContraseñaIngreso, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)))
+                            .addComponent(txtContraseñaRegistro, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)))
                     .addGroup(LeftLayout.createSequentialGroup()
                         .addGap(145, 145, 145)
-                        .addComponent(btnIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
-                .addGap(0, 127, Short.MAX_VALUE)
+                .addGap(0, 129, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(118, 118, 118))
+                .addGap(99, 99, 99))
         );
         LeftLayout.setVerticalGroup(
             LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LeftLayout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addGap(58, 58, 58)
                 .addComponent(jLabel1)
-                .addGap(36, 36, 36)
+                .addGap(33, 33, 33)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtUsuarioIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtUsuarioRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtContraseñaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtContraseñaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64)
-                .addComponent(btnIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(85, Short.MAX_VALUE))
         );
 
@@ -151,27 +131,28 @@ public class FrmLogin extends javax.swing.JFrame {
         Right.setLayout(RightLayout);
         RightLayout.setHorizontalGroup(
             RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(RightLayout.createSequentialGroup()
-                .addGap(145, 145, 145)
-                .addComponent(jLabel5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RightLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addGroup(RightLayout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(jLabel6)))
+                .addComponent(jLabel7)
                 .addGap(53, 53, 53))
+            .addGroup(RightLayout.createSequentialGroup()
+                .addGroup(RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(RightLayout.createSequentialGroup()
+                        .addGap(145, 145, 145)
+                        .addComponent(jLabel5))
+                    .addGroup(RightLayout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addComponent(jLabel6)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         RightLayout.setVerticalGroup(
             RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(RightLayout.createSequentialGroup()
                 .addGap(136, 136, 136)
                 .addComponent(jLabel5)
-                .addGap(75, 75, 75)
+                .addGap(64, 64, 64)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(78, 78, 78))
         );
@@ -204,45 +185,33 @@ public class FrmLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void LoginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginBtnActionPerformed
+    private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
         // System.out.println("Sign up btn clicked");
-        
-    }//GEN-LAST:event_LoginBtnActionPerformed
-
-    private void btnIngresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresoActionPerformed
-        // System.out.println("Sign up btn clicked");
-        
-        char[] password = txtContraseñaIngreso.getPassword();
-        
-        
+        char[] Password = txtContraseñaRegistro.getPassword();
         try {
-            if(!txtUsuarioIngreso.getText().isEmpty() && password.length !=0 ){
-                String usuarioIngresado = txtUsuarioIngreso.getText();
-                String Contraseña = new String(password);
-                if(cuenta.isEmpty()){
-                    JOptionPane.showMessageDialog(rootPane, "No se encuentran cuentas registradas, por favor registrese.");
-                }else{
-                    int pos= -1;
-                    for(int i = 0; i < cuenta.size(); i++){
-                        if(cuenta.get(i).getUsuario().equals(usuarioIngresado) 
-                                && cuenta.get(i).getContraseña().equals(Contraseña) ){
-                            JOptionPane.showMessageDialog(rootPane, "Ingreso Valido");
-                            pos = i;
-                            
-                        }
-                    }
-                    if(pos ==-1){
-                        JOptionPane.showMessageDialog(rootPane, "El usuario o contraseña no se encuentra en la base de datos");
-                    }
-                }
+            if(!txtUsuarioRegistro.getText().isEmpty() && Password.length != 0){
+                usuario = txtUsuarioRegistro.getText();
+                String contraseña = new String(Password);
+                
+                cuenta.add(new RegistroIngreso(usuario, contraseña));
+                JOptionPane.showMessageDialog(rootPane, "! Usted ha sido registrado con exito ¡");
+                
+             
+                dispose();
+                FrmLogin LoginFrame = new FrmLogin(cuenta);
+                LoginFrame.setVisible(true);
+                LoginFrame.pack();
+                LoginFrame.setLocationRelativeTo(null);
+                
+                
             }else{
-                JOptionPane.showMessageDialog(rootPane, "Campos Vacios");
+                JOptionPane.showMessageDialog(rootPane, "Campo Vacio");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Ha Ocurrido un Error Controlado");
+            JOptionPane.showMessageDialog(rootPane, "Ha Ocurrido un error controlado");
         }
-        
-    }//GEN-LAST:event_btnIngresoActionPerformed
+
+    }//GEN-LAST:event_btnRegistroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,36 +230,35 @@ public class FrmLogin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmRegistrer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmRegistrer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmRegistrer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmRegistrer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmLogin().setVisible(true);
+                new FrmRegistrer().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Left;
-    private javax.swing.JButton LoginBtn;
     private javax.swing.JPanel Right;
-    private javax.swing.JButton btnIngreso;
+    private javax.swing.JButton btnRegistro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPasswordField txtContraseñaIngreso;
-    private javax.swing.JTextField txtUsuarioIngreso;
+    private javax.swing.JPasswordField txtContraseñaRegistro;
+    private javax.swing.JTextField txtUsuarioRegistro;
     // End of variables declaration//GEN-END:variables
 }
