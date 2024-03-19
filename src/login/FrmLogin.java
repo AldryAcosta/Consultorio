@@ -4,6 +4,7 @@
  */
 package login;
 
+import InterfazPrincipal.FrmInterfazPrincipal;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -228,6 +229,12 @@ public class FrmLogin extends javax.swing.JFrame {
                                 && cuenta.get(i).getContraseña().equals(Contraseña) ){
                             JOptionPane.showMessageDialog(rootPane, "Ingreso Valido");
                             pos = i;
+                            
+                            dispose();
+                            FrmInterfazPrincipal LoginFrame = new FrmInterfazPrincipal();
+                            LoginFrame.setVisible(true);
+                            LoginFrame.pack();
+                            LoginFrame.setLocationRelativeTo(null);
                             
                         }
                     }
