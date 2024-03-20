@@ -41,12 +41,13 @@ public class FrmRegistrer extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtContraseñaRegistro = new javax.swing.JPasswordField();
         btnRegistro = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
         Right = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         Left.setBackground(new java.awt.Color(255, 255, 255));
         Left.setMinimumSize(new java.awt.Dimension(400, 500));
@@ -76,10 +77,24 @@ public class FrmRegistrer extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 102, 153));
+        jLabel4.setText("Iniciar sesión");
+        jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout LeftLayout = new javax.swing.GroupLayout(Left);
         Left.setLayout(LeftLayout);
         LeftLayout.setHorizontalGroup(
             LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
+                .addGap(0, 129, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(99, 99, 99))
             .addGroup(LeftLayout.createSequentialGroup()
                 .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(LeftLayout.createSequentialGroup()
@@ -91,12 +106,11 @@ public class FrmRegistrer extends javax.swing.JFrame {
                             .addComponent(txtContraseñaRegistro, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)))
                     .addGroup(LeftLayout.createSequentialGroup()
                         .addGap(145, 145, 145)
-                        .addComponent(btnRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
-                .addGap(0, 129, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(99, 99, 99))
+                        .addComponent(btnRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(LeftLayout.createSequentialGroup()
+                        .addGap(160, 160, 160)
+                        .addComponent(jLabel4)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         LeftLayout.setVerticalGroup(
             LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,9 +125,11 @@ public class FrmRegistrer extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtContraseñaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64)
+                .addGap(31, 31, 31)
                 .addComponent(btnRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Right.setBackground(new java.awt.Color(0, 102, 102));
@@ -152,7 +168,7 @@ public class FrmRegistrer extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addGap(64, 64, 64)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 170, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(78, 78, 78))
         );
@@ -176,9 +192,9 @@ public class FrmRegistrer extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(Right, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Left, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(Right, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Left, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -212,6 +228,16 @@ public class FrmRegistrer extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnRegistroActionPerformed
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        ArrayList<RegistroIngreso> cuenta = new ArrayList<RegistroIngreso>();
+        cuenta.add(new RegistroIngreso("admin", "1234"));
+        FrmLogin LoginFrame = new FrmLogin(cuenta);
+        LoginFrame.setVisible(true);
+        LoginFrame.pack();
+        LoginFrame.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_jLabel4MouseClicked
 
     /**
      * @param args the command line arguments
@@ -255,6 +281,7 @@ public class FrmRegistrer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

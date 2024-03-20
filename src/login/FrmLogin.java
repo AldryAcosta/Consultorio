@@ -52,6 +52,8 @@ public class FrmLogin extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtContraseñaIngreso = new javax.swing.JPasswordField();
         btnIngreso = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         Right = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -67,7 +69,7 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         Left.setBackground(new java.awt.Color(255, 255, 255));
         Left.setMinimumSize(new java.awt.Dimension(400, 500));
@@ -97,10 +99,27 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel4.setText("¿Qué esperas para probar?");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 51, 153));
+        jLabel8.setText("Regístrate gratis");
+        jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout LeftLayout = new javax.swing.GroupLayout(Left);
         Left.setLayout(LeftLayout);
         LeftLayout.setHorizontalGroup(
             LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
+                .addGap(0, 127, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(118, 118, 118))
             .addGroup(LeftLayout.createSequentialGroup()
                 .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(LeftLayout.createSequentialGroup()
@@ -112,12 +131,13 @@ public class FrmLogin extends javax.swing.JFrame {
                             .addComponent(txtContraseñaIngreso, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)))
                     .addGroup(LeftLayout.createSequentialGroup()
                         .addGap(145, 145, 145)
-                        .addComponent(btnIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
-                .addGap(0, 127, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(118, 118, 118))
+                        .addComponent(btnIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(LeftLayout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         LeftLayout.setVerticalGroup(
             LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,9 +152,13 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtContraseñaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64)
+                .addGap(18, 18, 18)
                 .addComponent(btnIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel8))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Right.setBackground(new java.awt.Color(0, 102, 102));
@@ -172,7 +196,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addGap(75, 75, 75)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(78, 78, 78))
         );
@@ -196,9 +220,9 @@ public class FrmLogin extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(Right, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Left, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(Right, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Left, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -251,6 +275,14 @@ public class FrmLogin extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnIngresoActionPerformed
 
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        FrmRegistrer Frmregister = new FrmRegistrer();
+        Frmregister.setVisible(true);
+        Frmregister.pack();
+        Frmregister.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_jLabel8MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -281,7 +313,12 @@ public class FrmLogin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmLogin().setVisible(true);
+                
+                ArrayList<RegistroIngreso> cuenta = new ArrayList<RegistroIngreso>();
+                cuenta.add(new RegistroIngreso("admin", "1234"));
+                FrmLogin frmLogin =  new FrmLogin(cuenta);
+                frmLogin.setVisible(true);
+                frmLogin.setLocationRelativeTo(null);
             }
         });
     }
@@ -294,9 +331,11 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPasswordField txtContraseñaIngreso;
     private javax.swing.JTextField txtUsuarioIngreso;
     // End of variables declaration//GEN-END:variables
