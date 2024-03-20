@@ -5,6 +5,7 @@
 package login;
 
 import InterfazPrincipal.FrmInterfazPrincipal;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -70,6 +71,7 @@ public class FrmLogin extends javax.swing.JFrame {
         });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
 
         Left.setBackground(new java.awt.Color(255, 255, 255));
         Left.setMinimumSize(new java.awt.Dimension(400, 500));
@@ -84,6 +86,11 @@ public class FrmLogin extends javax.swing.JFrame {
 
         txtUsuarioIngreso.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtUsuarioIngreso.setForeground(new java.awt.Color(102, 102, 102));
+        txtUsuarioIngreso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUsuarioIngresoKeyPressed(evt);
+            }
+        });
 
         jLabel3.setBackground(new java.awt.Color(102, 102, 102));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -282,6 +289,13 @@ public class FrmLogin extends javax.swing.JFrame {
         Frmregister.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void txtUsuarioIngresoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioIngresoKeyPressed
+        if(evt.getKeyCode()==KeyEvent.VK_ESCAPE){
+                   System.exit(0);
+                    
+                }
+    }//GEN-LAST:event_txtUsuarioIngresoKeyPressed
 
     /**
      * @param args the command line arguments
