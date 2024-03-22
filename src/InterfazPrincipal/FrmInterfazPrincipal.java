@@ -4,6 +4,9 @@
  */
 package InterfazPrincipal;
 
+import Escudero.Alert;
+import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JFrame;
 import login.FrmRegistrer;
 
@@ -12,13 +15,78 @@ import login.FrmRegistrer;
  * @author aldry
  */
 public class FrmInterfazPrincipal extends javax.swing.JFrame {
-
+    
+    
+    private ArrayList<Persona>paciente = new ArrayList<Persona>();
+    private ArrayList<Persona>medico = new ArrayList<Persona>();
     /**
      * Creates new form FrmInterfazPrincipal
      */
     public FrmInterfazPrincipal() {
         initComponents();
         this.setLocationRelativeTo(this);
+    }
+    
+    
+    public  ArrayList<Persona> obtenerListadoPaciente(){
+    
+        return this.paciente;
+    }
+    
+    public  ArrayList<Persona> obtenerListadoMedico(){
+    
+        return this.medico;
+    }
+    
+    
+    public void agregarPaciente(String nombre, String apellido, String documento, String direccion, String telefono, String correoElectronico, Date fechaNacimiento, String genero, String Afiliacion) {
+        
+        if(paciente.isEmpty()){
+            Persona nuevoPaciente = new Paciente(nombre, apellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico, Afiliacion);
+            paciente.add(nuevoPaciente);
+            Alert.showMessageInfo("Consultorio", "El paciente ha sido agregado con exito", 10);
+        }else{
+            int pos = -1;
+            for(int i=0; i < paciente.size();i++){
+                if(paciente.get(i).getDocumento().equals(documento)){
+                    pos = i;
+                    Alert.showMessageError("Registro Paciente", "Este paciente ya existe en la base de datos", 10);
+                }
+            }
+            if(pos==-1){
+                Persona nuevoPaciente = new Paciente(nombre, apellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico, Afiliacion);
+                paciente.add(nuevoPaciente);
+                Alert.showMessageInfo("Consultorio", "El paciente ha sido agregado con exito", 10);
+            }else{
+                Alert.showMessageError("Registro Paciente", "Este paciente ya existe", 10);
+            }
+
+        }
+        
+    }
+    
+    public void agregarMedico(String nombre, String apellido, String documento, String direccion, String telefono, String correoElectronico, Date fechaNacimiento, String genero, String consultorio, String especializacion){
+        if(medico.isEmpty()){
+                Persona nuevoMedico = new Medico(nombre, apellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico,consultorio,especializacion);
+                medico.add(nuevoMedico);
+                Alert.showMessageInfo("Consultorio", "El Medico ha sido agregado con exito", 10);
+            }else{
+                int pos = -1;
+                for(int i=0; i < medico.size();i++){
+                    if(medico.get(i).getDocumento().equals(documento)){
+                        pos = i;
+                        Alert.showMessageError("Registro Medico", "Este Medico ya existe en la base de datos", 10);
+                    }
+                }
+                if(pos==-1){
+                    Persona nuevoMedico = new Medico(nombre, apellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico, consultorio, especializacion);
+//                    paciente.add(nuevoPaciente);
+                    Alert.showMessageInfo("Consultorio", "El Medico ha sido agregado con exito", 10);
+                }else{
+                    Alert.showMessageError("Registro Medico", "Este medico ya existe", 10);
+                }
+                
+            }
     }
 
     /**
@@ -329,7 +397,7 @@ public class FrmInterfazPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroPacientesActionPerformed
-        FrmRegistrarPersona FrmRegistrarPersona = new FrmRegistrarPersona();
+        FrmRegistrarPersona FrmRegistrarPersona = new FrmRegistrarPersona(this);
         FrmRegistrarPersona.setVisible(true);
         FrmRegistrarPersona.pack();
         FrmRegistrarPersona.setLocationRelativeTo(null);
@@ -337,7 +405,7 @@ public class FrmInterfazPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistroPacientesActionPerformed
 
     private void btnAgendarCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarCitasActionPerformed
-        FrmAgendamiento frmAgendamiento = new FrmAgendamiento();
+        FrmAgendamiento frmAgendamiento = new FrmAgendamiento(this);
         frmAgendamiento.setVisible(true);
         frmAgendamiento.pack();
         frmAgendamiento.setLocationRelativeTo(null);

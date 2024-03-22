@@ -13,6 +13,7 @@ import Escudero.Alert;
 import java.awt.Color;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
+import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 import login.FrmRegistrer;
@@ -22,7 +23,12 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
     /**
      * Creates new form FrmRegistrarPersona
      */
-    ArrayList<Persona>paciente;
+   
+    private FrmInterfazPrincipal principal;
+    
+    
+    
+    
     ArrayList<Persona>medico;
     
     private String nombre;
@@ -40,12 +46,12 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
     private String lugar;
     
     
-    public FrmRegistrarPersona() {
+    public FrmRegistrarPersona(FrmInterfazPrincipal interfazPrincipal) {
         initComponents();
-        
+        this.principal = interfazPrincipal;
         
         this.setLocationRelativeTo(this);
-        paciente = new ArrayList();
+    
         medico = new ArrayList();
     }
 
@@ -128,13 +134,13 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbPaciente1)
                     .addComponent(lbPaciente))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         txtNombre.setBackground(new java.awt.Color(242, 242, 242));
         txtNombre.setAutoscrolls(false);
         txtNombre.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nombre", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
-        txtNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         txtApellido.setBackground(new java.awt.Color(242, 242, 242));
         txtApellido.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Apellido", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
@@ -159,7 +165,7 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
         txtNombreMedico.setBackground(new java.awt.Color(242, 242, 242));
         txtNombreMedico.setAutoscrolls(false);
         txtNombreMedico.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nombre", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
-        txtNombreMedico.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtNombreMedico.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         txtApellidoMedico.setBackground(new java.awt.Color(242, 242, 242));
         txtApellidoMedico.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Apellido", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
@@ -380,6 +386,12 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
+    
+    
+    
+    
     private void btnRegistrarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarPacienteActionPerformed
         if(!txtNombre.getText().isEmpty() && !txtApellido.getText().isEmpty() && !txtDocumento.getText().isEmpty() && comboGenero.getSelectedIndex()>0 && !txtDireccion.getText().isEmpty() && !txtTelefono.getText().isEmpty() && !txtCorreo.getText().isEmpty() && dtFechaNacimiento.getDate()!= null && comboAfiliados.getSelectedIndex()>0){
             
@@ -392,29 +404,10 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
             fechaNacimiento = dtFechaNacimiento.getDate();
             genero = comboGenero.getSelectedItem().toString();
             Afiliacion = comboAfiliados.getSelectedItem().toString();
-             
             
-            if(paciente.isEmpty()){
-                Persona nuevoPaciente = new Paciente(nombre, apellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico, Afiliacion);
-                paciente.add(nuevoPaciente);
-                Alert.showMessageInfo("Consultorio", "El paciente ha sido agregado con exito", 10);
-            }else{
-                int pos = -1;
-                for(int i=0; i < paciente.size();i++){
-                    if(paciente.get(i).getDocumento().equals(documento)){
-                        pos = i;
-                        Alert.showMessageError("Registro Paciente", "Este paciente ya existe en la base de datos", 10);
-                    }
-                }
-                if(pos==-1){
-                    Persona nuevoPaciente = new Paciente(nombre, apellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico, Afiliacion);
-                    paciente.add(nuevoPaciente);
-                    Alert.showMessageInfo("Consultorio", "El paciente ha sido agregado con exito", 10);
-                }else{
-                    Alert.showMessageError("Registro Paciente", "Este paciente ya existe", 10);
-                }
-                
-            }
+            
+            this.principal.agregarPaciente(nombre, apellido, documento, direccion, telefono, correoElectronico, fechaNacimiento, genero, Afiliacion);
+            
         }else{
             Alert.showMessageError("Consultorio", "Campos Vacios", 10);
         }
@@ -457,28 +450,8 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
             consultorio = txtConsultorio.getText().toUpperCase();
             especialidad = comboEspecialidades.getSelectedItem().toString();
             
-            
-            if(medico.isEmpty()){
-                Persona nuevoMedico = new Medico(nombre, apellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico,consultorio,especialidad);
-                medico.add(nuevoMedico);
-                Alert.showMessageInfo("Consultorio", "El Medico ha sido agregado con exito", 10);
-            }else{
-                int pos = -1;
-                for(int i=0; i < medico.size();i++){
-                    if(medico.get(i).getDocumento().equals(documento)){
-                        pos = i;
-                        Alert.showMessageError("Registro Medico", "Este Medico ya existe en la base de datos", 10);
-                    }
-                }
-                if(pos==-1){
-                    Persona nuevoPaciente = new Paciente(nombre, apellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico, Afiliacion);
-                    paciente.add(nuevoPaciente);
-                    Alert.showMessageInfo("Consultorio", "El Medico ha sido agregado con exito", 10);
-                }else{
-                    Alert.showMessageError("Registro Medico", "Este medico ya existe", 10);
-                }
-                
-            }
+            this.principal.agregarPaciente(nombre, apellido, documento, direccion, telefono, correoElectronico, fechaNacimiento, genero, Afiliacion);
+         
         }else{
             Alert.showMessageError("Consultorio", "Campos Vacios", 10);
         }
@@ -488,7 +461,7 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarMedicoActionPerformed
 
     private void btnAgendarCitaPorRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarCitaPorRegistroActionPerformed
-        FrmAgendamiento frmAgendamiento = new FrmAgendamiento();
+        FrmAgendamiento frmAgendamiento = new FrmAgendamiento(this.principal);
         frmAgendamiento.setVisible(true);
         frmAgendamiento.pack();
         frmAgendamiento.setLocationRelativeTo(null);
@@ -499,20 +472,21 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     
-     public void agregarPaciente(String nombre,String apellido,String documento, Date fechaNacimiento, String genero, String direccion,
-             String telefono, String correoElectronico) {
-             Paciente nuevoPaciente = new Paciente(nombre,apellido,documento, fechaNacimiento, genero, direccion, telefono, correoElectronico, Afiliacion);
-         
-         paciente.add(nuevoPaciente);
-     }
-     
-     public ArrayList<Persona> getPacientes() {
-        return paciente;
-    }
+//     public void agregarPaciente(String nombre,String apellido,String documento, Date fechaNacimiento, String genero, String direccion,
+//             String telefono, String correoElectronico) {
+//             Paciente nuevoPaciente = new Paciente(nombre,apellido,documento, fechaNacimiento, genero, direccion, telefono, correoElectronico, Afiliacion);
+//         
+//         paciente.add(nuevoPaciente);
+//     }
+//     
+//     public ArrayList<Persona> getPacientes() {
+//        return paciente;
+//    }
     
     public static void main(String args[]) {
-  
-        new FrmRegistrarPersona().setVisible(true);
+        
+        FrmInterfazPrincipal principal = new FrmInterfazPrincipal();
+        new FrmRegistrarPersona(principal).setVisible(true);
         ArrayList<Persona>paciente = new ArrayList();
         ArrayList<Persona>medico = new ArrayList();
         

@@ -106,6 +106,11 @@ public class FrmLogin extends javax.swing.JFrame {
                 btnIngresoActionPerformed(evt);
             }
         });
+        btnIngreso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnIngresoKeyPressed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel4.setText("¿Qué esperas para probar?");
@@ -166,7 +171,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel8))
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         Right.setBackground(new java.awt.Color(0, 102, 102));
@@ -297,6 +302,14 @@ public class FrmLogin extends javax.swing.JFrame {
                     
                 }
     }//GEN-LAST:event_txtUsuarioIngresoKeyPressed
+
+    private void btnIngresoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnIngresoKeyPressed
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+                   System.exit(0);
+                    
+                }
+    
+    }//GEN-LAST:event_btnIngresoKeyPressed
 
     /**
      * @param args the command line arguments

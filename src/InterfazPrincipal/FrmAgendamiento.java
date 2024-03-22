@@ -4,8 +4,11 @@
  */
 package InterfazPrincipal;
 
+import Escudero.Alert;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerModel;
 import login.RegistroIngreso;
@@ -16,12 +19,26 @@ import login.RegistroIngreso;
  */
 public class FrmAgendamiento extends javax.swing.JFrame {
     
+    
+    private FrmInterfazPrincipal principal;
+    
     /**
      * Creates new form FrmAgendamiento
      */
-    private ArrayList<Persona> paciente;
-    public FrmAgendamiento() {
-        initComponents();  
+    private ArrayList<Persona> paciente = new ArrayList<Persona>();
+    
+    public FrmAgendamiento(FrmInterfazPrincipal interfazPrincipal) {
+        initComponents(); 
+        
+        
+        this.principal = interfazPrincipal;
+        
+        this.paciente = this.principal.obtenerListadoPaciente();
+        
+        if (this.paciente.isEmpty()) {
+            Alert.showMessageError("Aviso", "No se han registrado pacientes. Registre al menos un paciente antes de agendar cita", 5);
+        }
+        
         
     }
 
@@ -33,6 +50,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     
     public ArrayList<Persona> getPacientes() {
         return paciente;
+        
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -217,12 +235,11 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFiltrarPorDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarPorDocumentoActionPerformed
-      int pos = -1;
-      for(int i=0; i < paciente.size();i++){
-          if(paciente.get(i).getDocumento().equals(txtFiltradoDocumento.getText())){
-              txtDocumentoAgenda.setText(paciente.get(i).getDocumento());
-          }
-      }
+     for(int i =0; i < paciente.size();i++){
+         if(paciente.get(i).getDocumento().equals(txtFiltradoDocumento.getText())){
+         
+        }
+     }
     }//GEN-LAST:event_btnFiltrarPorDocumentoActionPerformed
 
     /**
@@ -230,7 +247,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
        
-        new FrmAgendamiento().setVisible(true);
+//        new FrmAgendamiento().setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
