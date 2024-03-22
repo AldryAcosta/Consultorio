@@ -26,17 +26,21 @@ public class FrmAgendamiento extends javax.swing.JFrame {
      * Creates new form FrmAgendamiento
      */
     private ArrayList<Persona> paciente = new ArrayList<Persona>();
+    private ArrayList<Persona> medico = new ArrayList<Persona>();
     
     public FrmAgendamiento(FrmInterfazPrincipal interfazPrincipal) {
         initComponents(); 
         
         
         this.principal = interfazPrincipal;
-        
         this.paciente = this.principal.obtenerListadoPaciente();
+        this.medico = this.principal.obtenerListadoMedico();
         
         if (this.paciente.isEmpty()) {
             Alert.showMessageError("Aviso", "No se han registrado pacientes. Registre al menos un paciente antes de agendar cita", 5);
+        }
+        if (this.medico.isEmpty()) {
+            Alert.showMessageError("Aviso", "No se han registrado medicos. Registre al menos un medico antes de agendar cita", 5);
         }
         
         

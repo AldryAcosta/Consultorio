@@ -15,14 +15,14 @@ import javax.swing.JOptionPane;
 public class FrmRegistrer extends javax.swing.JFrame {
     
 
-    ArrayList<RegistroIngreso>cuenta;
+    ArrayList<RegistroIngreso>cuenta = new ArrayList();
     String usuario;
     String contraseña;
     
     
     public FrmRegistrer() {
         initComponents();
-        cuenta = new ArrayList();
+        this.cuenta = cuenta;
         FrmLogin loginFrame = new FrmLogin(cuenta);
     }
 
