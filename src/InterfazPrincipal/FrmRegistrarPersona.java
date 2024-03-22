@@ -15,6 +15,7 @@ import java.awt.Font;
 import java.text.SimpleDateFormat;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
+import login.FrmRegistrer;
 
 public class FrmRegistrarPersona extends javax.swing.JFrame {
 
@@ -37,7 +38,8 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
     private String consultorio;
     private String especialidad;
     private String lugar;
-    Persona persona;
+    
+    
     public FrmRegistrarPersona() {
         initComponents();
         
@@ -456,7 +458,7 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
             lugar = txtDireccionMedico.getText().toUpperCase();
             
             if(medico.isEmpty()){
-                Persona nuevoMedico = new Medico(nombre, apellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico,consultorio,especialidad, lugar);
+                Persona nuevoMedico = new Medico(nombre, apellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico,consultorio,especialidad);
                 medico.add(nuevoMedico);
                 Alert.showMessageInfo("Consultorio", "El Medico ha sido agregado con exito", 10);
             }else{
@@ -482,11 +484,11 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarMedicoActionPerformed
 
     private void btnAgendarCitaPorRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarCitaPorRegistroActionPerformed
-        
-        FrmAgendamiento LoginFrame = new FrmAgendamiento();
-        LoginFrame.setVisible(true);
-        LoginFrame.pack();
-        LoginFrame.setLocationRelativeTo(null);
+        FrmAgendamiento frmAgendamiento = new FrmAgendamiento();
+        frmAgendamiento.setVisible(true);
+        frmAgendamiento.pack();
+        frmAgendamiento.setLocationRelativeTo(null);
+        this.dispose();
     }//GEN-LAST:event_btnAgendarCitaPorRegistroActionPerformed
 
     /**

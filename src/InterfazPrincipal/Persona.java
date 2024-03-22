@@ -89,19 +89,19 @@ class Paciente extends Persona {
 
 
 class Medico extends Persona {
-    private String id;
+    
     private String consultorio;
     private String especialidad;
-    private String lugar;
+    
     
     
   
-    public Medico(String nombre,String apellido,String documento, Date fechaNacimiento, String genero,String direccion, String telefono, String correoElectronico,String consultorio, String especialidad, String lugar) {
-        super(nombre,apellido,documento,fechaNacimiento, genero, lugar, telefono, correoElectronico);
+    public Medico(String nombre,String apellido,String documento, Date fechaNacimiento, String genero, String direccion, String telefono, String correoElectronico,String consultorio, String especialidad) {
+        super(nombre,apellido,documento,fechaNacimiento, genero, direccion, telefono, correoElectronico);
         
         this.consultorio = consultorio;
         this.especialidad = especialidad;
-        this.lugar = lugar;
+        
         
         
     }
@@ -113,10 +113,6 @@ class Medico extends Persona {
     public String getEspecialidad(){
         return especialidad;
     }
-    public String getLugar(){
-        return lugar;
-    }
-
     
     public void obtenerInformacionEspecifica() {
         
