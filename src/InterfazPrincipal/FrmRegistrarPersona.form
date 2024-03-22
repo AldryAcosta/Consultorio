@@ -117,9 +117,9 @@
                                               <Group type="103" groupAlignment="1" attributes="0">
                                                   <Group type="102" attributes="0">
                                                       <Component id="btnRegistrarMedico" min="-2" pref="154" max="-2" attributes="0"/>
-                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                                                       <Component id="btnAgendarCitaPorRegistro" min="-2" pref="170" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                                   </Group>
                                                   <Group type="102" attributes="0">
                                                       <Component id="txtNombre" min="-2" pref="130" max="-2" attributes="0"/>

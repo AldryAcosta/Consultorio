@@ -258,9 +258,9 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
                                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(jPanel5Layout.createSequentialGroup()
                                                 .addComponent(btnRegistrarMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGap(32, 32, 32)
                                                 .addComponent(btnAgendarCitaPorRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(26, 26, 26))
+                                                .addGap(14, 14, 14))
                                             .addGroup(jPanel5Layout.createSequentialGroup()
                                                 .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(40, 40, 40)
@@ -391,7 +391,7 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
             correoElectronico = txtCorreo.getText().toUpperCase();
             fechaNacimiento = dtFechaNacimiento.getDate();
             genero = comboGenero.getSelectedItem().toString();
-            Afiliacion = comboEspecialidades.getSelectedItem().toString();
+            Afiliacion = comboAfiliados.getSelectedItem().toString();
              
             
             if(paciente.isEmpty()){
@@ -444,6 +444,7 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
     }//GEN-LAST:event_btnlimpiarActionPerformed
 
     private void btnRegistrarMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarMedicoActionPerformed
+    try{
         if(!txtNombreMedico.getText().isEmpty() && !txtApellidoMedico.getText().isEmpty() && !txtDocumentoMedico.getText().isEmpty() && comboGeneroMedico.getSelectedIndex()>0 && !txtDireccionMedico.getText().isEmpty() && !txtTelefonoMedico.getText().isEmpty() && !txtCorreoMedico.getText().isEmpty() && dtFechaNacimientoMedico.getDate()!= null && !txtConsultorio.getText().isEmpty() && comboGeneroMedico.getSelectedIndex()>0){
             
             nombre = txtNombreMedico.getText().toUpperCase();
@@ -455,7 +456,7 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
             fechaNacimiento = dtFechaNacimientoMedico.getDate();
             consultorio = txtConsultorio.getText().toUpperCase();
             especialidad = comboEspecialidades.getSelectedItem().toString();
-            lugar = txtDireccionMedico.getText().toUpperCase();
+            
             
             if(medico.isEmpty()){
                 Persona nuevoMedico = new Medico(nombre, apellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico,consultorio,especialidad);
@@ -481,6 +482,9 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
         }else{
             Alert.showMessageError("Consultorio", "Campos Vacios", 10);
         }
+      }catch(Exception ex){
+          Alert.showMessageError("Error Controlado", "ocurrio un error controlado");
+      }
     }//GEN-LAST:event_btnRegistrarMedicoActionPerformed
 
     private void btnAgendarCitaPorRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarCitaPorRegistroActionPerformed
