@@ -261,31 +261,31 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     private void comboTipoCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTipoCitaActionPerformed
 
         int seleccion = comboTipoCita.getSelectedIndex();
-        if (seleccion >= 0) { 
+    if (seleccion >= 0) { 
         String especialidadSeleccionada = comboTipoCita.getSelectedItem().toString();
-        comboMedicos.removeAllItems();        
+        comboMedicos.removeAllItems();  // Limpiar el ComboBox antes de agregar los nuevos nombres de médicos
         
-        if(!medico.isEmpty()){
-            for (int i = 0; i <medico.size(); i++){
+        ArrayList<String> MedicoPorEspecialidad = new ArrayList<>();
+
+        if (!medico.isEmpty()) {
+            for (int i = 0; i < medico.size(); i++) {
                 Medico med = (Medico) medico.get(i);
                 
-                if(med.getEspecialidad().equals(especialidadSeleccionada)){
-                    comboMedicos.addItem(med.getNombre()+ med.getApellido());
+                if (med.getEspecialidad().equals(especialidadSeleccionada)) {
+                    MedicoPorEspecialidad.add(med.getNombre());
                 }
             }
-            
-            if (comboMedicos.getItemCount() == 0) {
-                Alert.showMessageError("Error", "No hay médicos disponibles para la especialidad seleccionada");
+
+            // Agregar los nombres de los médicos al ComboBox de médicos
+            for (String nombreMedico : MedicoPorEspecialidad) {
+                comboMedicos.addItem(nombreMedico);
             }
         } else {
             Alert.showMessageError("Error", "No hay médicos registrados");
         }
-        
-         
     } else {
         Alert.showMessageWarning("Cuidado", "Debe seleccionar la especialidad requerida para el paciente");
     }
-        
     }//GEN-LAST:event_comboTipoCitaActionPerformed
 
     /**
