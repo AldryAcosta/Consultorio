@@ -291,11 +291,17 @@
         <Component class="javax.swing.JComboBox" name="comboTipoCita">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
+              <StringArray count="10">
+                <StringItem index="0" value="Seleccione"/>
+                <StringItem index="1" value="Medicina General"/>
+                <StringItem index="2" value="Pediatria"/>
+                <StringItem index="3" value="Ginecologica"/>
+                <StringItem index="4" value="Cardiologia"/>
+                <StringItem index="5" value="Dermatologia"/>
+                <StringItem index="6" value="Medicina interna"/>
+                <StringItem index="7" value="Ortopedia"/>
+                <StringItem index="8" value="Otorrinolaringo"/>
+                <StringItem index="9" value="Neurocirujias"/>
               </StringArray>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -306,6 +312,9 @@
               </Border>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboTipoCitaActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>

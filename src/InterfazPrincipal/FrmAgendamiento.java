@@ -25,6 +25,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     /**
      * Creates new form FrmAgendamiento
      */
+    
     private ArrayList<Persona> paciente = new ArrayList<Persona>();
     private ArrayList<Persona> medico = new ArrayList<Persona>();
     
@@ -56,6 +57,12 @@ public class FrmAgendamiento extends javax.swing.JFrame {
         return paciente;
         
     }
+    
+    public ArrayList<Persona> getMedicos() {
+        return medico;
+        
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -129,8 +136,13 @@ public class FrmAgendamiento extends javax.swing.JFrame {
         lbDatosMedicos.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         lbDatosMedicos.setText("Datos medicos");
 
-        comboTipoCita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboTipoCita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Medicina General", "Pediatria", "Ginecologica", "Cardiologia", "Dermatologia", "Medicina interna", "Ortopedia", "Otorrinolaringo", "Neurocirujias" }));
         comboTipoCita.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tipo Cita / Especialidad", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
+        comboTipoCita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboTipoCitaActionPerformed(evt);
+            }
+        });
 
         comboMedicos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         comboMedicos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Medico Disponible segun especialidad", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
@@ -240,13 +252,37 @@ public class FrmAgendamiento extends javax.swing.JFrame {
              
             String afiliacion = ((Paciente) paciente.get(i)).getAfiliacion();
             txtafiliadoagenda.setText(afiliacion);
+            
+            Alert.showMessageInfo("Info", "prueba git");
         }
      }
     }//GEN-LAST:event_btnFiltrarPorDocumentoActionPerformed
 
+    private void comboTipoCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTipoCitaActionPerformed
+        
+        int seleccion = comboTipoCita.getSelectedIndex();
+        if (seleccion >= 0) { 
+        String especialidadSeleccionada = comboTipoCita.getSelectedItem().toString();
+        comboMedicos.removeAllItems();
+        
+        
+        ArrayList<Persona> medicoSegunEspecialidad = new ArrayList<Persona>();
+        
+         for(int i = 0; i < medico.size(); i++){
+             
+         }
+       
+    } else {
+        Alert.showMessageWarning("Cuidado", "Debe seleccionar la especialidad requerida para el paciente");
+    }
+        
+    }//GEN-LAST:event_comboTipoCitaActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
+    
     public static void main(String args[]) {
        
 //        new FrmAgendamiento().setVisible(true);
