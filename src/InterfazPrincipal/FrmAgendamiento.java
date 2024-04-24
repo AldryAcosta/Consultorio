@@ -259,19 +259,29 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFiltrarPorDocumentoActionPerformed
 
     private void comboTipoCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTipoCitaActionPerformed
-        
+
         int seleccion = comboTipoCita.getSelectedIndex();
         if (seleccion >= 0) { 
         String especialidadSeleccionada = comboTipoCita.getSelectedItem().toString();
-        comboMedicos.removeAllItems();
+        comboMedicos.removeAllItems();        
         
+        if(!medico.isEmpty()){
+            for (int i = 0; i <medico.size(); i++){
+                Medico med = (Medico) medico.get(i);
+                
+                if(med.getEspecialidad().equals(especialidadSeleccionada)){
+                    comboMedicos.addItem(med.getNombre()+ med.getApellido());
+                }
+            }
+            
+            if (comboMedicos.getItemCount() == 0) {
+                Alert.showMessageError("Error", "No hay médicos disponibles para la especialidad seleccionada");
+            }
+        } else {
+            Alert.showMessageError("Error", "No hay médicos registrados");
+        }
         
-        ArrayList<Persona> medicoSegunEspecialidad = new ArrayList<Persona>();
-        
-         for(int i = 0; i < medico.size(); i++){
-             
-         }
-       
+         
     } else {
         Alert.showMessageWarning("Cuidado", "Debe seleccionar la especialidad requerida para el paciente");
     }
