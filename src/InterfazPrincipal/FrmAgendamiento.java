@@ -5,13 +5,20 @@
 package InterfazPrincipal;
 
 import Escudero.Alert;
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerModel;
 import login.RegistroIngreso;
+
+
 
 /**
  *
@@ -32,7 +39,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     public FrmAgendamiento(FrmInterfazPrincipal interfazPrincipal) {
         initComponents(); 
         
-        
+        ConfigCalendario();
         this.principal = interfazPrincipal;
         this.paciente = this.principal.obtenerListadoPaciente();
         this.medico = this.principal.obtenerListadoMedico();
@@ -80,7 +87,10 @@ public class FrmAgendamiento extends javax.swing.JFrame {
         lbDatosMedicos = new javax.swing.JLabel();
         comboTipoCita = new javax.swing.JComboBox<>();
         comboMedicos = new javax.swing.JComboBox<>();
-        dtFechaCita = new com.toedter.calendar.JDateChooser();
+        comboHoras = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textMotivo = new javax.swing.JTextArea();
+        jdFecha = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(0, 102, 51));
@@ -144,78 +154,97 @@ public class FrmAgendamiento extends javax.swing.JFrame {
             }
         });
 
-        comboMedicos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboMedicos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
         comboMedicos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Medico Disponible segun especialidad", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
+        comboMedicos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboMedicosActionPerformed(evt);
+            }
+        });
+
+        comboHoras.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione" }));
+        comboHoras.setBorder(javax.swing.BorderFactory.createTitledBorder("Horas Disponibles"));
+
+        textMotivo.setColumns(20);
+        textMotivo.setRows(5);
+        textMotivo.setBorder(javax.swing.BorderFactory.createTitledBorder("Motivo de cita"));
+        jScrollPane1.setViewportView(textMotivo);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(txtFiltradoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbDatosMedicos)
+                .addGap(201, 201, 201))
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(34, 34, 34)
-                                .addComponent(txtFiltradoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(69, 69, 69)
-                                .addComponent(btnFiltrarPorDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbDatosMedicos, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(comboTipoCita, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(89, 89, 89))
+                        .addGap(69, 69, 69)
+                        .addComponent(btnFiltrarPorDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtafiliadoagenda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                                    .addComponent(txtGeneroAgenda, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addComponent(txtDocumentoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtApellidoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(172, 172, 172)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(comboTipoCita, 0, 194, Short.MAX_VALUE)
+                            .addComponent(jdFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtafiliadoagenda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                                        .addComponent(txtGeneroAgenda, javax.swing.GroupLayout.Alignment.LEADING))
-                                    .addComponent(txtDocumentoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtApellidoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(341, 341, 341)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(comboMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(dtFechaCita, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(45, 45, 45)))
-                .addGap(0, 16, Short.MAX_VALUE))
+                                .addGap(0, 12, Short.MAX_VALUE)
+                                .addComponent(comboMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboHoras, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lbDatosMedicos)
-                        .addGap(18, 18, 18)
-                        .addComponent(comboTipoCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbDatosMedicos)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(txtFiltradoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnFiltrarPorDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnFiltrarPorDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboTipoCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(comboMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dtFechaCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(116, 116, 116)
                         .addComponent(txtDocumentoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jdFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboHoras, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(128, 128, 128)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(txtApellidoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(txtApellidoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtGeneroAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtafiliadoagenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                        .addComponent(txtGeneroAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtafiliadoagenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -260,37 +289,223 @@ public class FrmAgendamiento extends javax.swing.JFrame {
 
     private void comboTipoCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTipoCitaActionPerformed
 
-        int seleccion = comboTipoCita.getSelectedIndex();
-    if (seleccion >= 0) { 
-        String especialidadSeleccionada = comboTipoCita.getSelectedItem().toString();
-        comboMedicos.removeAllItems();  // Limpiar el ComboBox antes de agregar los nuevos nombres de médicos
         
-        ArrayList<String> MedicoPorEspecialidad = new ArrayList<>();
-
-        if (!medico.isEmpty()) {
-            for (int i = 0; i < medico.size(); i++) {
-                Medico med = (Medico) medico.get(i);
-                
-                if (med.getEspecialidad().equals(especialidadSeleccionada)) {
-                    MedicoPorEspecialidad.add(med.getNombre());
+        comboMedicos.removeAllItems();
+    
+    
+        String especialidadSeleccionada = comboTipoCita.getSelectedItem().toString();
+    
+    
+        switch (especialidadSeleccionada) {
+            case "Medicina General":
+                comboMedicos.addItem("Dr. Juan Perez");
+                comboMedicos.addItem("Dra. Maria Lopez");
+                comboMedicos.addItem("Dr. Ana Ramirez");
+            break;
+            case "Pediatria":
+                comboMedicos.addItem("Dr. Carlos Ramirez");
+                comboMedicos.addItem("Dra. Laura Martinez");
+                comboMedicos.addItem("Dr. Pedro Sanchez");
+            break;
+            case "Ginecologica":
+                comboMedicos.addItem("Dra. Lucia Fernandez");
+                comboMedicos.addItem("Dr. Miguel Rodriguez");
+            break;
+            case "Cardiologia":
+                comboMedicos.addItem("Dr. Roberto Diaz");
+                comboMedicos.addItem("Dra. Patricia Castro");
+            break;
+            case "Dermatologia":
+                comboMedicos.addItem("Dr. Alejandro Garcia");
+                comboMedicos.addItem("Dra. Andrea Fernandez");
+                comboMedicos.addItem("Dr. Jorge Martinez");
+            break;
+            case "Medicina interna":
+                comboMedicos.addItem("Dr. Jose Gonzalez");
+                comboMedicos.addItem("Dra. Marta Perez");
+            break;
+            case "Ortopedia":
+             comboMedicos.addItem("Dr. Luis Hernandez");
+                comboMedicos.addItem("Dra. Ana Maria Gomez");
+            break;
+            case "Otorrinolaringo":
+                comboMedicos.addItem("Dr. Victor Ramirez");
+             comboMedicos.addItem("Dra. Sofia Diaz");
+            break;
+            case "Neurocirugia":
+                comboMedicos.addItem("Dr. Manuel Torres");
+                comboMedicos.addItem("Dra. Laura Lopez");
+            break;
+            default:
+                Alert.showMessageWarning("Advertencia", "Especialidad no encontrada");
+            break;
+        }
+        
+        comboMedicos.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+                if (comboMedicos.getSelectedIndex() != -1) {
+                    String doctorSeleccionado = comboMedicos.getSelectedItem().toString();
+                    cargarHorasDisponibles(doctorSeleccionado);
+                } else {
+                comboHoras.removeAllItems();
                 }
             }
+        });
+        
+        if (comboMedicos.getSelectedIndex() != -1) {
+            
+            String doctorSeleccionado = comboMedicos.getSelectedItem().toString();
 
-            // Agregar los nombres de los médicos al ComboBox de médicos
-            for (String nombreMedico : MedicoPorEspecialidad) {
-                comboMedicos.addItem(nombreMedico);
-            }
+            
+            cargarHorasDisponibles(doctorSeleccionado);
         } else {
-            Alert.showMessageError("Error", "No hay médicos registrados");
+            
+            Alert.showMessageWarning("Advertencia", "Por favor, seleccione un médico.");
         }
-    } else {
-        Alert.showMessageWarning("Cuidado", "Debe seleccionar la especialidad requerida para el paciente");
-    }
     }//GEN-LAST:event_comboTipoCitaActionPerformed
+
+    
+     
+     private void ConfigCalendario(){
+            
+     }
+    private void comboMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMedicosActionPerformed
+        // TODO add your handling code here:
+        
+        
+      
+    }//GEN-LAST:event_comboMedicosActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    
+    
+    
+    
+    private void cargarHorasDisponibles(String doctorSeleccionado) {
+    
+    comboHoras.removeAllItems();
+
+    
+    switch (doctorSeleccionado) {
+    case "Dr. Juan Perez":
+        comboHoras.addItem("9:00 AM");
+        comboHoras.addItem("11:00 AM");
+        comboHoras.addItem("2:00 PM");
+        break;
+    case "Dra. Maria Lopez":
+        comboHoras.addItem("10:00 AM");
+        comboHoras.addItem("1:00 PM");
+        comboHoras.addItem("4:00 PM");
+        break;
+    case "Dr. Ana Ramirez":
+        comboHoras.addItem("9:30 AM");
+        comboHoras.addItem("12:00 PM");
+        comboHoras.addItem("3:00 PM");
+        break;
+    case "Dr. Carlos Ramirez":
+        comboHoras.addItem("10:00 AM");
+        comboHoras.addItem("1:00 PM");
+        comboHoras.addItem("3:00 PM");
+        break;
+    case "Dra. Laura Martinez":
+        comboHoras.addItem("9:00 AM");
+        comboHoras.addItem("11:00 AM");
+        comboHoras.addItem("2:00 PM");
+        break;
+    case "Dr. Pedro Sanchez":
+        comboHoras.addItem("10:30 AM");
+        comboHoras.addItem("12:00 PM");
+        comboHoras.addItem("4:00 PM");
+        break;
+    case "Dra. Lucia Fernandez":
+        comboHoras.addItem("8:30 AM");
+        comboHoras.addItem("10:30 AM");
+        comboHoras.addItem("3:30 PM");
+        break;
+    case "Dr. Miguel Rodriguez":
+        comboHoras.addItem("9:00 AM");
+        comboHoras.addItem("12:00 PM");
+        comboHoras.addItem("4:30 PM");
+        break;
+    case "Dr. Roberto Diaz":
+        comboHoras.addItem("9:30 AM");
+        comboHoras.addItem("11:30 AM");
+        comboHoras.addItem("2:30 PM");
+        break;
+    case "Dra. Patricia Castro":
+        comboHoras.addItem("10:00 AM");
+        comboHoras.addItem("1:30 PM");
+        comboHoras.addItem("3:30 PM");
+        break;
+    case "Dr. Alejandro Garcia":
+        comboHoras.addItem("10:00 AM");
+        comboHoras.addItem("12:00 PM");
+        comboHoras.addItem("3:00 PM");
+        break;
+    case "Dra. Andrea Fernandez":
+        comboHoras.addItem("9:00 AM");
+        comboHoras.addItem("11:00 AM");
+        comboHoras.addItem("2:00 PM");
+        break;
+        
+    case "Dr. Jorge Martinez":
+        comboHoras.addItem("9:30 AM");
+        comboHoras.addItem("1:00 PM");
+        comboHoras.addItem("4:00 PM");
+        break;
+    case "Dr. Jose Gonzalez":
+        comboHoras.addItem("9:00 AM");
+        comboHoras.addItem("12:00 PM");
+        comboHoras.addItem("3:00 PM");
+    break;
+    
+    case "Dra. Marta Perez":
+        comboHoras.addItem("10:00 AM");
+        comboHoras.addItem("11:00 AM");
+        comboHoras.addItem("2:00 PM");
+    break;
+    
+    case "Dr. Luis Hernandez":
+        comboHoras.addItem("9:30 AM");
+        comboHoras.addItem("11:00 AM");
+        comboHoras.addItem("2:00 PM");
+    break;
+    
+    case "Dra. Ana Maria Gomez":
+        comboHoras.addItem("10:30 AM");
+        comboHoras.addItem("12:00 PM");
+        comboHoras.addItem("3:00 PM");
+    break;
+    
+    case "Dr. Victor Ramirez":
+        comboHoras.addItem("9:00 AM");
+        comboHoras.addItem("11:00 AM");
+        comboHoras.addItem("3:00 PM");
+    break;
+    
+    case "Dra. Sofia Diaz":
+        comboHoras.addItem("10:00 AM");
+        comboHoras.addItem("12:00 PM");
+        comboHoras.addItem("2:00 PM");
+    break;
+    
+    case "Dr. Manuel Torres":
+        comboHoras.addItem("9:30 AM");
+        comboHoras.addItem("12:00 PM");
+        comboHoras.addItem("3:00 PM");
+    break;
+    
+    case "Dra. Laura Lopez":
+        comboHoras.addItem("10:30 AM");
+        comboHoras.addItem("11:00 AM");
+        comboHoras.addItem("2:00 PM");
+    break;
+        
+    }
+}
     
     
     public static void main(String args[]) {
@@ -300,13 +515,16 @@ public class FrmAgendamiento extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFiltrarPorDocumento;
+    private javax.swing.JComboBox<String> comboHoras;
     private javax.swing.JComboBox<String> comboMedicos;
     private javax.swing.JComboBox<String> comboTipoCita;
-    private com.toedter.calendar.JDateChooser dtFechaCita;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private com.toedter.calendar.JDateChooser jdFecha;
     private javax.swing.JLabel lbDatosMedicos;
+    private javax.swing.JTextArea textMotivo;
     private javax.swing.JTextField txtApellidoAgenda;
     private javax.swing.JTextField txtDocumentoAgenda;
     private javax.swing.JTextField txtFiltradoDocumento;
