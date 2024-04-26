@@ -32,14 +32,22 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     
     private FrmInterfazPrincipal principal;
     
-    /**
-     * Creates new form FrmAgendamiento
-     */
+       
+     
     public SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     
     private ArrayList<Persona> paciente = new ArrayList<Persona>();
     private ArrayList<CitasMedicas>citas = new ArrayList<CitasMedicas>();
     
+     String documentoPaciente;
+     String nombreyApellidoPaciente;
+     Date fechaNacimientoPaciente;
+     String afiliadoPaciente;
+     String nombreMedico;
+     String tipoEspecialidad;
+     Date fechaCita;
+     String horaCita;
+     String ConsultorioCita;
     
     public FrmAgendamiento(FrmInterfazPrincipal interfazPrincipal) {
         initComponents(); 
@@ -85,7 +93,9 @@ public class FrmAgendamiento extends javax.swing.JFrame {
         textMotivo = new javax.swing.JTextArea();
         jdFecha = new com.toedter.calendar.JDateChooser();
         btnAgendar = new javax.swing.JButton();
-        txtFechaNacimientoAgenda = new javax.swing.JTextField();
+        btnGestionarCitas = new javax.swing.JButton();
+        jdFechaNacimientoAgenda = new com.toedter.calendar.JDateChooser();
+        txtDireccionCita = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(0, 102, 51));
@@ -169,7 +179,16 @@ public class FrmAgendamiento extends javax.swing.JFrame {
             }
         });
 
-        txtFechaNacimientoAgenda.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Fecha de Nacimiento", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
+        btnGestionarCitas.setText("Gestionar Citas");
+        btnGestionarCitas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGestionarCitasActionPerformed(evt);
+            }
+        });
+
+        jdFechaNacimientoAgenda.setBorder(javax.swing.BorderFactory.createTitledBorder("Fecha Nacimiento"));
+
+        txtDireccionCita.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Direccion de la Cita", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -184,35 +203,42 @@ public class FrmAgendamiento extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtDocumentoAgenda)
+                            .addComponent(jdFechaNacimientoAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtDocumentoAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
                             .addComponent(txtNombre)
                             .addComponent(txtGeneroAgenda)
                             .addComponent(txtafiliadoagenda)
-                            .addComponent(txtFiltradoDocumento)
-                            .addComponent(txtFechaNacimientoAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE))
+                            .addComponent(txtFiltradoDocumento))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(comboTipoCita, 0, 194, Short.MAX_VALUE)
-                            .addComponent(jdFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(comboMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(comboHoras, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(comboTipoCita, 0, 194, Short.MAX_VALUE)
+                                    .addComponent(jdFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(0, 4, Short.MAX_VALUE)
+                                        .addComponent(comboMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(comboHoras, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane1))
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(btnAgendar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnGestionarCitas, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(81, 81, 81))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(txtDireccionCita, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(lbDatosMedicos)
-                        .addGap(201, 201, 201))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnAgendar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(207, 207, 207))))
+                .addComponent(lbDatosMedicos)
+                .addGap(201, 201, 201))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,18 +254,23 @@ public class FrmAgendamiento extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(comboTipoCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(comboMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboHoras, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jdFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(45, 45, 45)
+                            .addComponent(jdFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboHoras, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtDireccionCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAgendar, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAgendar, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGestionarCitas, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnFiltrarPorDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtDocumentoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -247,9 +278,9 @@ public class FrmAgendamiento extends javax.swing.JFrame {
                         .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(txtGeneroAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jdFechaNacimientoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtFechaNacimientoAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(txtafiliadoagenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(91, 91, 91))))
         );
@@ -283,7 +314,8 @@ public class FrmAgendamiento extends javax.swing.JFrame {
              txtDocumentoAgenda.setText(paciente.get(i).getDocumento());
              txtNombre.setText(paciente.get(i).getNombreYapellido());
              txtGeneroAgenda.setText(paciente.get(i).getGenero());
-             txtFechaNacimientoAgenda.setText(paciente.get(i).getFechaNacimiento().toString());
+             jdFechaNacimientoAgenda.setDate(paciente.get(i).getFechaNacimiento());
+             
              
             String afiliacion = ((Paciente) paciente.get(i)).getAfiliacion();
             txtafiliadoagenda.setText(afiliacion);
@@ -378,8 +410,64 @@ public class FrmAgendamiento extends javax.swing.JFrame {
 
     private void btnAgendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarActionPerformed
         // TODO add your handling code here:
+        if(!txtDocumentoAgenda.getText().isEmpty() && !txtNombre.getText().isEmpty() && !txtGeneroAgenda.getText().isEmpty() && jdFechaNacimientoAgenda.getDate() != null
+                 && !txtafiliadoagenda.getText().isEmpty() && !comboTipoCita.getSelectedItem().equals("Seleccione") && !comboMedicos.getSelectedItem().equals("Seleccione")
+                && jdFecha.getDate()!= null && !comboHoras.getSelectedItem().equals("Seleccione") && !txtDireccionCita.getText().isEmpty()) {
+            
+            documentoPaciente = txtDocumentoAgenda.getText().toUpperCase();
+            nombreyApellidoPaciente = txtNombre.getText().toUpperCase();
+            fechaNacimientoPaciente = jdFechaNacimientoAgenda.getDate();
+            afiliadoPaciente = txtafiliadoagenda.getText().toUpperCase();
+            nombreMedico = comboMedicos.getSelectedItem().toString();
+            tipoEspecialidad = comboTipoCita.getSelectedItem().toString();
+            fechaCita = jdFecha.getDate();
+            horaCita = comboHoras.getSelectedItem().toString();
+            ConsultorioCita = txtDireccionCita.getText().toUpperCase();
+            
+            if (citas.isEmpty()) {
+            // Si la lista está vacía, simplemente agrega la nueva cita
+            CitasMedicas nuevaCita = new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente, afiliadoPaciente,nombreMedico, tipoEspecialidad,fechaCita, horaCita, ConsultorioCita);
+            citas.add(nuevaCita);
+
+            Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
+        } else {
+            
+            // Verificar si ya existe una cita con los mismos detalles
+            boolean citaExistente = false;
+            for (int i = 0; i < citas.size(); i++) {
+                
+                if (citas.get(i).getDocumentoPaciente().equals(documentoPaciente) &&
+                    citas.get(i).getTipoEspecialidad().equals(tipoEspecialidad) &&
+                    citas.get(i).getFechaCita().equals(fechaCita) &&
+                    citas.get(i).getHoraCita().equals(horaCita)) {
+                    citaExistente = true;
+                    break;
+                }   
+            }
+            if (citaExistente) {
+                Alert.showMessageError("Aviso", "Ya hay una cita agendada para esta fecha y hora");
+            } else {
+                // Agregar la nueva cita a la lista si no existe una cita duplicada
+                citas.add(new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente,
+                                    afiliadoPaciente,nombreMedico, tipoEspecialidad, fechaCita, horaCita, ConsultorioCita));
+                Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
+            }
+        }
+        }else{
+            Alert.showMessageError("Aviso", "Campos vacios");
+        }
         
     }//GEN-LAST:event_btnAgendarActionPerformed
+
+    private void btnGestionarCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarCitasActionPerformed
+        // TODO add your handling code here:
+        
+        FrmGestionCitas gestion = new FrmGestionCitas(citas);
+        gestion.setVisible(true);
+        gestion.pack();
+        gestion.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_btnGestionarCitasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -520,6 +608,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgendar;
     private javax.swing.JButton btnFiltrarPorDocumento;
+    private javax.swing.JButton btnGestionarCitas;
     private javax.swing.JComboBox<String> comboHoras;
     private javax.swing.JComboBox<String> comboMedicos;
     private javax.swing.JComboBox<String> comboTipoCita;
@@ -528,10 +617,11 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private com.toedter.calendar.JDateChooser jdFecha;
+    private com.toedter.calendar.JDateChooser jdFechaNacimientoAgenda;
     private javax.swing.JLabel lbDatosMedicos;
     private javax.swing.JTextArea textMotivo;
+    private javax.swing.JTextField txtDireccionCita;
     private javax.swing.JTextField txtDocumentoAgenda;
-    private javax.swing.JTextField txtFechaNacimientoAgenda;
     private javax.swing.JTextField txtFiltradoDocumento;
     private javax.swing.JTextField txtGeneroAgenda;
     private javax.swing.JTextField txtNombre;
