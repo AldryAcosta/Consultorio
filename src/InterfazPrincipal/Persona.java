@@ -12,8 +12,7 @@ import java.util.Date;
  */
 public  abstract class Persona {
     
-    private String nombre;
-    private String apellido;
+    private String nombreYapellido;
     private String documento;
     private Date   fechaNacimiento;
     private String genero;
@@ -22,9 +21,8 @@ public  abstract class Persona {
     private String correoElectronico;
 
     
-    public Persona(String nombre,String apellido,String documento, Date fechaNacimiento, String genero, String direccion, String telefono, String correoElectronico) {
-        this.nombre = nombre;
-        this.apellido = apellido;
+    public Persona(String nombreYapellido,String documento, Date fechaNacimiento, String genero, String direccion, String telefono, String correoElectronico) {
+        this.nombreYapellido = nombreYapellido;
         this.documento = documento;
         this.fechaNacimiento = fechaNacimiento;
         this.genero = genero;
@@ -33,11 +31,8 @@ public  abstract class Persona {
         this.correoElectronico = correoElectronico;
     }
     
-    public String getNombre(){
-        return nombre;
-    }
-    public String getApellido(){
-        return apellido;
+    public String getNombreYapellido(){
+        return nombreYapellido;
     }
     
     public String getDocumento(){
@@ -72,8 +67,8 @@ class Paciente extends Persona {
     
 
     
-    public Paciente(String nombre,String apellido,String documento, Date fechaNacimiento, String genero, String direccion, String telefono, String correoElectronico, String afiliacion) {
-        super(nombre,apellido,documento, fechaNacimiento, genero, direccion, telefono, correoElectronico);
+    public Paciente(String nombreYapellido,String documento, Date fechaNacimiento, String genero, String direccion, String telefono, String correoElectronico, String afiliacion) {
+        super(nombreYapellido,documento, fechaNacimiento, genero, direccion, telefono, correoElectronico);
         this.afiliacion = afiliacion;
         
     }
@@ -87,35 +82,3 @@ class Paciente extends Persona {
     }
 }
 
-
-class Medico extends Persona {
-    
-    private String consultorio;
-    private String especialidad;
-    
-    
-    
-  
-    public Medico(String nombre,String apellido,String documento, Date fechaNacimiento, String genero, String direccion, String telefono, String correoElectronico,String consultorio, String especialidad) {
-        super(nombre,apellido,documento,fechaNacimiento, genero, direccion, telefono, correoElectronico);
-        
-        this.consultorio = consultorio;
-        this.especialidad = especialidad;
-        
-        
-        
-    }
-    
-    
-    public String getConsultorio(){
-        return consultorio;
-    }
-    public String getEspecialidad(){
-        return especialidad;
-    }
-    
-    public void obtenerInformacionEspecifica() {
-        
-    }
-    
-}

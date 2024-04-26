@@ -18,7 +18,6 @@ public class FrmInterfazPrincipal extends javax.swing.JFrame {
     
     
     private ArrayList<Persona>paciente = new ArrayList<Persona>();
-    private ArrayList<Persona>medico = new ArrayList<Persona>();
     /**
      * Creates new form FrmInterfazPrincipal
      */
@@ -33,16 +32,11 @@ public class FrmInterfazPrincipal extends javax.swing.JFrame {
         return this.paciente;
     }
     
-    public  ArrayList<Persona> obtenerListadoMedico(){
     
-        return this.medico;
-    }
-    
-    
-    public void agregarPaciente(String nombre, String apellido, String documento, String direccion, String telefono, String correoElectronico, Date fechaNacimiento, String genero, String Afiliacion) {
+    public void agregarPaciente(String nombreYapellido, String documento, String direccion, String telefono, String correoElectronico, Date fechaNacimiento, String genero, String Afiliacion) {
         
         if(paciente.isEmpty()){
-            Persona nuevoPaciente = new Paciente(nombre, apellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico, Afiliacion);
+            Persona nuevoPaciente = new Paciente(nombreYapellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico, Afiliacion);
             paciente.add(nuevoPaciente);
             Alert.showMessageInfo("Consultorio", "El paciente ha sido agregado con exito", 10);
         }else{
@@ -54,7 +48,7 @@ public class FrmInterfazPrincipal extends javax.swing.JFrame {
                 }
             }
             if(pos==-1){
-                Persona nuevoPaciente = new Paciente(nombre, apellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico, Afiliacion);
+                Persona nuevoPaciente = new Paciente(nombreYapellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico, Afiliacion);
                 paciente.add(nuevoPaciente);
                 Alert.showMessageInfo("Consultorio", "El paciente ha sido agregado con exito", 10);
             }else{
@@ -62,31 +56,6 @@ public class FrmInterfazPrincipal extends javax.swing.JFrame {
             }
 
         }
-        
-    }
-    
-    public void agregarMedico(String nombre, String apellido, String documento, String direccion, String telefono, String correoElectronico, Date fechaNacimiento, String genero, String consultorio, String especializacion){
-        if(medico.isEmpty()){
-                Persona nuevoMedico = new Medico(nombre, apellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico,consultorio,especializacion);
-                medico.add(nuevoMedico);
-                Alert.showMessageInfo("Consultorio", "El Medico ha sido agregado con exito", 10);
-            }else{
-                int pos = -1;
-                for(int i=0; i < medico.size();i++){
-                    if(medico.get(i).getDocumento().equals(documento)){
-                        pos = i;
-                        Alert.showMessageError("Registro Medico", "Este Medico ya existe en la base de datos", 10);
-                    }
-                }
-                if(pos==-1){
-                    Persona nuevoMedico = new Medico(nombre, apellido, documento,fechaNacimiento, genero, direccion, telefono,correoElectronico, consultorio, especializacion);
-//                    paciente.add(nuevoPaciente);
-                    Alert.showMessageInfo("Consultorio", "El Medico ha sido agregado con exito", 10);
-                }else{
-                    Alert.showMessageError("Registro Medico", "Este medico ya existe", 10);
-                }
-                
-            }
     }
 
     /**

@@ -48,6 +48,8 @@ public class FrmAgendamiento extends javax.swing.JFrame {
      Date fechaCita;
      String horaCita;
      String ConsultorioCita;
+     String EstadoCitas;
+     int coPago;
     
     public FrmAgendamiento(FrmInterfazPrincipal interfazPrincipal) {
         initComponents(); 
@@ -426,7 +428,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
             
             if (citas.isEmpty()) {
             // Si la lista está vacía, simplemente agrega la nueva cita
-            CitasMedicas nuevaCita = new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente, afiliadoPaciente,nombreMedico, tipoEspecialidad,fechaCita, horaCita, ConsultorioCita);
+            CitasMedicas nuevaCita = new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente, afiliadoPaciente,nombreMedico, tipoEspecialidad,fechaCita, horaCita, ConsultorioCita,EstadoCitas, coPago );
             citas.add(nuevaCita);
 
             Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
@@ -449,7 +451,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
             } else {
                 // Agregar la nueva cita a la lista si no existe una cita duplicada
                 citas.add(new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente,
-                                    afiliadoPaciente,nombreMedico, tipoEspecialidad, fechaCita, horaCita, ConsultorioCita));
+                                    afiliadoPaciente,nombreMedico, tipoEspecialidad, fechaCita, horaCita, ConsultorioCita,EstadoCitas, coPago));
                 Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
             }
         }

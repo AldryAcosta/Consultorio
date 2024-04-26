@@ -1,9 +1,13 @@
 
 package InterfazPrincipal;
 
+import Escudero.Alert;
 import InterfazPrincipal.Clases.CitasMedicas;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,16 +18,22 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     /**
      * Creates new form FrmGestionCitas
      */
+    public SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     private FrmInterfazPrincipal principal;
     private FrmGestionCitas gestionCitas;
     private final ArrayList<CitasMedicas>citas;
     
     
+     int COPAGO_EPS_SANITAS = 47700;
+     int COPAGO_MUTUAL_SER = 45000;
+     int COPAGO_COOSALUD = 40000;
+     int COPAGO_SALUD_TOTAL = 50000;
+    
+    
     public FrmGestionCitas(ArrayList<CitasMedicas>citas) {
         initComponents();
         this.citas = citas;
-        
-        
+        MostrarInfo(this.citas);
     }
 
     /**
@@ -39,6 +49,19 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbRegistrosMedicos = new javax.swing.JTable();
+        dateFinal = new com.toedter.calendar.JDateChooser();
+        dateInicial = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        btnConsultar = new javax.swing.JButton();
+        btnCitasporMedico = new javax.swing.JButton();
+        comboMedico = new javax.swing.JComboBox<>();
+        comboMeses = new javax.swing.JComboBox<>();
+        txtTotalCopagos = new javax.swing.JTextField();
+        btnGenerarReporteCopagos = new javax.swing.JButton();
+        txtDocumentoPaciente = new javax.swing.JTextField();
+        comboAfiliacion = new javax.swing.JComboBox<>();
+        btnRestablecer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(400, 600));
@@ -61,52 +84,325 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tbRegistrosMedicos);
 
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel2.setText("Fecha Inicial");
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel3.setText("Fecha Final");
+
+        btnConsultar.setText("Reporte de citas");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
+
+        btnCitasporMedico.setText("Citas por medico");
+        btnCitasporMedico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCitasporMedicoActionPerformed(evt);
+            }
+        });
+
+        comboMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dra. Laura Lopez", "Dr. Manuel Torres", "Dra. Sofia Diaz", "Dr. Victor Ramirez", "Dra. Ana Maria Gomez", "Dr. Luis Hernandez", "Dra. Marta Perez", "Dr. Jose Gonzalez", "Dr. Jorge Martinez", "Dra. Andrea Fernandez", "Dr. Alejandro Garcia", "Dra. Patricia Castro", "Dr. Roberto Diaz", "Dr. Miguel Rodriguez", "Dra. Lucia Fernandez", "Dr. Pedro Sanchez", "Dra. Laura Martinez", "Dra. Maria Lopez", "Dr. Juan Perez" }));
+
+        comboMeses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+
+        btnGenerarReporteCopagos.setText("Generar Reporte por copagos");
+        btnGenerarReporteCopagos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarReporteCopagosActionPerformed(evt);
+            }
+        });
+
+        comboAfiliacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EPS SANITAS", "MUTUAL SER", "COOSALUD", "SALUD TOTAL" }));
+
+        btnRestablecer.setText("Reestablecer Registros");
+        btnRestablecer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestablecerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnConsultar)
+                .addGap(272, 272, 272)
+                .addComponent(btnCitasporMedico)
+                .addGap(105, 105, 105))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addComponent(jLabel1)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(dateInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(47, 47, 47)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel3))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(82, 82, 82)
-                                .addComponent(jLabel1)))
-                        .addGap(0, 733, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(dateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addComponent(jLabel2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnGenerarReporteCopagos)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(comboMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
+                .addComponent(comboMeses, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(156, 156, 156)
+                .addComponent(txtDocumentoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(txtTotalCopagos, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(comboAfiliacion, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addComponent(btnRestablecer)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dateInicial, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dateFinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(comboMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboMeses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnCitasporMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnConsultar))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(btnGenerarReporteCopagos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtTotalCopagos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboAfiliacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnRestablecer))
+                        .addGap(22, 22, 22)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDocumentoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        // TODO add your handling code here:
+        if(this.validarInformacion()){
+          ArrayList<CitasMedicas> citasFiltradas = new ArrayList<>();
+          Date fechaInicial = this.dateInicial.getDate();
+          Date fechaFinal   = this.dateFinal.getDate();
+          
+          Calendar callInicial = Calendar.getInstance();
+          callInicial.setTime(fechaInicial);
+          callInicial.set(callInicial.HOUR_OF_DAY, 0);      
+          callInicial.set(callInicial.MINUTE, 0);
+          callInicial.set(callInicial.SECOND, 0);
+          callInicial.set(callInicial.MILLISECOND, 0);
+
+          
+          Calendar callFinal = Calendar.getInstance();
+          callFinal.setTime(fechaFinal);
+          callFinal.set(callFinal.HOUR_OF_DAY, 23);      
+          callFinal.set(callFinal.MINUTE, 59);
+          callFinal.set(callFinal.SECOND, 59);
+          callFinal.set(callFinal.MILLISECOND, 999);
+          
+          
+          
+         
+          for (CitasMedicas cita : citas) {
+                if ((cita.getFechaCita().after(callInicial.getTime()) || cita.getFechaCita().equals(callInicial.getTime()))
+                        && (cita.getFechaCita().before(callFinal.getTime()) || cita.getFechaCita().equals(callFinal.getTime()))) {
+                    citasFiltradas.add(cita);
+                }
+            }
+          
+           this.MostrarInfo(citasFiltradas);
+      }else{
+          Alert.showMessageError("Consultorio", "Valide las fechas a buscar.",10,this);
+      }
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void btnCitasporMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCitasporMedicoActionPerformed
+        // TODO add your handling code here:
+        // Obtener el nombre del médico seleccionado
+        String nombreMedico = comboMedico.getSelectedItem().toString();
+        // Obtener el mes seleccionado (0 = enero, 1 = febrero, ..., 11 = diciembre)
+        int mesSeleccionado = comboMeses.getSelectedIndex();
+
+        // Generar reporte de citas por médico en el mes seleccionado
+        generarReporteCitasPorMedicoEnMes(nombreMedico, mesSeleccionado);
+    }//GEN-LAST:event_btnCitasporMedicoActionPerformed
+
+    private void btnGenerarReporteCopagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteCopagosActionPerformed
+        // TODO add your handling code here:
+        String documentoPaciente = txtDocumentoPaciente.getText();
+        String afiliacion = comboAfiliacion.getSelectedItem().toString();
+
+        // Llama al método para generar el reporte de copagos
+        generarReporteCopagos(documentoPaciente, afiliacion);
+    }//GEN-LAST:event_btnGenerarReporteCopagosActionPerformed
+
+    private void btnRestablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestablecerActionPerformed
+        // TODO add your handling code here:
+        
+        MostrarInfo(citas);
+    }//GEN-LAST:event_btnRestablecerActionPerformed
+
+    public void MostrarInfo(ArrayList<CitasMedicas> citas){
+        DefaultTableModel modelo = new DefaultTableModel(); 
+        String encabezado[]={"Estado","Documento","Nombre y Apellido","Afiliacion","Copago","Medico","Especialidad de Cita","Fecha Cita","Hora","Direccion"};
+        modelo.setColumnIdentifiers(encabezado);
+        
+        for(int i=0; i < citas.size(); i++){
+            modelo.addRow(new Object[]{citas.get(i).getEstadoCitas(),citas.get(i).getDocumentoPaciente(), citas.get(i).getNombreyApellidoPaciente(),
+                 citas.get(i).getAfiliadoPaciente(),citas.get(i).getCoPago(),citas.get(i).getNombreMedico(), citas.get(i).getTipoEspecialidad(),
+            citas.get(i).getFechaCita(), citas.get(i).getHoraCita(), citas.get(i).getConsultorioCita()});
+        }
+        tbRegistrosMedicos.setModel(modelo);
+    }
+    
+    public int calcularTotalCopagos(String afiliacion, int numeroCitas) {
+    int copagoPorCita = 0;
+
+    // Determinar el valor de copago según la afiliación
+    if (afiliacion.equals("EPS SANITAS")) {
+        copagoPorCita = COPAGO_EPS_SANITAS;
+    } else if (afiliacion.equals("MUTUAL SER")) {
+        copagoPorCita = COPAGO_MUTUAL_SER;
+    } else if (afiliacion.equals("COOSALUD")) {
+        copagoPorCita = COPAGO_COOSALUD;
+    } else if (afiliacion.equals("SALUD TOTAL")) {
+        copagoPorCita = COPAGO_SALUD_TOTAL;
+    } else {
+        // Afiliación no reconocida (manejo de error)
+        System.err.println("Afiliación no válida: " + afiliacion);
+        return 0; // Valor predeterminado si la afiliación no coincide
+    }
+
+    // Calcular el total de copagos
+    return copagoPorCita * numeroCitas;
+}
+    
+    private void generarReporteCopagos(String documentoPaciente, String afiliacion) {
+    ArrayList<CitasMedicas> citasFiltradas = new ArrayList<>();
+    int totalCopagos = 0;
+
+    // Filtrar las citas por paciente y afiliación
+    for (CitasMedicas cita : citas) {
+        if (cita.getDocumentoPaciente().equals(documentoPaciente) && cita.getAfiliadoPaciente().equals(afiliacion)) {
+            citasFiltradas.add(cita);
+            totalCopagos += calcularTotalCopagos(afiliacion, 1); // 1 copago por cada cita
+        }
+    }
+
+    // Mostrar las citas filtradas y el total de copagos en la tabla
+    MostrarInfo(citasFiltradas);
+
+    // Actualizar la interfaz para mostrar el total de copagos
+    txtTotalCopagos.setText(String.valueOf(totalCopagos)); // Actualiza el campo de texto con el total de copagos
+}
+    
     /**
      * @param args the command line arguments
      */
+    private boolean validarInformacion(){
+        boolean result = true;
+        
+        if(this.dateInicial.getDate() == null){
+            result = false;
+        }
+        
+        if(this.dateFinal.getDate() == null){
+             result = false;
+        }
+        
+        return result;
+    }
+    
+     private void generarReporteCitasPorMedicoEnMes(String nombreMedico, int mes) {
+        ArrayList<CitasMedicas> citasFiltradas = new ArrayList<>();
+
+        
+        for (CitasMedicas cita : citas) {
+            
+            String nombreMedicoCita = cita.getNombreMedico();
+            
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(cita.getFechaCita());
+            int mesCita = cal.get(Calendar.MONTH);
+
+            
+            if (nombreMedicoCita.equals(nombreMedico) && mesCita == mes) {
+                citasFiltradas.add(cita);
+            }
+        }
+        MostrarInfo(citasFiltradas);
+    }
+    
+
+     
+    
     
     
     public static void main(String args[]) {
         ArrayList<CitasMedicas>citas = new ArrayList<CitasMedicas>();
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCitasporMedico;
+    private javax.swing.JButton btnConsultar;
+    private javax.swing.JButton btnGenerarReporteCopagos;
+    private javax.swing.JButton btnRestablecer;
+    private javax.swing.JComboBox<String> comboAfiliacion;
+    private javax.swing.JComboBox<String> comboMedico;
+    private javax.swing.JComboBox<String> comboMeses;
+    private com.toedter.calendar.JDateChooser dateFinal;
+    private com.toedter.calendar.JDateChooser dateInicial;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbRegistrosMedicos;
+    private javax.swing.JTextField txtDocumentoPaciente;
+    private javax.swing.JTextField txtTotalCopagos;
     // End of variables declaration//GEN-END:variables
 }
