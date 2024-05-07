@@ -300,8 +300,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     
     public int calcularTotalCopagos(String afiliacion, int numeroCitas) {
     int copagoPorCita = 0;
-
-    // Determinar el valor de copago según la afiliación
+    
     if (afiliacion.equals("EPS SANITAS")) {
         copagoPorCita = COPAGO_EPS_SANITAS;
     } else if (afiliacion.equals("MUTUAL SER")) {
@@ -311,9 +310,9 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     } else if (afiliacion.equals("SALUD TOTAL")) {
         copagoPorCita = COPAGO_SALUD_TOTAL;
     } else {
-        // Afiliación no reconocida (manejo de error)
+        
         System.err.println("Afiliación no válida: " + afiliacion);
-        return 0; // Valor predeterminado si la afiliación no coincide
+        return 0; 
     }
 
     // Calcular el total de copagos
@@ -332,11 +331,11 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         }
     }
 
-    // Mostrar las citas filtradas y el total de copagos en la tabla
+    
     MostrarInfo(citasFiltradas);
 
     // Actualizar la interfaz para mostrar el total de copagos
-    txtTotalCopagos.setText(String.valueOf(totalCopagos)); // Actualiza el campo de texto con el total de copagos
+    txtTotalCopagos.setText(String.valueOf(totalCopagos));
 }
     
     /**
@@ -375,11 +374,6 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         }
         MostrarInfo(citasFiltradas);
     }
-    
-
-     
-    
-    
     
     public static void main(String args[]) {
         ArrayList<CitasMedicas>citas = new ArrayList<CitasMedicas>();
