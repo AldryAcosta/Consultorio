@@ -329,12 +329,9 @@ public class FrmAgendamiento extends javax.swing.JFrame {
 
     private void comboTipoCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTipoCitaActionPerformed
 
-        
         comboMedicos.removeAllItems();
     
-    
         String especialidadSeleccionada = comboTipoCita.getSelectedItem().toString();
-    
     
         switch (especialidadSeleccionada) {
             case "Medicina General":
@@ -427,14 +424,13 @@ public class FrmAgendamiento extends javax.swing.JFrame {
             ConsultorioCita = txtDireccionCita.getText().toUpperCase();
             
             if (citas.isEmpty()) {
-            // Si la lista está vacía, simplemente agrega la nueva cita
+            
             CitasMedicas nuevaCita = new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente, afiliadoPaciente,nombreMedico, tipoEspecialidad,fechaCita, horaCita, ConsultorioCita,EstadoCitas, coPago );
             citas.add(nuevaCita);
 
             Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
         } else {
-            
-            // Verificar si ya existe una cita con los mismos detalles
+           
             boolean citaExistente = false;
             for (int i = 0; i < citas.size(); i++) {
                 
@@ -448,7 +444,6 @@ public class FrmAgendamiento extends javax.swing.JFrame {
             if (citaExistente) {
                 Alert.showMessageError("Aviso", "Ya hay una cita agendada para esta fecha y hora");
             } else {
-                // Agregar la nueva cita a la lista si no existe una cita duplicada
                 citas.add(new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente,
                                     afiliadoPaciente,nombreMedico, tipoEspecialidad, fechaCita, horaCita, ConsultorioCita,EstadoCitas, coPago));
                 Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
