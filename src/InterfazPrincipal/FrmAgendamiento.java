@@ -438,8 +438,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
             boolean citaExistente = false;
             for (int i = 0; i < citas.size(); i++) {
                 
-                if (citas.get(i).getDocumentoPaciente().equals(documentoPaciente) &&
-                    citas.get(i).getTipoEspecialidad().equals(tipoEspecialidad) &&
+                if (citas.get(i).getNombreMedico().equals(nombreMedico) &&
                     citas.get(i).getFechaCita().equals(fechaCita) &&
                     citas.get(i).getHoraCita().equals(horaCita)) {
                     citaExistente = true;

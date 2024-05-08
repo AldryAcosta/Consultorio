@@ -272,11 +272,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
 
     private void btnGenerarReporteCopagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteCopagosActionPerformed
         // TODO add your handling code here:
-        String documentoPaciente = txtDocumentoPaciente.getText();
-        String afiliacion = comboAfiliacion.getSelectedItem().toString();
-
-        // Llama al método para generar el reporte de copagos
-        generarReporteCopagos(documentoPaciente, afiliacion);
+        
     }//GEN-LAST:event_btnGenerarReporteCopagosActionPerformed
 
     private void btnRestablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestablecerActionPerformed
@@ -315,29 +311,8 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         return 0; 
     }
 
-    // Calcular el total de copagos
     return copagoPorCita * numeroCitas;
-}
-    
-    private void generarReporteCopagos(String documentoPaciente, String afiliacion) {
-    ArrayList<CitasMedicas> citasFiltradas = new ArrayList<>();
-    int totalCopagos = 0;
-
-    // Filtrar las citas por paciente y afiliación
-    for (CitasMedicas cita : citas) {
-        if (cita.getDocumentoPaciente().equals(documentoPaciente) && cita.getAfiliadoPaciente().equals(afiliacion)) {
-            citasFiltradas.add(cita);
-            totalCopagos += calcularTotalCopagos(afiliacion, 1); // 1 copago por cada cita
-        }
-    }
-
-    
-    MostrarInfo(citasFiltradas);
-
-    // Actualizar la interfaz para mostrar el total de copagos
-    txtTotalCopagos.setText(String.valueOf(totalCopagos));
-}
-    
+} 
     /**
      * @param args the command line arguments
      */
