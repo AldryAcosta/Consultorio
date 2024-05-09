@@ -49,7 +49,15 @@ public class FrmAgendamiento extends javax.swing.JFrame {
      String horaCita;
      String ConsultorioCita;
      String EstadoCitas;
-     int coPago;
+     
+     
+     int coPago; 
+     int COPAGO_EPS_SANITAS = 47700;
+     int COPAGO_MUTUAL_SER = 45000;
+     int COPAGO_COOSALUD = 40000;
+     int COPAGO_SALUD_TOTAL = 50000;
+     
+     
     
     public FrmAgendamiento(FrmInterfazPrincipal interfazPrincipal) {
         initComponents(); 
@@ -409,49 +417,62 @@ public class FrmAgendamiento extends javax.swing.JFrame {
 
     private void btnAgendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarActionPerformed
         // TODO add your handling code here:
-        if(!txtDocumentoAgenda.getText().isEmpty() && !txtNombre.getText().isEmpty() && !txtGeneroAgenda.getText().isEmpty() && jdFechaNacimientoAgenda.getDate() != null
-                 && !txtafiliadoagenda.getText().isEmpty() && !comboTipoCita.getSelectedItem().equals("Seleccione") && !comboMedicos.getSelectedItem().equals("Seleccione")
-                && jdFecha.getDate()!= null && !comboHoras.getSelectedItem().equals("Seleccione") && !txtDireccionCita.getText().isEmpty()) {
+        if(!txtDocumentoAgenda.getText().isEmpty() && !txtNombre.getText().isEmpty() && !txtGeneroAgenda.getText().isEmpty() && jdFechaNacimientoAgenda.getDate() != null && !txtafiliadoagenda.getText().isEmpty() && !comboTipoCita.getSelectedItem().equals("Seleccione") && !comboMedicos.getSelectedItem().equals("Seleccione") && jdFecha.getDate()!= null && !comboHoras.getSelectedItem().equals("Seleccione") && !txtDireccionCita.getText().isEmpty()) {
             
-            documentoPaciente = txtDocumentoAgenda.getText().toUpperCase();
-            nombreyApellidoPaciente = txtNombre.getText().toUpperCase();
-            fechaNacimientoPaciente = jdFechaNacimientoAgenda.getDate();
-            afiliadoPaciente = txtafiliadoagenda.getText().toUpperCase();
-            nombreMedico = comboMedicos.getSelectedItem().toString();
-            tipoEspecialidad = comboTipoCita.getSelectedItem().toString();
-            fechaCita = jdFecha.getDate();
-            horaCita = comboHoras.getSelectedItem().toString();
-            ConsultorioCita = txtDireccionCita.getText().toUpperCase();
-            
-            if (citas.isEmpty()) {
-            
-            CitasMedicas nuevaCita = new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente, afiliadoPaciente,nombreMedico, tipoEspecialidad,fechaCita, horaCita, ConsultorioCita,EstadoCitas, coPago );
-            citas.add(nuevaCita);
-
-            Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
-        } else {
-           
-            boolean citaExistente = false;
-            for (int i = 0; i < citas.size(); i++) {
                 
-                if (citas.get(i).getNombreMedico().equals(nombreMedico) &&
-                    citas.get(i).getFechaCita().equals(fechaCita) &&
-                    citas.get(i).getHoraCita().equals(horaCita)) {
-                    citaExistente = true;
-                    break;
-                }   
-            }
-            if (citaExistente) {
-                Alert.showMessageError("Aviso", "Ya hay una cita agendada para esta fecha y hora");
-            } else {
-                citas.add(new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente,
-                                    afiliadoPaciente,nombreMedico, tipoEspecialidad, fechaCita, horaCita, ConsultorioCita,EstadoCitas, coPago));
+            
+                documentoPaciente = txtDocumentoAgenda.getText().toUpperCase();
+                nombreyApellidoPaciente = txtNombre.getText().toUpperCase();
+                fechaNacimientoPaciente = jdFechaNacimientoAgenda.getDate();
+                afiliadoPaciente = txtafiliadoagenda.getText().toUpperCase();
+                nombreMedico = comboMedicos.getSelectedItem().toString();
+                tipoEspecialidad = comboTipoCita.getSelectedItem().toString();
+                fechaCita = jdFecha.getDate();
+                horaCita = comboHoras.getSelectedItem().toString();
+                ConsultorioCita = txtDireccionCita.getText().toUpperCase();
+                 
+                
+                if(afiliadoPaciente.equals("EPS SANITAS")){
+                    coPago = COPAGO_EPS_SANITAS;
+                }else if(afiliadoPaciente.equals("MUTUAL SER")){
+                    coPago = COPAGO_MUTUAL_SER;
+                }else if(afiliadoPaciente.equals("COOSALUD")){
+                    coPago = COPAGO_COOSALUD;
+                }else if(afiliadoPaciente.equals("SALUD TOTAL")){
+                    coPago = COPAGO_SALUD_TOTAL;
+                }else{
+                    Alert.showMessageError("ERROR", "no existe esta EPS");
+                }
+            
+                if (citas.isEmpty()) {
+            
+                CitasMedicas nuevaCita = new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente, afiliadoPaciente,nombreMedico, tipoEspecialidad,fechaCita, horaCita, ConsultorioCita,EstadoCitas, coPago );
+                citas.add(nuevaCita);
+
                 Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
+            } else {
+           
+                boolean citaExistente = false;
+                for (int i = 0; i < citas.size(); i++) {
+                
+                    if (citas.get(i).getNombreMedico().equals(nombreMedico) &&
+                        citas.get(i).getFechaCita().equals(fechaCita) &&
+                        citas.get(i).getHoraCita().equals(horaCita)) {
+                        citaExistente = true;
+                        break;
+                    }   
+                }
+                if (citaExistente) {
+                  Alert.showMessageError("Aviso", "Ya hay una cita agendada para esta fecha y hora");
+                } else {
+                    citas.add(new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente,
+                                        afiliadoPaciente,nombreMedico, tipoEspecialidad, fechaCita, horaCita, ConsultorioCita,EstadoCitas, coPago));
+                    Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
+                }
             }
-        }
-        }else{
-            Alert.showMessageError("Aviso", "Campos vacios");
-        }
+            }else{
+                Alert.showMessageError("Aviso", "Campos vacios");
+            }
         
     }//GEN-LAST:event_btnAgendarActionPerformed
 
