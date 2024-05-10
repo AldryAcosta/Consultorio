@@ -18,6 +18,9 @@ import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 import login.FrmRegistrer;
 
+
+
+
 public class FrmRegistrarPersona extends javax.swing.JFrame {
 
     /**
@@ -48,10 +51,11 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
     public FrmRegistrarPersona(FrmInterfazPrincipal interfazPrincipal) {
         initComponents();
         this.principal = interfazPrincipal;
-        
         this.setLocationRelativeTo(this);
-    
         medico = new ArrayList();
+        
+        
+        
     }
 
     /**
@@ -249,12 +253,7 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    
-    
-    
-    
-    
+ 
     
     private void btnRegistrarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarPacienteActionPerformed
         if(!txtNombre.getText().isEmpty() && !txtDocumento.getText().isEmpty() && comboGenero.getSelectedIndex()>0 && !txtDireccion.getText().isEmpty() && !txtTelefono.getText().isEmpty() && !txtCorreo.getText().isEmpty() && dtFechaNacimiento.getDate()!= null && comboAfiliados.getSelectedIndex()>0){

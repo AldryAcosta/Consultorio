@@ -39,6 +39,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     private ArrayList<Persona> paciente = new ArrayList<Persona>();
     private ArrayList<CitasMedicas>citas = new ArrayList<CitasMedicas>();
     
+     int NumeroCitas;
      String documentoPaciente;
      String nombreyApellidoPaciente;
      Date fechaNacimientoPaciente;
@@ -49,6 +50,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
      String horaCita;
      String ConsultorioCita;
      String EstadoCitas;
+     
      
      
      int coPago; 
@@ -66,6 +68,9 @@ public class FrmAgendamiento extends javax.swing.JFrame {
         this.setLocationRelativeTo(this);
         this.principal = interfazPrincipal;
         this.paciente = this.principal.obtenerListadoPaciente();
+        
+        
+        
         
         if (this.paciente.isEmpty()) {
             Alert.showMessageError("Aviso", "No se han registrado pacientes. Registre al menos un paciente antes de agendar cita", 5);
@@ -418,9 +423,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     private void btnAgendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarActionPerformed
         // TODO add your handling code here:
         if(!txtDocumentoAgenda.getText().isEmpty() && !txtNombre.getText().isEmpty() && !txtGeneroAgenda.getText().isEmpty() && jdFechaNacimientoAgenda.getDate() != null && !txtafiliadoagenda.getText().isEmpty() && !comboTipoCita.getSelectedItem().equals("Seleccione") && !comboMedicos.getSelectedItem().equals("Seleccione") && jdFecha.getDate()!= null && !comboHoras.getSelectedItem().equals("Seleccione") && !txtDireccionCita.getText().isEmpty()) {
-            
-                
-            
+
                 documentoPaciente = txtDocumentoAgenda.getText().toUpperCase();
                 nombreyApellidoPaciente = txtNombre.getText().toUpperCase();
                 fechaNacimientoPaciente = jdFechaNacimientoAgenda.getDate();
@@ -430,7 +433,8 @@ public class FrmAgendamiento extends javax.swing.JFrame {
                 fechaCita = jdFecha.getDate();
                 horaCita = comboHoras.getSelectedItem().toString();
                 ConsultorioCita = txtDireccionCita.getText().toUpperCase();
-                 
+                String EstadoCitas = "Programada"; 
+                
                 
                 if(afiliadoPaciente.equals("EPS SANITAS")){
                     coPago = COPAGO_EPS_SANITAS;
@@ -446,7 +450,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
             
                 if (citas.isEmpty()) {
             
-                CitasMedicas nuevaCita = new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente, afiliadoPaciente,nombreMedico, tipoEspecialidad,fechaCita, horaCita, ConsultorioCita,EstadoCitas, coPago );
+                CitasMedicas nuevaCita = new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente, afiliadoPaciente,nombreMedico, tipoEspecialidad,fechaCita, horaCita, ConsultorioCita, EstadoCitas, coPago, NumeroCitas );
                 citas.add(nuevaCita);
 
                 Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
@@ -466,7 +470,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
                   Alert.showMessageError("Aviso", "Ya hay una cita agendada para esta fecha y hora");
                 } else {
                     citas.add(new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente,
-                                        afiliadoPaciente,nombreMedico, tipoEspecialidad, fechaCita, horaCita, ConsultorioCita,EstadoCitas, coPago));
+                                        afiliadoPaciente,nombreMedico, tipoEspecialidad, fechaCita, horaCita, ConsultorioCita, EstadoCitas, coPago, NumeroCitas ));
                     Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
                 }
             }
@@ -615,6 +619,8 @@ public class FrmAgendamiento extends javax.swing.JFrame {
         
     }
 }
+    
+    
     
     
     public static void main(String args[]) {

@@ -5,6 +5,7 @@ import java.util.Date;
 
 
 public class CitasMedicas {
+    private int NumeroCita;
     private String documentoPaciente;
     private String nombreyApellidoPaciente;
     private Date fechaNacimientoPaciente;
@@ -18,7 +19,8 @@ public class CitasMedicas {
     private int coPago;
     
 
-    public CitasMedicas(String documentoPaciente, String nombreyApellidoPaciente, Date fechaNacimientoPaciente, String afiliadoPaciente,String nombreMedico,String tipoEspecialidad, Date fechaCita, String horaCita, String ConsultorioCita, String EstadoCitas, int coPago) {
+    public CitasMedicas(String documentoPaciente, String nombreyApellidoPaciente, Date fechaNacimientoPaciente, String afiliadoPaciente, String nombreMedico, String tipoEspecialidad, Date fechaCita, String horaCita, String ConsultorioCita, String EstadoCitas, int coPago, int NumeroCita) {
+        this.NumeroCita = NumeroCita;
         this.documentoPaciente = documentoPaciente;
         this.nombreyApellidoPaciente = nombreyApellidoPaciente;
         this.fechaNacimientoPaciente = fechaNacimientoPaciente;
@@ -31,9 +33,17 @@ public class CitasMedicas {
         this.EstadoCitas = EstadoCitas;
         this.coPago = coPago;
     }
+    
+    public int getNumeroCita() {
+        return NumeroCita;
+    }
 
     public String getEstadoCitas() {
         return EstadoCitas;
+    }
+    
+    public void setEstadoCitas(String estadoCitas) {
+        this.EstadoCitas = estadoCitas;
     }
 
     public int getCoPago() {
