@@ -199,9 +199,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(ComboAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnCalcularTotalCopagosAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnCalcularTotalCopagosAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(90, 90, 90))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(txtResultadoCopago, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -440,33 +438,45 @@ public class FrmGestionCitas extends javax.swing.JFrame {
 
     private void btnCambiarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarEstadoActionPerformed
         // TODO add your handling code here:
-        int numeroCita = 0; // Inicializa el número de cita
-        String nuevoEstado = comboCambiarEstados.getSelectedItem().toString();
+        String numeroCitaStr = txtNumeroCita.getText();
+
+        // Verificar si el campo de texto está vacío
+        if (numeroCitaStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un número de cita", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         try {
-            // Intenta convertir el número de cita a entero
-            numeroCita = Integer.parseInt(txtNumeroCita.getText()); // Reemplaza txtNumeroCita con tu componente adecuado
-        } catch (NumberFormatException e) {
-            // Maneja la excepción si la entrada no es un número válido
-            System.err.println("Error al convertir el número de cita a entero: " + e.getMessage());
-            // Puedes mostrar un mensaje de error al usuario si la conversión falla
-            JOptionPane.showMessageDialog(this, "Por favor, ingrese un número válido para la cita", "Error", JOptionPane.ERROR_MESSAGE);
-            return; // Sale del método si no se puede convertir
-        }
+            // Convertir el número de cita a entero
+            int numeroCita = Integer.parseInt(numeroCitaStr);
 
-        System.out.println("Número de cita a cambiar de estado: " + numeroCita); // Imprime el número de cita
+            // Variable para mantener el estado de si se encontró la cita
+            boolean citaEncontrada = false;
 
-        // Ahora busca la cita correspondiente y actualiza su estado
-        for (CitasMedicas cita : citas) {
-            if (cita.getNumeroCita() == numeroCita) {
-                cita.setEstadoCitas(nuevoEstado);
-                break;
+            // Recorrer la lista de citas y encontrar la cita con el número de cita especificado
+            for (CitasMedicas cita : citas) {
+                if (cita.getNumeroCita() == numeroCita) {
+                    // Cambiar el estado de la cita
+                    String nuevoEstado = comboCambiarEstados.getSelectedItem().toString();
+                    cita.setEstadoCitas(nuevoEstado);
+                    citaEncontrada = true;
+                    break; // Salir del bucle una vez que se encuentra la cita
+                }
             }
+
+            // Verificar si se encontró la cita y se cambió el estado
+            if (citaEncontrada) {
+                // Actualizar la tabla después de cambiar el estado de la cita
+                MostrarInfo(citas);
+                JOptionPane.showMessageDialog(this, "Estado de cita cambiado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Mostrar mensaje si no se encontró la cita con el número especificado
+                JOptionPane.showMessageDialog(this, "La cita con el número especificado no existe", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            // Manejar la excepción si no se puede convertir a entero
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un número válido para la cita", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        // Actualiza la tabla después del cambio
-        MostrarInfo(citas);
-
     }//GEN-LAST:event_btnCambiarEstadoActionPerformed
 
     public String obtenerNuevoEstado() {

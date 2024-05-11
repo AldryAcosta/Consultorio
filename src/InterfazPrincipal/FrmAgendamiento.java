@@ -39,7 +39,8 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     private ArrayList<Persona> paciente = new ArrayList<Persona>();
     private ArrayList<CitasMedicas>citas = new ArrayList<CitasMedicas>();
     
-     int NumeroCitas;
+     private int contadorCitas = 1;
+     int numeroCitas;
      String documentoPaciente;
      String nombreyApellidoPaciente;
      Date fechaNacimientoPaciente;
@@ -450,10 +451,11 @@ public class FrmAgendamiento extends javax.swing.JFrame {
             
                 if (citas.isEmpty()) {
             
-                CitasMedicas nuevaCita = new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente, afiliadoPaciente,nombreMedico, tipoEspecialidad,fechaCita, horaCita, ConsultorioCita, EstadoCitas, coPago, NumeroCitas );
-                citas.add(nuevaCita);
-
-                Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
+                CitasMedicas nuevaCita = new CitasMedicas(
+                    documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente, afiliadoPaciente, nombreMedico, tipoEspecialidad, fechaCita,horaCita, ConsultorioCita, EstadoCitas, coPago, contadorCitas);
+                    citas.add(nuevaCita);
+                    contadorCitas++; 
+                     Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
             } else {
            
                 boolean citaExistente = false;
@@ -469,9 +471,11 @@ public class FrmAgendamiento extends javax.swing.JFrame {
                 if (citaExistente) {
                   Alert.showMessageError("Aviso", "Ya hay una cita agendada para esta fecha y hora");
                 } else {
-                    citas.add(new CitasMedicas(documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente,
-                                        afiliadoPaciente,nombreMedico, tipoEspecialidad, fechaCita, horaCita, ConsultorioCita, EstadoCitas, coPago, NumeroCitas ));
-                    Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
+                    CitasMedicas nuevaCita = new CitasMedicas(
+                    documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente, afiliadoPaciente, nombreMedico, tipoEspecialidad, fechaCita,horaCita, ConsultorioCita, EstadoCitas, coPago, contadorCitas);
+                    citas.add(nuevaCita);
+                    contadorCitas++; 
+                     Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
                 }
             }
             }else{

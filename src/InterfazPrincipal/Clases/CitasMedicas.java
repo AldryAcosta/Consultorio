@@ -5,7 +5,8 @@ import java.util.Date;
 
 
 public class CitasMedicas {
-    private int NumeroCita;
+    private static int contadorCitas = 0;
+    private int numeroCita;
     private String documentoPaciente;
     private String nombreyApellidoPaciente;
     private Date fechaNacimientoPaciente;
@@ -19,8 +20,8 @@ public class CitasMedicas {
     private int coPago;
     
 
-    public CitasMedicas(String documentoPaciente, String nombreyApellidoPaciente, Date fechaNacimientoPaciente, String afiliadoPaciente, String nombreMedico, String tipoEspecialidad, Date fechaCita, String horaCita, String ConsultorioCita, String EstadoCitas, int coPago, int NumeroCita) {
-        this.NumeroCita = NumeroCita;
+    public CitasMedicas(String documentoPaciente, String nombreyApellidoPaciente, Date fechaNacimientoPaciente, String afiliadoPaciente, String nombreMedico, String tipoEspecialidad, Date fechaCita, String horaCita, String ConsultorioCita, String EstadoCitas, int coPago, int numeroCita) {
+        this.numeroCita = ++contadorCitas;;
         this.documentoPaciente = documentoPaciente;
         this.nombreyApellidoPaciente = nombreyApellidoPaciente;
         this.fechaNacimientoPaciente = fechaNacimientoPaciente;
@@ -35,7 +36,7 @@ public class CitasMedicas {
     }
     
     public int getNumeroCita() {
-        return NumeroCita;
+        return numeroCita;
     }
 
     public String getEstadoCitas() {
