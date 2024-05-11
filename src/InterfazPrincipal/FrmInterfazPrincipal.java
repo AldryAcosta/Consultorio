@@ -5,6 +5,7 @@
 package InterfazPrincipal;
 
 import Escudero.Alert;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JFrame;
@@ -162,6 +163,11 @@ public class FrmInterfazPrincipal extends javax.swing.JFrame {
         btnRegistroPacientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistroPacientesActionPerformed(evt);
+            }
+        });
+        btnRegistroPacientes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnRegistroPacientesKeyPressed(evt);
             }
         });
 
@@ -380,6 +386,14 @@ public class FrmInterfazPrincipal extends javax.swing.JFrame {
         frmAgendamiento.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_btnAgendarCitasActionPerformed
+
+    private void btnRegistroPacientesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnRegistroPacientesKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()==KeyEvent.VK_ESCAPE){
+                   System.exit(0);
+                    
+                }
+    }//GEN-LAST:event_btnRegistroPacientesKeyPressed
 
     /**
      * @param args the command line arguments

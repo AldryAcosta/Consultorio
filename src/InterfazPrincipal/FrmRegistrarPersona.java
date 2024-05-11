@@ -271,7 +271,7 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
             this.principal.agregarPaciente(nombreYapellido, documento, direccion, telefono, correoElectronico, fechaNacimiento, genero, Afiliacion);
             
         }else{
-            Alert.showMessageError("Consultorio", "Campos Vacios", 10);
+            Alert.showMessageError("Error", "Campos Vacios", 10);
         }
     }//GEN-LAST:event_btnRegistrarPacienteActionPerformed
 

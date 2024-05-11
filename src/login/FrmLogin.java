@@ -4,6 +4,7 @@
  */
 package login;
 
+import Escudero.Alert;
 import InterfazPrincipal.FrmInterfazPrincipal;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -58,7 +59,6 @@ public class FrmLogin extends javax.swing.JFrame {
         Right = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
 
         LoginBtn.setBackground(new java.awt.Color(0, 102, 102));
         LoginBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -101,6 +101,7 @@ public class FrmLogin extends javax.swing.JFrame {
         btnIngreso.setForeground(new java.awt.Color(255, 255, 255));
         btnIngreso.setText("Ingresar");
         btnIngreso.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnIngreso.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnIngreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIngresoActionPerformed(evt);
@@ -118,7 +119,7 @@ public class FrmLogin extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 51, 153));
         jLabel8.setText("Regístrate gratis");
-        jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel8MouseClicked(evt);
@@ -181,10 +182,6 @@ public class FrmLogin extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Consultorio Medico");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel7.setText("copyright © Nombre Empresa Todos los derechos reservados.");
-
         javax.swing.GroupLayout RightLayout = new javax.swing.GroupLayout(Right);
         Right.setLayout(RightLayout);
         RightLayout.setHorizontalGroup(
@@ -195,12 +192,9 @@ public class FrmLogin extends javax.swing.JFrame {
                         .addGap(145, 145, 145)
                         .addComponent(jLabel5))
                     .addGroup(RightLayout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jLabel7))
-                    .addGroup(RightLayout.createSequentialGroup()
                         .addGap(75, 75, 75)
                         .addComponent(jLabel6)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
         RightLayout.setVerticalGroup(
             RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,9 +203,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addGap(75, 75, 75)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addGap(77, 77, 77))
+                .addContainerGap(259, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -234,7 +226,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(Right, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Right, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
                         .addComponent(Left, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
@@ -264,7 +256,7 @@ public class FrmLogin extends javax.swing.JFrame {
                     for(int i = 0; i < cuenta.size(); i++){
                         if(cuenta.get(i).getUsuario().equals(usuarioIngresado) 
                                 && cuenta.get(i).getContraseña().equals(Contraseña) ){
-                            JOptionPane.showMessageDialog(rootPane, "Ingreso Valido");
+                            Alert.showMessageSuccess("Exito", "Bienvenido");
                             pos = i;
                             
                             dispose();
@@ -276,14 +268,14 @@ public class FrmLogin extends javax.swing.JFrame {
                         }
                     }
                     if(pos ==-1){
-                        JOptionPane.showMessageDialog(rootPane, "El usuario o contraseña no se encuentra en la base de datos");
+                        Alert.showMessageError("Error", "El Usuario  Contraseña no se Encuentran en la Base de Datos");
                     }
                 }
             }else{
-                JOptionPane.showMessageDialog(rootPane, "Campos Vacios");
+                Alert.showMessageError("Error", "Campos Vacios");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Ha Ocurrido un Error Controlado");
+            Alert.showMessageError("Error", "Ha Ocurrido un Error Controlado");
         }
         
     }//GEN-LAST:event_btnIngresoActionPerformed
@@ -333,7 +325,6 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPasswordField txtContraseñaIngreso;
     private javax.swing.JTextField txtUsuarioIngreso;

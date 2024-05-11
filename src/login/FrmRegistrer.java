@@ -4,6 +4,7 @@
  */
 package login;
 
+import Escudero.Alert;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -217,21 +218,18 @@ public class FrmRegistrer extends javax.swing.JFrame {
                 String contraseña = new String(Password);
                 
                 cuenta.add(new RegistroIngreso(usuario, contraseña));
-                JOptionPane.showMessageDialog(rootPane, "! Usted ha sido registrado con exito ¡");
-                
-             
+                Alert.showMessageSuccess("Exito", "Registrado");
+
                 dispose();
                 FrmLogin LoginFrame = new FrmLogin(cuenta);
                 LoginFrame.setVisible(true);
                 LoginFrame.pack();
                 LoginFrame.setLocationRelativeTo(null);
-                
-                
             }else{
-                JOptionPane.showMessageDialog(rootPane, "Campo Vacio");
+                Alert.showMessageWarning("Cuidado", "Campo Vacio");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Ha Ocurrido un error controlado");
+            Alert.showMessageError("Error", "Ha Ocurrido un Error Controlado");
         }
 
     }//GEN-LAST:event_btnRegistroActionPerformed
