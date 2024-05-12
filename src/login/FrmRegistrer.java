@@ -5,8 +5,12 @@
 package login;
 
 import Escudero.Alert;
+import dataConexion.ConexionBD;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,6 +18,7 @@ import javax.swing.JOptionPane;
  * @author aldry
  */
 public class FrmRegistrer extends javax.swing.JFrame {
+    private ConexionBD conexion;
     
 
     ArrayList<RegistroIngreso>cuenta = new ArrayList();
@@ -25,6 +30,8 @@ public class FrmRegistrer extends javax.swing.JFrame {
         initComponents();
         this.cuenta = cuenta;
         FrmLogin loginFrame = new FrmLogin(cuenta);
+        conexion = new ConexionBD();
+        conexion.conectar();
     }
 
     /**
@@ -51,6 +58,11 @@ public class FrmRegistrer extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         Left.setBackground(new java.awt.Color(255, 255, 255));
         Left.setMinimumSize(new java.awt.Dimension(400, 500));
@@ -138,7 +150,7 @@ public class FrmRegistrer extends javax.swing.JFrame {
                 .addComponent(btnRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         Right.setBackground(new java.awt.Color(0, 102, 102));
@@ -211,27 +223,35 @@ public class FrmRegistrer extends javax.swing.JFrame {
 
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
         // System.out.println("Sign up btn clicked");
-        char[] Password = txtContraseñaRegistro.getPassword();
+        String usuario = txtUsuarioRegistro.getText();
+        String contraseña = new String(txtContraseñaRegistro.getPassword());
+
         try {
-            if(!txtUsuarioRegistro.getText().isEmpty() && Password.length != 0){
-                usuario = txtUsuarioRegistro.getText();
-                String contraseña = new String(Password);
-                
-                cuenta.add(new RegistroIngreso(usuario, contraseña));
-                Alert.showMessageSuccess("Exito", "Registrado");
+            // Obtener la conexión a la base de datos
+            Connection connection = conexion.getConnection();
 
-                dispose();
-                FrmLogin LoginFrame = new FrmLogin(cuenta);
-                LoginFrame.setVisible(true);
-                LoginFrame.pack();
-                LoginFrame.setLocationRelativeTo(null);
-            }else{
-                Alert.showMessageWarning("Cuidado", "Campo Vacio");
+            // Preparar la consulta SQL para insertar un nuevo usuario
+            String sql = "INSERT INTO cuenta (usuario, contraseña) VALUES (?, ?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, usuario);
+            statement.setString(2, contraseña);
+
+            // Ejecutar la consulta SQL
+            int filasInsertadas = statement.executeUpdate();
+            if (filasInsertadas > 0) {
+                JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente");
+                // Limpiar los campos después del registro
+                txtUsuarioRegistro.setText("");
+                txtContraseñaRegistro.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al registrar usuario");
             }
-        } catch (Exception e) {
-            Alert.showMessageError("Error", "Ha Ocurrido un Error Controlado");
-        }
 
+            // Cerrar el statement
+            statement.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al registrar usuario: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnRegistroActionPerformed
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
@@ -251,39 +271,21 @@ public class FrmRegistrer extends javax.swing.JFrame {
                 }
     }//GEN-LAST:event_txtUsuarioRegistroKeyPressed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        conexion.desconectar(); // Cerrar la conexión al cerrar la ventana
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {                                   
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistrer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistrer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistrer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmRegistrer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+       
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmRegistrer().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

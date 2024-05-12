@@ -6,8 +6,13 @@ package login;
 
 import Escudero.Alert;
 import InterfazPrincipal.FrmInterfazPrincipal;
+import dataConexion.ConexionBD;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,7 +26,7 @@ public class FrmLogin extends javax.swing.JFrame {
     /**
      * Creates new form FrmLogin
      */
-    
+    private ConexionBD conexion;
     private final ArrayList<RegistroIngreso> cuenta;
     String usuario;
     String contraseña;
@@ -32,6 +37,8 @@ public class FrmLogin extends javax.swing.JFrame {
         this.cuenta = cuenta;
         this.usuario = usuario;
         this.contraseña = contraseña;
+        conexion = new ConexionBD();
+        conexion.conectar();
         
         
         
@@ -72,6 +79,11 @@ public class FrmLogin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         Left.setBackground(new java.awt.Color(255, 255, 255));
         Left.setMinimumSize(new java.awt.Dimension(400, 500));
@@ -194,7 +206,7 @@ public class FrmLogin extends javax.swing.JFrame {
                     .addGroup(RightLayout.createSequentialGroup()
                         .addGap(75, 75, 75)
                         .addComponent(jLabel6)))
-                .addContainerGap(98, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         RightLayout.setVerticalGroup(
             RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,42 +254,40 @@ public class FrmLogin extends javax.swing.JFrame {
     private void btnIngresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresoActionPerformed
         // System.out.println("Sign up btn clicked");
         
-        char[] password = txtContraseñaIngreso.getPassword();
-        
-        
+        String usuario = txtUsuarioIngreso.getText();
+        String contraseña = new String(txtContraseñaIngreso.getPassword());
+
         try {
-            if(!txtUsuarioIngreso.getText().isEmpty() && password.length !=0 ){
-                String usuarioIngresado = txtUsuarioIngreso.getText();
-                String Contraseña = new String(password);
-                if(cuenta.isEmpty()){
-                    JOptionPane.showMessageDialog(rootPane, "No se encuentran cuentas registradas, por favor registrese.");
-                }else{
-                    int pos= -1;
-                    for(int i = 0; i < cuenta.size(); i++){
-                        if(cuenta.get(i).getUsuario().equals(usuarioIngresado) 
-                                && cuenta.get(i).getContraseña().equals(Contraseña) ){
-                            Alert.showMessageSuccess("Exito", "Bienvenido");
-                            pos = i;
-                            
-                            dispose();
-                            FrmInterfazPrincipal LoginFrame = new FrmInterfazPrincipal();
-                            LoginFrame.setVisible(true);
-                            LoginFrame.pack();
-                            LoginFrame.setLocationRelativeTo(null);
-                            
-                        }
-                    }
-                    if(pos ==-1){
-                        Alert.showMessageError("Error", "El Usuario  Contraseña no se Encuentran en la Base de Datos");
-                    }
-                }
-            }else{
-                Alert.showMessageError("Error", "Campos Vacios");
+            // Obtener la conexión a la base de datos
+            Connection connection = conexion.getConnection();
+
+            // Preparar la consulta SQL para verificar el login
+            String sql = "SELECT * FROM cuenta WHERE usuario = ? AND contraseña = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, usuario);
+            statement.setString(2, contraseña);
+
+            // Ejecutar la consulta SQL
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                JOptionPane.showMessageDialog(this, "¡Bienvenido!");
+                // Aquí puedes continuar con la lógica después de un login exitoso
+                dispose();
+                FrmInterfazPrincipal LoginFrame = new FrmInterfazPrincipal();
+                LoginFrame.setVisible(true);
+                LoginFrame.pack();
+                LoginFrame.setLocationRelativeTo(null);
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
             }
-        } catch (Exception e) {
-            Alert.showMessageError("Error", "Ha Ocurrido un Error Controlado");
-        }
-        
+
+            // Cerrar el resultSet y el statement
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al autenticar: " + e.getMessage());
+        }  
     }//GEN-LAST:event_btnIngresoActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
@@ -303,9 +313,19 @@ public class FrmLogin extends javax.swing.JFrame {
     
     }//GEN-LAST:event_btnIngresoKeyPressed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        
+        conexion.desconectar(); // Cerrar la conexión al cerrar la ventana
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      * @param args the command line arguments
      */
+    
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {                                   
+        conexion.desconectar(); // Cerrar la conexión al cerrar la ventana
+    }
+    
     public static void main(String args[]) {
         ArrayList<RegistroIngreso> cuenta = new ArrayList<RegistroIngreso>();
                 cuenta.add(new RegistroIngreso("admin", "1234"));
