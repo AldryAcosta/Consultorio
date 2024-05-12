@@ -7,9 +7,9 @@ package InterfazPrincipal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Escudero.Alert;
+import dataConexion.ConexionBD;
 import java.awt.Color;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
@@ -17,6 +17,11 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 import login.FrmRegistrer;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 
 
@@ -28,6 +33,7 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
      */
    
     private FrmInterfazPrincipal principal;
+    private ConexionBD conexion;
     
     
     
@@ -53,9 +59,11 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
         this.principal = interfazPrincipal;
         this.setLocationRelativeTo(this);
         medico = new ArrayList();
+        conexion = new ConexionBD();
+        conexion.conectar();
         
-        
-        
+        llenarComboBoxGenero();
+        llenarComboBoxAfiliados();
     }
 
     /**
@@ -134,7 +142,6 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
 
         dtFechaNacimiento.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Fecha Nacimiento", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
 
-        comboGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Masculino", "Femenino" }));
         comboGenero.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Genero", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
 
         txtCorreo.setBackground(new java.awt.Color(242, 242, 242));
@@ -156,7 +163,7 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
             }
         });
 
-        comboAfiliados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "EPS SANITAS", "MUTUAL SER", "COOSALUD", "SALUD TOTAL", " " }));
+        comboAfiliados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
         comboAfiliados.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Afiliado a:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 14))); // NOI18N
 
         btnAgendarCitaPorRegistro.setText("Agendar Cita");
@@ -256,23 +263,50 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
  
     
     private void btnRegistrarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarPacienteActionPerformed
-        if(!txtNombre.getText().isEmpty() && !txtDocumento.getText().isEmpty() && comboGenero.getSelectedIndex()>0 && !txtDireccion.getText().isEmpty() && !txtTelefono.getText().isEmpty() && !txtCorreo.getText().isEmpty() && dtFechaNacimiento.getDate()!= null && comboAfiliados.getSelectedIndex()>0){
-            
-            nombreYapellido = txtNombre.getText().toUpperCase();
-            documento = txtDocumento.getText().toUpperCase();
-            direccion = txtDireccion.getText().toUpperCase();
-            telefono = txtTelefono.getText().toUpperCase();
-            correoElectronico = txtCorreo.getText().toUpperCase();
-            fechaNacimiento = dtFechaNacimiento.getDate();
-            genero = comboGenero.getSelectedItem().toString();
-            Afiliacion = comboAfiliados.getSelectedItem().toString();
-            
-            
-            this.principal.agregarPaciente(nombreYapellido, documento, direccion, telefono, correoElectronico, fechaNacimiento, genero, Afiliacion);
-            
-        }else{
-            Alert.showMessageError("Error", "Campos Vacios", 10);
+        // Obtener los datos ingresados por el usuario desde los componentes
+        String nombre = txtNombre.getText().trim();
+        String documento = txtDocumento.getText().trim();
+        String direccion = txtDireccion.getText().trim();
+        String telefono = txtTelefono.getText().trim();
+        String correo = txtCorreo.getText().trim();
+        Date fechaNacimiento = dtFechaNacimiento.getDate();
+        String genero = comboGenero.getSelectedItem().toString();
+        String afiliacion = comboAfiliados.getSelectedItem().toString();
+
+        // Validar que todos los campos obligatorios estén completos
+        if (nombre.isEmpty() || documento.isEmpty() || direccion.isEmpty() || telefono.isEmpty() || correo.isEmpty() || fechaNacimiento == null || genero.isEmpty() || afiliacion.isEmpty()) {
+            Alert.showMessageError("Error", "Por favor complete todos los campos.");
+            return;
         }
+
+        // Validar que los datos ingresados sean válidos
+        if (!esNombreValido(nombre)) {
+            Alert.showMessageError("Error", "Ingrese un nombre válido (solo letras).");
+            return;
+        }
+
+        if (!esDocumentoValido(documento)) {
+            Alert.showMessageError("Error", "Ingrese un documento válido (solo números).");
+            return;
+        }
+
+        if (!esTelefonoValido(telefono)) {
+            Alert.showMessageError("Error", "Ingrese un teléfono válido.");
+            return;
+        }
+
+        if (!esCorreoValido(correo)) {
+            Alert.showMessageError("Error", "Ingrese un correo electrónico válido.");
+            return;
+        }
+
+        if (!esFechaNacimientoValida(fechaNacimiento)) {
+            Alert.showMessageError("Error", "La fecha de nacimiento no es válida.");
+            return;
+        }
+
+        // Proceder con la inserción en la base de datos
+        guardarPacienteEnBaseDeDatos(nombre, documento, direccion, telefono, correo, fechaNacimiento, genero, afiliacion);
     }//GEN-LAST:event_btnRegistrarPacienteActionPerformed
 
     private void btnlimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimpiarActionPerformed
@@ -295,7 +329,121 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnAgendarCitaPorRegistroActionPerformed
 
+    private void llenarComboBoxGenero() {
+        // Limpia el comboGenero
+        comboGenero.removeAllItems();
+
+        ConexionBD conexion = new ConexionBD();
+        conexion.conectar(); // Establece la conexión con la base de datos
+
+        try {
+            // Consulta SQL para obtener los nombres de género
+            String query = "SELECT nombre_genero FROM genero;";
+
+            // Ejecutar la consulta y obtener resultados
+            ResultSet rs = conexion.getConnection().createStatement().executeQuery(query);
+
+            // Recorrer los resultados y agregarlos al comboGenero
+            while (rs.next()) {
+                String nombreGenero = rs.getString("nombre_genero");
+                comboGenero.addItem(nombreGenero);
+            }
+
+            rs.close(); // Cierra el ResultSet
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert.showMessageError("Error", "Error al obtener géneros desde la base de datos.");
+        } finally {
+            conexion.desconectar(); // Cierra la conexión
+        }
+    }
     
+    private void llenarComboBoxAfiliados() {
+        // Limpia el comboAfiliados
+        comboAfiliados.removeAllItems();
+
+        ConexionBD conexion = new ConexionBD();
+        conexion.conectar(); // Establece la conexión con la base de datos
+
+        try {
+            // Consulta SQL para obtener los nombres de EPS
+            String query = "SELECT nombre_eps FROM eps;";
+
+            // Ejecutar la consulta y obtener resultados
+            ResultSet rs = conexion.getConnection().createStatement().executeQuery(query);
+
+            // Recorrer los resultados y agregarlos al comboAfiliados
+            while (rs.next()) {
+                String nombreEps = rs.getString("nombre_eps");
+                comboAfiliados.addItem(nombreEps);
+            }
+
+            rs.close(); // Cierra el ResultSet
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert.showMessageError("Error", "Error al obtener afiliaciones desde la base de datos.");
+        } finally {
+            conexion.desconectar(); // Cierra la conexión
+        }
+    }
+    
+    
+    private void guardarPacienteEnBaseDeDatos(String nombre, String documento, String direccion, String telefono, String correo, Date fechaNacimiento, String genero, String afiliacion) {
+        try {
+            // Establecer conexión con la base de datos
+            ConexionBD conexion = new ConexionBD();
+            conexion.conectar();
+
+            // Preparar la consulta SQL para insertar un nuevo paciente
+            String query = "INSERT INTO paciente (nombre, documento, direccion, telefono, correo, fechaNacimiento, genero_id, eps_id) VALUES (?, ?, ?, ?, ?, ?, (SELECT id FROM genero WHERE nombre_genero = ?), (SELECT id FROM eps WHERE nombre_eps = ?));";
+
+            // Crear una sentencia preparada para ejecutar la consulta SQL
+            PreparedStatement statement = conexion.getConnection().prepareStatement(query);
+
+            // Establecer los parámetros de la consulta con los valores del paciente
+            statement.setString(1, nombre);
+            statement.setString(2, documento);
+            statement.setString(3, direccion);
+            statement.setString(4, telefono);
+            statement.setString(5, correo);
+            statement.setDate(6, new java.sql.Date(fechaNacimiento.getTime())); // Convertir Date a java.sql.Date
+            statement.setString(7, genero);
+            statement.setString(8, afiliacion);
+
+            // Ejecutar la consulta SQL para insertar el nuevo paciente
+            int filasInsertadas = statement.executeUpdate();
+
+            if (filasInsertadas > 0) {
+                Alert.showMessageSuccess("Éxito", "Paciente registrado correctamente.");
+            } else {
+                Alert.showMessageError("Error", "Error al registrar paciente en la base de datos.");
+            }
+
+            // Cerrar la conexión
+            conexion.desconectar();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert.showMessageError("Error", "Error al registrar paciente en la base de datos: " + e.getMessage());
+        }
+    }
+    
+    private boolean esFechaNacimientoValida(Date fechaNacimiento) {
+        // Validar si la fecha de nacimiento es antes de la fecha actual
+        Date fechaActual = new Date();
+        return fechaNacimiento != null && fechaNacimiento.before(fechaActual);
+    }
+        private boolean esCorreoValido(String correo) {
+        return correo.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}");
+    }
+        private boolean esTelefonoValido(String telefono) {
+        return telefono.matches("[0-9()+-]+"); // Permite números, paréntesis, guiones y signo más
+    }
+        private boolean esDocumentoValido(String documento) {
+        return documento.matches("\\d+"); // Verifica si la cadena contiene solo dígitos
+    }
+        private boolean esNombreValido(String nombre) {
+        return nombre.matches("[a-zA-Z]+");
+    }
     public static void main(String args[]) {
         
         FrmInterfazPrincipal principal = new FrmInterfazPrincipal();
