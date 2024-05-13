@@ -12,6 +12,7 @@ import dataConexion.ConexionBD;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -245,8 +246,8 @@ public class FrmAgendamiento extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(btnAgendar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(55, 55, 55)
-                        .addComponent(btnGestionarCitas, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(131, 131, 131))
+                        .addComponent(btnGestionarCitas, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(120, 120, 120))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(comboMedicos, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -407,68 +408,55 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     }//GEN-LAST:event_comboMedicosActionPerformed
 
     private void btnAgendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarActionPerformed
-//        // TODO add your handling code here:
-//        if(!txtDocumentoAgenda.getText().isEmpty() && !txtNombre.getText().isEmpty() && !txtGeneroAgenda.getText().isEmpty() && jdFechaNacimientoAgenda.getDate() != null && !txtafiliadoagenda.getText().isEmpty() && !comboTipoCita.getSelectedItem().equals("Seleccione") && !comboMedicos.getSelectedItem().equals("Seleccione") && jdFecha.getDate()!= null && !comboHoras.getSelectedItem().equals("Seleccione") && !txtDireccionCita.getText().isEmpty()) {
-//
-//                documentoPaciente = txtDocumentoAgenda.getText().toUpperCase();
-//                nombreyApellidoPaciente = txtNombre.getText().toUpperCase();
-//                fechaNacimientoPaciente = jdFechaNacimientoAgenda.getDate();
-//                afiliadoPaciente = txtafiliadoagenda.getText().toUpperCase();
-//                nombreMedico = comboMedicos.getSelectedItem().toString();
-//                tipoEspecialidad = comboTipoCita.getSelectedItem().toString();
-//                fechaCita = jdFecha.getDate();
-//                horaCita = comboHoras.getSelectedItem().toString();
-//                ConsultorioCita = txtDireccionCita.getText().toUpperCase();
-//                String EstadoCitas = "Programada"; 
-//                
-//                
-//                if(afiliadoPaciente.equals("EPS SANITAS")){
-//                    coPago = COPAGO_EPS_SANITAS;
-//                }else if(afiliadoPaciente.equals("MUTUAL SER")){
-//                    coPago = COPAGO_MUTUAL_SER;
-//                }else if(afiliadoPaciente.equals("COOSALUD")){
-//                    coPago = COPAGO_COOSALUD;
-//                }else if(afiliadoPaciente.equals("SALUD TOTAL")){
-//                    coPago = COPAGO_SALUD_TOTAL;
-//                }else{
-//                    Alert.showMessageError("ERROR", "no existe esta EPS");
-//                }
-//            
-//                if (citas.isEmpty()) {
-//            
-//                CitasMedicas nuevaCita = new CitasMedicas(
-//                    documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente, afiliadoPaciente, nombreMedico, tipoEspecialidad, fechaCita,horaCita, ConsultorioCita, EstadoCitas, coPago, contadorCitas);
-//                    citas.add(nuevaCita);
-//                    contadorCitas++; 
-//                     Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
-//            } else {
-//           
-//                boolean citaExistente = false;
-//                for (int i = 0; i < citas.size(); i++) {
-//                
-//                    if (citas.get(i).getNombreMedico().equals(nombreMedico) &&
-//                        citas.get(i).getFechaCita().equals(fechaCita) &&
-//                        citas.get(i).getHoraCita().equals(horaCita)) {
-//                        citaExistente = true;
-//                        break;
-//                    }   
-//                }
-//                if (citaExistente) {
-//                  Alert.showMessageError("Aviso", "Ya hay una cita agendada para esta fecha y hora");
-//                } else {
-//                    CitasMedicas nuevaCita = new CitasMedicas(
-//                    documentoPaciente, nombreyApellidoPaciente, fechaNacimientoPaciente, afiliadoPaciente, nombreMedico, tipoEspecialidad, fechaCita,horaCita, ConsultorioCita, EstadoCitas, coPago, contadorCitas);
-//                    citas.add(nuevaCita);
-//                    contadorCitas++; 
-//                     Alert.showMessageSuccess("Felicidades", "La cita se ha agendado con éxito");
-//                }
-//            }
-//            }else{
-//                Alert.showMessageError("Aviso", "Campos vacios");
-//            }
+
+        // Obtener los datos ingresados por el usuario desde el formulario
+        String nombrePaciente = txtNombre.getText().trim();
+        String nombreMedico = comboMedicos.getSelectedItem().toString();
+        Date fechaCita = jdFecha.getDate();
+        String horaCita = comboHoras.getSelectedItem().toString();
+        String direccionIPS = comboIPS.getSelectedItem().toString();
+        String estadoCita = "Programada"; // Puedes establecer el estado inicial como pendiente
+
+        // Validar que se hayan ingresado todos los datos necesarios
+        if (nombrePaciente.isEmpty() || nombreMedico.isEmpty() || fechaCita == null || horaCita.isEmpty() || direccionIPS.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos antes de agendar la cita.", "Datos incompletos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            // Establecer conexión con la base de datos (suponiendo que 'conexion' es tu objeto de conexión)
+            Connection conn = conexion.getConnection();
+
+            // Llamar al procedimiento almacenado 'sp_insertar_cita' utilizando un CallableStatement
+            String sql = "{CALL sp_insertar_cita(?, ?, ?, ?, ?, ?)}";
+            CallableStatement stmt = conn.prepareCall(sql);
+
+            // Establecer los parámetros del procedimiento almacenado
+            stmt.setString(1, nombrePaciente);
+            stmt.setString(2, nombreMedico);
+            stmt.setDate(3, new java.sql.Date(fechaCita.getTime())); // Convertir java.util.Date a java.sql.Date
+            stmt.setTime(4, java.sql.Time.valueOf(horaCita)); // Convertir hora de String a java.sql.Time
+            stmt.setString(5, direccionIPS);
+            stmt.setString(6, estadoCita);
+
+            // Ejecutar el procedimiento almacenado
+            stmt.execute();
+
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Cita agendada correctamente.", "Cita Agendada", JOptionPane.INFORMATION_MESSAGE);
+
+            // Cerrar la conexión y el statement
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al agendar la cita: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace(); // Mostrar detalles del error en consola
+        }
         
     }//GEN-LAST:event_btnAgendarActionPerformed
 
+    
     private void btnGestionarCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionarCitasActionPerformed
         // TODO add your handling code here:
         

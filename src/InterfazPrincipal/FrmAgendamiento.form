@@ -121,8 +121,8 @@
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="btnAgendar" min="-2" pref="124" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
-                          <Component id="btnGestionarCitas" min="-2" pref="118" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="131" max="-2" attributes="0"/>
+                          <Component id="btnGestionarCitas" min="-2" pref="129" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="120" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
