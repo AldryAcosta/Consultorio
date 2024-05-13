@@ -4,7 +4,10 @@ package dataConexion;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 public class ConexionBD {
@@ -37,5 +40,53 @@ public class ConexionBD {
         } catch (SQLException e) {
             System.err.println("Error al cerrar la conexión: " + e.getMessage());
         }
+    }
+    
+    public ArrayList<String> obtenerNombresMedicosPorEspecialidad(int especialidadId) throws SQLException {
+        ArrayList<String> nombresMedicos = new ArrayList<>();
+        String query = "SELECT nombre FROM medico WHERE especialidad_id = ?";
+        
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, especialidadId);
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                nombresMedicos.add(resultSet.getString("nombre"));
+            }
+        }
+        
+        return nombresMedicos;
+    }
+    
+    public int obtenerIdMedico(String nombreMedico) throws SQLException {
+        int medicoId = -1;
+        String query = "SELECT id FROM medico WHERE nombre = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, nombreMedico);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                medicoId = resultSet.getInt("id");
+            }
+        }
+
+        return medicoId;
+    }
+    
+    public ArrayList<String> obtenerHorariosDisponiblesPorMedico(int medicoId) throws SQLException {
+        ArrayList<String> horariosDisponibles = new ArrayList<>();
+
+        String query = "SELECT hora FROM horario WHERE medico_id = ? AND disponible = true";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, medicoId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String hora = resultSet.getString("hora");
+                horariosDisponibles.add(hora);
+            }
+        }
+
+        return horariosDisponibles;
     }
 }

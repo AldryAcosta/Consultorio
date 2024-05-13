@@ -307,6 +307,7 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
 
         // Proceder con la inserción en la base de datos
         guardarPacienteEnBaseDeDatos(nombre, documento, direccion, telefono, correo, fechaNacimiento, genero, afiliacion);
+        
     }//GEN-LAST:event_btnRegistrarPacienteActionPerformed
 
     private void btnlimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimpiarActionPerformed
@@ -423,7 +424,7 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
             conexion.desconectar();
         } catch (SQLException e) {
             e.printStackTrace();
-            Alert.showMessageError("Error", "Error al registrar paciente en la base de datos: " + e.getMessage());
+            Alert.showMessageError("Error", "Este paciente ya se encuentra registrado");
         }
     }
     
