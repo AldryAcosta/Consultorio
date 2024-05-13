@@ -89,4 +89,22 @@ public class ConexionBD {
 
         return horariosDisponibles;
     }
+    
+    public ArrayList<String> obtenerDireccionesIPS(String epsNombre) {
+        ArrayList<String> direcciones = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement("SELECT d.direccion FROM eps_ips ei JOIN direccionips d ON ei.direccionips_id = d.id JOIN eps e ON ei.eps_id = e.id WHERE e.nombre_eps = ?")) {
+
+            stmt.setString(1, epsNombre);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                direcciones.add(rs.getString("direccion"));
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return direcciones;
+    }
 }
