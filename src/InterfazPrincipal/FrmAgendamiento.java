@@ -431,7 +431,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
             String sql = "{CALL sp_insertar_cita(?, ?, ?, ?, ?, ?)}";
             CallableStatement stmt = conn.prepareCall(sql);
 
-            // Establecer los parámetros del procedimiento almacenado
+            // Establecer los parámetros del procedimiento almacenado con los nombres directamente
             stmt.setString(1, nombrePaciente);
             stmt.setString(2, nombreMedico);
             stmt.setDate(3, new java.sql.Date(fechaCita.getTime())); // Convertir java.util.Date a java.sql.Date
@@ -444,10 +444,6 @@ public class FrmAgendamiento extends javax.swing.JFrame {
 
             // Mostrar mensaje de éxito
             JOptionPane.showMessageDialog(this, "Cita agendada correctamente.", "Cita Agendada", JOptionPane.INFORMATION_MESSAGE);
-
-            // Cerrar la conexión y el statement
-            stmt.close();
-            conn.close();
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al agendar la cita: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
