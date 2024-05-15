@@ -4,6 +4,7 @@ package InterfazPrincipal;
 import Escudero.Alert;
 import InterfazPrincipal.Clases.CitasMedicas;
 import dataConexion.ConexionBD;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -72,7 +73,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         comboCambiarEstados = new javax.swing.JComboBox<>();
         btnCambiarEstado = new javax.swing.JButton();
-        txtNumeroCita = new javax.swing.JTextField();
+        txtCodigoCita = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(400, 600));
@@ -250,7 +251,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtNumeroCita, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtCodigoCita, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addGap(88, 88, 88)
                                     .addComponent(comboCambiarEstados, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))))))
@@ -299,7 +300,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnCalcularTotalCopagosAnio)
-                            .addComponent(txtNumeroCita, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCodigoCita, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -421,9 +422,19 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                 String fechaInicioStr = dateFormat.format(fechaInicial);
                 String fechaFinStr = dateFormat.format(fechaFinal);
 
-                // Construir la consulta SQL con los parámetros de fechas
-                String query = "SELECT * FROM cita " +
-                               "WHERE fechaCita BETWEEN '" + fechaInicioStr + "' AND '" + fechaFinStr + "'";
+                // Construir la consulta SQL con las columnas requeridas y los parámetros de fechas
+               String query = "SELECT c.id, c.codigo, c.fechaCita, c.hora, c.estado, " +
+               "p.nombre AS nombre_paciente, " +
+               "e.nombre_eps AS nombre_eps, " + // Agregar nombre de la EPS
+               "e.copago AS copago, " + // Agregar copago de la EPS como columna separada
+               "m.nombre AS nombre_medico, " +
+               "d.direccion AS direccion_ips " +
+               "FROM cita c " +
+               "LEFT JOIN paciente p ON c.paciente_id = p.id " +
+               "LEFT JOIN medico m ON c.medico_id = m.id " +
+               "LEFT JOIN direccionips d ON c.direccionips_id = d.id " +
+               "LEFT JOIN eps e ON p.eps_id = e.id " +
+               "WHERE c.fechaCita BETWEEN '" + fechaInicioStr + "' AND '" + fechaFinStr + "'";
 
                 // Ejecutar la consulta y mostrar los resultados en la tabla
                 executeAndShowQuery(query);
@@ -495,8 +506,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
 
     private void btnRestablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestablecerActionPerformed
         // TODO add your handling code here:
-        
-        MostrarInfo(citas);
+        mostrarCitasEnTabla();
     }//GEN-LAST:event_btnRestablecerActionPerformed
 
     private void btnObtenerTotalCopagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObtenerTotalCopagosActionPerformed
@@ -542,65 +552,116 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCalcularTotalCopagosAnioActionPerformed
 
     private void btnFiltrarPorEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarPorEstadoActionPerformed
-        // TODO add your handling code here:
-        // Obtener el estado seleccionado en el JComboBox
-        String estadoSeleccionado = (String) comboEstados.getSelectedItem();
+        try {
+            // Obtener el estado seleccionado en el JComboBox
+            String estadoSeleccionado = (String) comboEstados.getSelectedItem();
 
-        // Filtrar las citas por el estado seleccionado
-        ArrayList<CitasMedicas> citasFiltradas = filtrarCitasPorEstado(citas, estadoSeleccionado);
+            // Construir la consulta SQL con el estado seleccionado
+            String query = "SELECT c.id, c.codigo, c.fechaCita, c.hora, c.estado, " +
+                           "p.nombre AS nombre_paciente, " +
+                           "e.nombre_eps AS nombre_eps, " + // Agregar nombre de la EPS
+                           "e.copago AS copago, " + // Agregar copago de la EPS como columna separada
+                           "m.nombre AS nombre_medico, " +
+                           "d.direccion AS direccion_ips " +
+                           "FROM cita c " +
+                           "LEFT JOIN paciente p ON c.paciente_id = p.id " +
+                           "LEFT JOIN medico m ON c.medico_id = m.id " +
+                           "LEFT JOIN direccionips d ON c.direccionips_id = d.id " +
+                           "LEFT JOIN eps e ON p.eps_id = e.id " +
+                           "WHERE c.estado = '" + estadoSeleccionado + "'";
 
-        // Mostrar las citas filtradas en la tabla
-        MostrarInfo(citasFiltradas);
+            // Ejecutar la consulta y mostrar los resultados en la tabla
+            executeAndShowQueryEstado(query);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al filtrar citas por estado", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnFiltrarPorEstadoActionPerformed
 
+    private void executeAndShowQueryEstado(String query) throws SQLException {
+        DefaultTableModel modelo = new DefaultTableModel();
+
+        // Ejecutar la consulta SQL
+        ResultSet resultSet = conexionBD.getConnection().createStatement().executeQuery(query);
+
+        // Configurar el modelo de tabla con las columnas deseadas
+        modelo.addColumn("ID");
+        modelo.addColumn("Código");
+        modelo.addColumn("Fecha Cita");
+        modelo.addColumn("Hora");
+        modelo.addColumn("Estado");
+        modelo.addColumn("Nombre Paciente");
+        modelo.addColumn("EPS");
+        modelo.addColumn("Copago");
+        modelo.addColumn("Nombre Médico");
+        modelo.addColumn("Dirección IPS");
+
+        // Iterar sobre los resultados y agregar filas al modelo de la tabla
+        while (resultSet.next()) {
+            Object[] rowData = new Object[10]; // Crear arreglo para cada fila con 10 columnas
+
+            // Obtener valores específicos de cada columna y agregarlos al arreglo de datos de fila
+            rowData[0] = resultSet.getInt("id");
+            rowData[1] = resultSet.getString("codigo");
+            rowData[2] = resultSet.getDate("fechaCita");
+            rowData[3] = resultSet.getTime("hora");
+            rowData[4] = resultSet.getString("estado");
+            rowData[5] = resultSet.getString("nombre_paciente");
+            rowData[6] = resultSet.getString("nombre_eps");
+            rowData[7] = resultSet.getInt("copago");
+            rowData[8] = resultSet.getString("nombre_medico");
+            rowData[9] = resultSet.getString("direccion_ips");
+
+            // Agregar la fila al modelo de la tabla
+            modelo.addRow(rowData);
+        }
+
+        // Establecer el modelo de la tabla con los datos configurados
+        tbRegistrosMedicos.setModel(modelo);
+    }
     private void btnCambiarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarEstadoActionPerformed
-        // TODO add your handling code here:
-        String numeroCitaStr = txtNumeroCita.getText();
+        String codigoCitaStr = txtCodigoCita.getText().trim();
 
         // Verificar si el campo de texto está vacío
-        if (numeroCitaStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, ingrese un número de cita", "Error", JOptionPane.ERROR_MESSAGE);
+        if (codigoCitaStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un código de cita", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            // Convertir el número de cita a entero
-            int numeroCita = Integer.parseInt(numeroCitaStr);
+            // Obtener el nuevo estado seleccionado por el usuario
+            String nuevoEstado = obtenerNuevoEstado();
 
-            // Variable para mantener el estado de si se encontró la cita
-            boolean citaEncontrada = false;
+            // Preparar la consulta SQL para actualizar el estado de la cita
+            String sql = "UPDATE cita SET estado = ? WHERE codigo = ?";
+            PreparedStatement statement = conexionBD.getConnection().prepareStatement(sql);
+            statement.setString(1, nuevoEstado);
+            statement.setString(2, codigoCitaStr);
 
-            // Recorrer la lista de citas y encontrar la cita con el número de cita especificado
-            for (CitasMedicas cita : citas) {
-                if (cita.getNumeroCita() == numeroCita) {
-                    // Cambiar el estado de la cita
-                    String nuevoEstado = comboCambiarEstados.getSelectedItem().toString();
-                    cita.setEstadoCitas(nuevoEstado);
-                    citaEncontrada = true;
-                    break; // Salir del bucle una vez que se encuentra la cita
-                }
-            }
+            // Ejecutar la actualización en la base de datos
+            int rowsUpdated = statement.executeUpdate();
 
-            // Verificar si se encontró la cita y se cambió el estado
-            if (citaEncontrada) {
+            // Verificar si la actualización fue exitosa
+            if (rowsUpdated > 0) {
                 // Actualizar la tabla después de cambiar el estado de la cita
-                MostrarInfo(citas);
+                MostrarInfo(citas); // Ajusta este método según tu implementación para actualizar la tabla con las citas actualizadas
                 JOptionPane.showMessageDialog(this, "Estado de cita cambiado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                // Mostrar mensaje si no se encontró la cita con el número especificado
-                JOptionPane.showMessageDialog(this, "La cita con el número especificado no existe", "Error", JOptionPane.ERROR_MESSAGE);
+                // Mostrar mensaje si no se encuentra la cita con el código especificado
+                JOptionPane.showMessageDialog(this, "La cita con el código especificado no existe", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (NumberFormatException e) {
-            // Manejar la excepción si no se puede convertir a entero
-            JOptionPane.showMessageDialog(this, "Por favor, ingrese un número válido para la cita", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException e) {
+            // Manejar la excepción si ocurre un error de SQL
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al cambiar el estado de la cita", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnCambiarEstadoActionPerformed
 
     public String obtenerNuevoEstado() {
-        // Aquí puedes mostrar un cuadro de diálogo o utilizar otro componente para que el usuario seleccione el nuevo estado
-        String[] estadosPosibles = {"Programada", "Confirmada", "Cancelada", "En curso", "Completada"};
+        String[] estadosPosibles = {"Programada", "Activa", "Atendida", "Cancelada"};
 
-        // Utiliza un cuadro de diálogo de selección o un combo box para que el usuario elija el nuevo estado
+        // Mostrar un cuadro de diálogo de selección para que el usuario elija el nuevo estado
         String nuevoEstadoSeleccionado = (String) JOptionPane.showInputDialog(
                 null,
                 "Seleccione el nuevo estado:",
@@ -608,14 +669,14 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 estadosPosibles,
-                estadosPosibles[0]); // El estado predeterminado
+                estadosPosibles[0]); // Valor predeterminado (primer estado en la lista)
 
-        // Verifica si se seleccionó un nuevo estado y devuelve ese estado
+        // Verificar si se seleccionó un nuevo estado y devolverlo
         if (nuevoEstadoSeleccionado != null && nuevoEstadoSeleccionado.length() > 0) {
             return nuevoEstadoSeleccionado;
         } else {
-            // Si no se selecciona ningún estado, puedes manejarlo según sea necesario (por ejemplo, devolver un estado predeterminado)
-            return "Programada"; // Devuelve un estado predeterminado en caso de que no se seleccione ningún estado
+            // Si no se selecciona ningún estado, puedes manejarlo devolviendo un estado predeterminado
+            return "Programada"; // Estado predeterminado
         }
     }
     
@@ -775,7 +836,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     private javax.swing.JLabel lblTotalCopagosAnio;
     private javax.swing.JLabel lblTotalCopagosMesAnio;
     private javax.swing.JTable tbRegistrosMedicos;
-    private javax.swing.JTextField txtNumeroCita;
+    private javax.swing.JTextField txtCodigoCita;
     private javax.swing.JTextField txtResultadoCopago;
     // End of variables declaration//GEN-END:variables
 }
