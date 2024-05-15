@@ -116,6 +116,10 @@
                           </Group>
                       </Group>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="291" max="-2" attributes="0"/>
+                      <Component id="btnCambiarEstado" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -123,21 +127,18 @@
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="btnObtenerTotalCopagos" min="-2" pref="135" max="-2" attributes="0"/>
+                      <Component id="btnCalcularTotalCopagos" min="-2" pref="135" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btnFiltrarPorMesYAnio" min="-2" pref="162" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="lblTotalCopagos" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="291" max="-2" attributes="0"/>
-              <Component id="btnCambiarEstado" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="lblTotalCopagosAnio" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -175,15 +176,17 @@
                           <Component id="ComboAnio" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel4" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnCalcularTotalCopagosAnio" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtCodigoCita" alignment="1" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblTotalCopagosAnio" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnCambiarEstado" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="txtCodigoCita" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="btnCambiarEstado" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                              <Component id="btnCalcularTotalCopagosAnio" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -203,8 +206,10 @@
                   <Component id="btnConsultar" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnObtenerTotalCopagos" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+              <Component id="btnCalcularTotalCopagos" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lblTotalCopagos" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               <Component id="btnRestablecer" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="196" max="-2" attributes="0"/>
@@ -297,26 +302,32 @@
     <Component class="javax.swing.JComboBox" name="comboMedico">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="19">
+          <StringArray count="25">
             <StringItem index="0" value="Dra. Laura Lopez"/>
             <StringItem index="1" value="Dr. Manuel Torres"/>
             <StringItem index="2" value="Dra. Sofia Diaz"/>
             <StringItem index="3" value="Dr. Victor Ramirez"/>
-            <StringItem index="4" value="Dra. Ana Maria Gomez"/>
-            <StringItem index="5" value="Dr. Luis Hernandez"/>
-            <StringItem index="6" value="Dra. Marta Perez"/>
-            <StringItem index="7" value="Dr. Jose Gonzalez"/>
-            <StringItem index="8" value="Dr. Jorge Martinez"/>
-            <StringItem index="9" value="Dra. Andrea Fernandez"/>
-            <StringItem index="10" value="Dr. Alejandro Garcia"/>
-            <StringItem index="11" value="Dra. Patricia Castro"/>
-            <StringItem index="12" value="Dr. Roberto Diaz"/>
-            <StringItem index="13" value="Dr. Miguel Rodriguez"/>
-            <StringItem index="14" value="Dra. Lucia Fernandez"/>
-            <StringItem index="15" value="Dr. Pedro Sanchez"/>
-            <StringItem index="16" value="Dra. Laura Martinez"/>
-            <StringItem index="17" value="Dra. Maria Lopez"/>
-            <StringItem index="18" value="Dr. Juan Perez"/>
+            <StringItem index="4" value="Dr. Juan P&#xe9;rez"/>
+            <StringItem index="5" value="Dra. Mar&#xed;a Garc&#xed;a"/>
+            <StringItem index="6" value="Dr. Pedro L&#xf3;pez"/>
+            <StringItem index="7" value="Dra. Laura Mart&#xed;nez"/>
+            <StringItem index="8" value="Dr. Jos&#xe9; Ram&#xed;rez"/>
+            <StringItem index="9" value="Dra. Ana Rodr&#xed;guez"/>
+            <StringItem index="10" value="Dr. Mart&#xed;n G&#xf3;mez"/>
+            <StringItem index="11" value="Dra. Julia S&#xe1;nchez"/>
+            <StringItem index="12" value="Dr. Carlos P&#xe9;rez"/>
+            <StringItem index="13" value="Dra. Rosa L&#xf3;pez"/>
+            <StringItem index="14" value="Dr. Miguel Mart&#xed;nez"/>
+            <StringItem index="15" value="Dra. Paola Ram&#xed;rez"/>
+            <StringItem index="16" value="Dr. Alejandro S&#xe1;nchez"/>
+            <StringItem index="17" value="Dra. Claudia G&#xf3;mez"/>
+            <StringItem index="18" value="Dr. Jorge Rodr&#xed;guez"/>
+            <StringItem index="19" value="Dra. Laura P&#xe9;rez"/>
+            <StringItem index="20" value="Dr. Javier Mart&#xed;nez"/>
+            <StringItem index="21" value="Dra. Mar&#xed;a Guti&#xe9;rrez"/>
+            <StringItem index="22" value="Dr. Gabriel S&#xe1;nchez"/>
+            <StringItem index="23" value="Dra. Andrea L&#xf3;pez"/>
+            <StringItem index="24" value="Jorman Herrera"/>
           </StringArray>
         </Property>
       </Properties>
@@ -355,12 +366,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRestablecerActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnObtenerTotalCopagos">
+    <Component class="javax.swing.JButton" name="btnCalcularTotalCopagos">
       <Properties>
         <Property name="text" type="java.lang.String" value="Total Copagos"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnObtenerTotalCopagosActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCalcularTotalCopagosActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtResultadoCopago">
@@ -436,7 +447,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCalcularTotalCopagosAnioActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblTotalCopagosAnio">
+    <Component class="javax.swing.JLabel" name="lblTotalCopagos">
       <Properties>
         <Property name="text" type="java.lang.String" value="(Resultado)"/>
       </Properties>

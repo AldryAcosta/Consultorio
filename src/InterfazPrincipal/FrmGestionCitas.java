@@ -4,10 +4,12 @@ package InterfazPrincipal;
 import Escudero.Alert;
 import InterfazPrincipal.Clases.CitasMedicas;
 import dataConexion.ConexionBD;
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,7 +62,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         comboMedico = new javax.swing.JComboBox<>();
         comboMeses = new javax.swing.JComboBox<>();
         btnRestablecer = new javax.swing.JButton();
-        btnObtenerTotalCopagos = new javax.swing.JButton();
+        btnCalcularTotalCopagos = new javax.swing.JButton();
         txtResultadoCopago = new javax.swing.JTextField();
         btnFiltrarPorMesYAnio = new javax.swing.JButton();
         comboMesesCopago = new javax.swing.JComboBox<>();
@@ -68,7 +70,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         lblTotalCopagosMes = new javax.swing.JLabel();
         ComboAnio = new javax.swing.JComboBox<>();
         btnCalcularTotalCopagosAnio = new javax.swing.JButton();
-        lblTotalCopagosAnio = new javax.swing.JLabel();
+        lblTotalCopagos = new javax.swing.JLabel();
         btnFiltrarPorEstado = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         btnCambiarEstado = new javax.swing.JButton();
@@ -115,7 +117,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
             }
         });
 
-        comboMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dra. Laura Lopez", "Dr. Manuel Torres", "Dra. Sofia Diaz", "Dr. Victor Ramirez", "Dra. Ana Maria Gomez", "Dr. Luis Hernandez", "Dra. Marta Perez", "Dr. Jose Gonzalez", "Dr. Jorge Martinez", "Dra. Andrea Fernandez", "Dr. Alejandro Garcia", "Dra. Patricia Castro", "Dr. Roberto Diaz", "Dr. Miguel Rodriguez", "Dra. Lucia Fernandez", "Dr. Pedro Sanchez", "Dra. Laura Martinez", "Dra. Maria Lopez", "Dr. Juan Perez" }));
+        comboMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dra. Laura Lopez", "Dr. Manuel Torres", "Dra. Sofia Diaz", "Dr. Victor Ramirez", "Dr. Juan Pérez", "Dra. María García", "Dr. Pedro López", "Dra. Laura Martínez", "Dr. José Ramírez", "Dra. Ana Rodríguez", "Dr. Martín Gómez", "Dra. Julia Sánchez", "Dr. Carlos Pérez", "Dra. Rosa López", "Dr. Miguel Martínez", "Dra. Paola Ramírez", "Dr. Alejandro Sánchez", "Dra. Claudia Gómez", "Dr. Jorge Rodríguez", "Dra. Laura Pérez", "Dr. Javier Martínez", "Dra. María Gutiérrez", "Dr. Gabriel Sánchez", "Dra. Andrea López", "Jorman Herrera" }));
 
         comboMeses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
 
@@ -126,10 +128,10 @@ public class FrmGestionCitas extends javax.swing.JFrame {
             }
         });
 
-        btnObtenerTotalCopagos.setText("Total Copagos");
-        btnObtenerTotalCopagos.addActionListener(new java.awt.event.ActionListener() {
+        btnCalcularTotalCopagos.setText("Total Copagos");
+        btnCalcularTotalCopagos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnObtenerTotalCopagosActionPerformed(evt);
+                btnCalcularTotalCopagosActionPerformed(evt);
             }
         });
 
@@ -155,7 +157,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
             }
         });
 
-        lblTotalCopagosAnio.setText("(Resultado)");
+        lblTotalCopagos.setText("(Resultado)");
 
         btnFiltrarPorEstado.setText("Filtrar Por Estado");
         btnFiltrarPorEstado.addActionListener(new java.awt.event.ActionListener() {
@@ -244,23 +246,23 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                                 .addComponent(comboMeses, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(88, 88, 88)
-                                .addComponent(txtCodigoCita, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtCodigoCita, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(291, 291, 291)
+                        .addComponent(btnCambiarEstado)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnObtenerTotalCopagos, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCalcularTotalCopagos, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(99, 99, 99))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnFiltrarPorMesYAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(90, 90, 90))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(291, 291, 291)
-                .addComponent(btnCambiarEstado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTotalCopagosAnio)
-                .addGap(134, 134, 134))
+                        .addGap(90, 90, 90))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblTotalCopagos)
+                        .addGap(128, 128, 128))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,14 +292,15 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ComboAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCalcularTotalCopagosAnio)
-                            .addComponent(txtCodigoCita, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblTotalCopagosAnio)
-                            .addComponent(btnCambiarEstado)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtCodigoCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnCambiarEstado))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(28, 28, 28)
+                                .addComponent(btnCalcularTotalCopagosAnio))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(jLabel2)
@@ -312,8 +315,10 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                     .addComponent(txtResultadoCopago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnConsultar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnObtenerTotalCopagos)
-                .addGap(32, 32, 32)
+                .addComponent(btnCalcularTotalCopagos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTotalCopagos)
+                .addGap(10, 10, 10)
                 .addComponent(btnRestablecer)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -482,87 +487,148 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     }
     
     private void btnCitasporMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCitasporMedicoActionPerformed
-        // TODO add your handling code here:
+        try {
         // Obtener el nombre del médico seleccionado
-        String nombreMedico = comboMedico.getSelectedItem().toString();
-        // Obtener el mes seleccionado (0 = enero, 1 = febrero, ..., 11 = diciembre)
-        int mesSeleccionado = comboMeses.getSelectedIndex();
+        String nombreMedico = (String) comboMedico.getSelectedItem();
+        // Obtener el mes seleccionado
+        int mesSeleccionado = comboMeses.getSelectedIndex() + 1;
 
-        // Generar reporte de citas por médico en el mes seleccionado
-        generarReporteCitasPorMedicoEnMes(nombreMedico, mesSeleccionado);
+        // Preparar el llamado al procedimiento almacenado
+        CallableStatement stmt = conexionBD.getConnection().prepareCall("{CALL ObtenerCitasPorMedicoYMes(?, ?)}");
+        stmt.setString(1, nombreMedico); // Establecer el nombre del médico como parámetro de entrada
+        stmt.setInt(2, mesSeleccionado); // Establecer el mes seleccionado como parámetro de entrada
+
+        // Ejecutar el procedimiento almacenado y obtener los resultados
+        ResultSet resultSet = stmt.executeQuery();
+
+        // Mostrar los resultados en la tabla
+        mostrarResultadosEnTabla(resultSet);
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al obtener las citas por médico y mes", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+        
+        
     }//GEN-LAST:event_btnCitasporMedicoActionPerformed
+
+    private void mostrarResultadosEnTabla(ResultSet resultSet) throws SQLException {
+        DefaultTableModel modelo = new DefaultTableModel();
+
+        // Configurar el modelo de tabla con las columnas deseadas
+        modelo.addColumn("ID");
+        modelo.addColumn("Código");
+        modelo.addColumn("Fecha Cita");
+        modelo.addColumn("Hora");
+        modelo.addColumn("Estado");
+        modelo.addColumn("Nombre Paciente");
+        modelo.addColumn("EPS");
+        modelo.addColumn("Copago");
+        modelo.addColumn("Nombre Médico");
+        modelo.addColumn("Dirección IPS");
+
+        // Iterar sobre los resultados y agregar filas al modelo de la tabla
+        while (resultSet.next()) {
+            Object[] rowData = new Object[10]; // Crear arreglo para cada fila con 10 columnas
+
+            // Obtener valores específicos de cada columna y agregarlos al arreglo de datos de fila
+            rowData[0] = resultSet.getInt("id");
+            rowData[1] = resultSet.getString("codigo");
+            rowData[2] = resultSet.getDate("fechaCita");
+            rowData[3] = resultSet.getTime("hora");
+            rowData[4] = resultSet.getString("estado");
+            rowData[5] = resultSet.getString("nombre_paciente");
+            rowData[6] = resultSet.getString("nombre_eps");
+            rowData[7] = resultSet.getInt("copago");
+            rowData[8] = resultSet.getString("nombre_medico");
+            rowData[9] = resultSet.getString("direccion_ips");
+
+            // Agregar la fila al modelo de la tabla
+            modelo.addRow(rowData);
+        }
+
+        // Establecer el modelo de la tabla con los datos configurados
+        tbRegistrosMedicos.setModel(modelo);
+    }
 
     private void btnRestablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestablecerActionPerformed
         // TODO add your handling code here:
         mostrarCitasEnTabla();
     }//GEN-LAST:event_btnRestablecerActionPerformed
 
-    private void btnObtenerTotalCopagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObtenerTotalCopagosActionPerformed
-        // TODO add your handling code here:
-        int totalCopagos = calcularTotalCopagos(citas);
-        txtResultadoCopago.setText("Total Copagos: " + totalCopagos);    
-    }//GEN-LAST:event_btnObtenerTotalCopagosActionPerformed
+    private void btnCalcularTotalCopagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularTotalCopagosActionPerformed
+        try {
+            // Preparar el llamado al procedimiento almacenado
+            CallableStatement stmt = conexionBD.getConnection().prepareCall("{CALL SumarTodosLosCopagos(?)}");
+            stmt.registerOutParameter(1, Types.INTEGER); // Registrar el primer parámetro como de salida
+
+            // Ejecutar el procedimiento almacenado
+            stmt.execute();
+
+            // Obtener el total de copagos del parámetro de salida
+            int totalCopagos = stmt.getInt(1);
+
+            // Mostrar el resultado en un componente de la interfaz (por ejemplo, un JLabel)
+            lblTotalCopagos.setText("Total Copagos: " + totalCopagos);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al calcular el total de copagos", "Error", JOptionPane.ERROR_MESSAGE);
+        }    
+    }//GEN-LAST:event_btnCalcularTotalCopagosActionPerformed
 
     private void btnFiltrarPorMesYAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarPorMesYAnioActionPerformed
+        try {
             // Obtener el mes seleccionado como String desde el JComboBox
-            String mesSeleccionado = (String) comboMesesCopago.getSelectedItem();
+            String mesSeleccionadoStr = (String) comboMesesCopago.getSelectedItem();
+            // Convertir el nombre del mes a su número correspondiente (ejemplo: "Enero" -> 1)
+            int mesSeleccionado = obtenerIndiceMes(mesSeleccionadoStr) + 1; // Esta función debe estar implementada
 
             // Obtener el año seleccionado como String desde el JComboBox y convertirlo a entero
             String anioSeleccionadoStr = (String) ComboAnioCopago.getSelectedItem();
             int anioSeleccionado = Integer.parseInt(anioSeleccionadoStr);
 
-            try {
-                // Convertir el nombre del mes a su número correspondiente (ejemplo: "Enero" -> 1)
-                int indiceMes = obtenerIndiceMes(mesSeleccionado); // Esta función debe estar implementada
+            // Preparar el llamado al procedimiento almacenado
+            CallableStatement stmt = conexionBD.getConnection().prepareCall("{CALL SumarCopagosCitasPorMesYAnio(?, ?, ?)}");
+            stmt.setInt(1, mesSeleccionado); // Establecer el mes seleccionado como parámetro de entrada
+            stmt.setInt(2, anioSeleccionado); // Establecer el año seleccionado como parámetro de entrada
+            stmt.registerOutParameter(3, Types.INTEGER); // Registrar el tercer parámetro como de salida
 
-                // Calcular el total de copagos para el mes y año seleccionados
-                int totalCopagosMesAnio = calcularTotalCopagosPorMesYAnio(indiceMes + 1, anioSeleccionado);
+            // Ejecutar el procedimiento almacenado
+            stmt.execute();
 
-                // Mostrar el resultado en un componente de la interfaz (por ejemplo, un JLabel)
-                lblTotalCopagosMes.setText("Total Copagos " + mesSeleccionado + " " + anioSeleccionado + ": " + totalCopagosMesAnio);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error: El año seleccionado no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-    }//GEN-LAST:event_btnFiltrarPorMesYAnioActionPerformed
+            // Obtener el total de copagos del parámetro de salida
+            int totalCopagos = stmt.getInt(3);
 
-    private int calcularTotalCopagosPorMesYAnio(int mes, int anio) {
-        int totalCopagos = 0;
-
-        try {
-            // Consulta SQL para calcular el total de copagos por mes y año
-            String query = "SELECT SUM(copago) AS total_copagos " +
-                           "FROM eps " +
-                           "WHERE MONTH(fechaCita) = ? AND YEAR(fechaCita) = ?";
-
-            PreparedStatement statement = conexionBD.getConnection().prepareStatement(query);
-            statement.setInt(1, mes);
-            statement.setInt(2, anio);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                totalCopagos = resultSet.getInt("total_copagos");
-            }
+            // Mostrar el resultado en un componente de la interfaz (por ejemplo, un JLabel)
+            lblTotalCopagosMes.setText("Total Copagos " + mesSeleccionadoStr + " " + anioSeleccionado + ": " + totalCopagos);
         } catch (SQLException e) {
             e.printStackTrace();
-            // Manejar la excepción según sea necesario
+            JOptionPane.showMessageDialog(this, "Error al calcular el total de copagos", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }//GEN-LAST:event_btnFiltrarPorMesYAnioActionPerformed
 
-        return totalCopagos;
-    }
     
     private void btnCalcularTotalCopagosAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularTotalCopagosAnioActionPerformed
-        // TODO add your handling code here:
-        try {
+            try {
+            // Obtener el año seleccionado como String desde el JComboBox y convertirlo a entero
             String anioSeleccionadoStr = (String) ComboAnio.getSelectedItem();
             int anioSeleccionado = Integer.parseInt(anioSeleccionadoStr);
 
-            int totalCopagosAnio = calcularTotalCopagosPorAnio(citas, anioSeleccionado);
-            lblTotalCopagosAnio.setText("Total Copagos " + anioSeleccionado + ": " + totalCopagosAnio);
-        } catch (NumberFormatException e) {
+            // Preparar el llamado al procedimiento almacenado
+            CallableStatement stmt = conexionBD.getConnection().prepareCall("{CALL SumarCopagosCitasPorAnio(?, ?)}");
+            stmt.setInt(1, anioSeleccionado); // Establecer el año seleccionado como parámetro de entrada
+            stmt.registerOutParameter(2, Types.INTEGER); // Registrar el segundo parámetro como de salida
+
+            // Ejecutar el procedimiento almacenado
+            stmt.execute();
+
+            // Obtener el total de copagos del parámetro de salida
+            int totalCopagos = stmt.getInt(2);
+
+            // Mostrar el resultado en un componente de la interfaz (por ejemplo, un JLabel)
+            lblTotalCopagos.setText("Total Copagos " + anioSeleccionado + ": " + totalCopagos);
+        } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error: El año seleccionado no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al calcular el total de copagos", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnCalcularTotalCopagosAnioActionPerformed
 
@@ -830,13 +896,13 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboAnio;
     private javax.swing.JComboBox<String> ComboAnioCopago;
+    private javax.swing.JButton btnCalcularTotalCopagos;
     private javax.swing.JButton btnCalcularTotalCopagosAnio;
     private javax.swing.JButton btnCambiarEstado;
     private javax.swing.JButton btnCitasporMedico;
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnFiltrarPorEstado;
     private javax.swing.JButton btnFiltrarPorMesYAnio;
-    private javax.swing.JButton btnObtenerTotalCopagos;
     private javax.swing.JButton btnRestablecer;
     private javax.swing.JComboBox<String> comboEstados;
     private javax.swing.JComboBox<String> comboMedico;
@@ -849,7 +915,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblTotalCopagosAnio;
+    private javax.swing.JLabel lblTotalCopagos;
     private javax.swing.JLabel lblTotalCopagosMes;
     private javax.swing.JTable tbRegistrosMedicos;
     private javax.swing.JTextField txtCodigoCita;
