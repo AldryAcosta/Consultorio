@@ -442,8 +442,19 @@ public class FrmAgendamiento extends javax.swing.JFrame {
             // Ejecutar el procedimiento almacenado
             stmt.execute();
 
-            // Mostrar mensaje de éxito
-            JOptionPane.showMessageDialog(this, "Cita agendada correctamente.", "Cita Agendada", JOptionPane.INFORMATION_MESSAGE);
+            // Obtener los resultados de la consulta adicional para obtener nombre del paciente, nombre del médico y dirección IPS
+            ResultSet rs = stmt.getResultSet();
+            if (rs.next()) {
+                String nombrePacienteResult = rs.getString("nombre_paciente");
+                String nombreMedicoResult = rs.getString("nombre_medico");
+                String direccionIPSResult = rs.getString("direccion_ips");
+
+                // Mostrar mensaje de éxito junto con la información adicional
+                String mensajeExito = String.format("Cita agendada correctamente.\n\nPaciente: %s\nMédico: %s\nDirección IPS: %s", nombrePacienteResult, nombreMedicoResult, direccionIPSResult);
+                JOptionPane.showMessageDialog(this, mensajeExito, "Cita Agendada", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al obtener los detalles de la cita.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al agendar la cita: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

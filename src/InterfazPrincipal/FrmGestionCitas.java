@@ -3,6 +3,10 @@ package InterfazPrincipal;
 
 import Escudero.Alert;
 import InterfazPrincipal.Clases.CitasMedicas;
+import dataConexion.ConexionBD;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,6 +23,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     /**
      * Creates new form FrmGestionCitas
      */
+    private ConexionBD conexionBD;
     public SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     private FrmInterfazPrincipal principal;
     private FrmGestionCitas gestionCitas;
@@ -27,7 +32,9 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     public FrmGestionCitas(ArrayList<CitasMedicas>citas) {
         initComponents();
         this.citas = citas;
-        MostrarInfo(this.citas);
+        this.conexionBD = new ConexionBD();
+        this.conexionBD.conectar();
+        mostrarCitasEnTabla();
     }
 
     /**
@@ -327,6 +334,76 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void mostrarCitasEnTabla() {
+    DefaultTableModel modelo = new DefaultTableModel(); // Crear un nuevo modelo de tabla
+
+    try {
+        // Realizar la consulta SQL para obtener las citas médicas con todas las columnas especificadas
+        String query = "SELECT c.id, c.codigo, c.fechaCita, c.hora, c.estado, " +
+                       "p.nombre AS nombre_paciente, " +
+                       "e.nombre_eps AS nombre_eps, " + // Agregar nombre de la EPS
+                       "m.nombre AS nombre_medico, " +
+                       "d.direccion AS direccion_ips " +
+                       "FROM cita c " +
+                       "LEFT JOIN paciente p ON c.paciente_id = p.id " +
+                       "LEFT JOIN medico m ON c.medico_id = m.id " +
+                       "LEFT JOIN direccionips d ON c.direccionips_id = d.id " +
+                       "LEFT JOIN eps e ON p.eps_id = e.id"; // Unirse a la tabla eps para obtener el nombre de la EPS
+
+        ResultSet resultSet = conexionBD.getConnection().createStatement().executeQuery(query);
+
+        // Obtener metadatos de la consulta para determinar el número y nombre de las columnas
+        int columnCount = resultSet.getMetaData().getColumnCount();
+        String[] columnNames = new String[columnCount];
+
+        // Obtener nombres de columnas de metadatos y configurar nombres descriptivos
+        for (int i = 0; i < columnCount; i++) {
+            String columnName = resultSet.getMetaData().getColumnLabel(i + 1); // Los índices de columna en JDBC comienzan desde 1
+
+            // Configurar nombres descriptivos para columnas específicas
+            switch (columnName) {
+                case "nombre_paciente":
+                    columnNames[i] = "Nombre Paciente";
+                    break;
+                case "nombre_medico":
+                    columnNames[i] = "Nombre Médico";
+                    break;
+                case "nombre_eps":
+                    columnNames[i] = "EPS Paciente";
+                    break;
+                default:
+                    columnNames[i] = columnName; // Usar el nombre de columna original para las demás columnas
+                    break;
+            }
+        }
+
+        // Establecer nombres de columnas en el modelo de tabla
+        modelo.setColumnIdentifiers(columnNames);
+
+        // Recorrer el resultado de la consulta y agregar cada fila al modelo de la tabla
+        while (resultSet.next()) {
+            Object[] rowData = new Object[columnCount];
+
+            // Obtener valores de cada columna y agregar a la fila de datos
+            for (int i = 0; i < columnCount; i++) {
+                rowData[i] = resultSet.getObject(i + 1); // Los índices de columna en JDBC comienzan desde 1
+            }
+
+            // Agregar una fila al modelo de la tabla con los datos de la cita
+            modelo.addRow(rowData);
+        }
+
+        // Actualizar el modelo de la tabla con los nuevos datos
+        tbRegistrosMedicos.setModel(modelo);
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        // Manejar el error según sea necesario
+    } finally {
+        // Cerrar recursos JDBC (no se recomienda manejar en la cláusula finally, pero puede ser necesario)
+    }
+}
+    
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         // TODO add your handling code here:
         if(this.validarInformacion()){
