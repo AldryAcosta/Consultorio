@@ -342,13 +342,14 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         String query = "SELECT c.id, c.codigo, c.fechaCita, c.hora, c.estado, " +
                        "p.nombre AS nombre_paciente, " +
                        "e.nombre_eps AS nombre_eps, " + // Agregar nombre de la EPS
+                       "e.copago AS copago, " + // Agregar copago de la EPS como columna separada
                        "m.nombre AS nombre_medico, " +
                        "d.direccion AS direccion_ips " +
                        "FROM cita c " +
                        "LEFT JOIN paciente p ON c.paciente_id = p.id " +
                        "LEFT JOIN medico m ON c.medico_id = m.id " +
                        "LEFT JOIN direccionips d ON c.direccionips_id = d.id " +
-                       "LEFT JOIN eps e ON p.eps_id = e.id"; // Unirse a la tabla eps para obtener el nombre de la EPS
+                       "LEFT JOIN eps e ON p.eps_id = e.id"; // Unirse a la tabla eps para obtener el nombre de la EPS y su copago
 
         ResultSet resultSet = conexionBD.getConnection().createStatement().executeQuery(query);
 
@@ -370,6 +371,9 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                     break;
                 case "nombre_eps":
                     columnNames[i] = "EPS Paciente";
+                    break;
+                case "copago":
+                    columnNames[i] = "Copago";
                     break;
                 default:
                     columnNames[i] = columnName; // Usar el nombre de columna original para las demás columnas
@@ -403,45 +407,81 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         // Cerrar recursos JDBC (no se recomienda manejar en la cláusula finally, pero puede ser necesario)
     }
 }
+
     
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         // TODO add your handling code here:
-        if(this.validarInformacion()){
-          ArrayList<CitasMedicas> citasFiltradas = new ArrayList<>();
-          Date fechaInicial = this.dateInicial.getDate();
-          Date fechaFinal   = this.dateFinal.getDate();
-          
-          Calendar callInicial = Calendar.getInstance();
-          callInicial.setTime(fechaInicial);
-          callInicial.set(callInicial.HOUR_OF_DAY, 0);      
-          callInicial.set(callInicial.MINUTE, 0);
-          callInicial.set(callInicial.SECOND, 0);
-          callInicial.set(callInicial.MILLISECOND, 0);
+        if (validarInformacion()) {
+            try {
+                Date fechaInicial = dateInicial.getDate();
+                Date fechaFinal = dateFinal.getDate();
 
-          
-          Calendar callFinal = Calendar.getInstance();
-          callFinal.setTime(fechaFinal);
-          callFinal.set(callFinal.HOUR_OF_DAY, 23);      
-          callFinal.set(callFinal.MINUTE, 59);
-          callFinal.set(callFinal.SECOND, 59);
-          callFinal.set(callFinal.MILLISECOND, 999);
-          
-          
-          
-         
-          for (CitasMedicas cita : citas) {
-                if ((cita.getFechaCita().after(callInicial.getTime()) || cita.getFechaCita().equals(callInicial.getTime()))
-                        && (cita.getFechaCita().before(callFinal.getTime()) || cita.getFechaCita().equals(callFinal.getTime()))) {
-                    citasFiltradas.add(cita);
-                }
+                // Formatear fechas para utilizarlas en la consulta SQL
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String fechaInicioStr = dateFormat.format(fechaInicial);
+                String fechaFinStr = dateFormat.format(fechaFinal);
+
+                // Construir la consulta SQL con los parámetros de fechas
+                String query = "SELECT * FROM cita " +
+                               "WHERE fechaCita BETWEEN '" + fechaInicioStr + "' AND '" + fechaFinStr + "'";
+
+                // Ejecutar la consulta y mostrar los resultados en la tabla
+                executeAndShowQuery(query);
+                
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al consultar citas por fecha", "Error", JOptionPane.ERROR_MESSAGE);
             }
-          
-           this.MostrarInfo(citasFiltradas);
-      }else{
-          Alert.showMessageError("Consultorio", "Valide las fechas a buscar.",10,this);
-      }
+        } else {
+            JOptionPane.showMessageDialog(this, "Ingrese fechas válidas para la consulta", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnConsultarActionPerformed
 
+    private void executeAndShowQuery(String query) throws SQLException {
+        DefaultTableModel modelo = new DefaultTableModel();
+
+        // Ejecutar la consulta SQL
+        ResultSet resultSet = conexionBD.getConnection().createStatement().executeQuery(query);
+
+        // Configurar el modelo de tabla con las columnas deseadas
+        modelo.addColumn("ID");
+        modelo.addColumn("Código");
+        modelo.addColumn("Fecha Cita");
+        modelo.addColumn("Hora");
+        modelo.addColumn("Estado");
+        modelo.addColumn("Nombre Paciente");
+        modelo.addColumn("EPS");
+        modelo.addColumn("Copago");
+        modelo.addColumn("Nombre Médico");
+        modelo.addColumn("Dirección IPS");
+
+        // Iterar sobre los resultados y agregar filas al modelo de la tabla
+        while (resultSet.next()) {
+            Object[] rowData = new Object[10]; // Crear arreglo para cada fila con 10 columnas
+
+            // Obtener valores específicos de cada columna y agregarlos al arreglo de datos de fila
+            rowData[0] = resultSet.getInt("id");
+            rowData[1] = resultSet.getString("codigo");
+            rowData[2] = resultSet.getDate("fechaCita");
+            rowData[3] = resultSet.getTime("hora");
+            rowData[4] = resultSet.getString("estado");
+            rowData[5] = resultSet.getString("nombre_paciente");
+
+            // Acceder a la columna 'nombre_eps' (verifica el nombre exacto de la columna en tu base de datos)
+            rowData[6] = resultSet.getString("nombre_eps"); // Asegúrate de que el nombre de la columna sea correcto
+
+            rowData[7] = resultSet.getInt("copago");
+            rowData[8] = resultSet.getString("nombre_medico");
+            rowData[9] = resultSet.getString("direccion_ips");
+
+            // Agregar la fila al modelo de la tabla
+            modelo.addRow(rowData);
+        }
+
+        // Establecer el modelo de la tabla con los datos configurados
+        tbRegistrosMedicos.setModel(modelo);
+    }
+    
     private void btnCitasporMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCitasporMedicoActionPerformed
         // TODO add your handling code here:
         // Obtener el nombre del médico seleccionado
