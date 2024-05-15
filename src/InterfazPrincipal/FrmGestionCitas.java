@@ -65,13 +65,12 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         btnFiltrarPorMesYAnio = new javax.swing.JButton();
         comboMesesCopago = new javax.swing.JComboBox<>();
         ComboAnioCopago = new javax.swing.JComboBox<>();
-        lblTotalCopagosMesAnio = new javax.swing.JLabel();
+        lblTotalCopagosMes = new javax.swing.JLabel();
         ComboAnio = new javax.swing.JComboBox<>();
         btnCalcularTotalCopagosAnio = new javax.swing.JButton();
         lblTotalCopagosAnio = new javax.swing.JLabel();
         btnFiltrarPorEstado = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        comboCambiarEstados = new javax.swing.JComboBox<>();
         btnCambiarEstado = new javax.swing.JButton();
         txtCodigoCita = new javax.swing.JTextField();
 
@@ -145,7 +144,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
 
         ComboAnioCopago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2024", "2025" }));
 
-        lblTotalCopagosMesAnio.setText("(Resultado)");
+        lblTotalCopagosMes.setText("(Resultado)");
 
         ComboAnio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2024", "2025", "2026" }));
 
@@ -167,8 +166,6 @@ public class FrmGestionCitas extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel4.setText("Cambiar Estado Individual");
-
-        comboCambiarEstados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Programada", "Activa", "Atendida", "Cancelada" }));
 
         btnCambiarEstado.setText("Cambiar");
         btnCambiarEstado.addActionListener(new java.awt.event.ActionListener() {
@@ -194,7 +191,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                 .addGap(274, 274, 274)
                 .addComponent(btnCitasporMedico)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTotalCopagosMesAnio)
+                .addComponent(lblTotalCopagosMes)
                 .addGap(139, 139, 139))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(14, 14, 14)
@@ -246,15 +243,8 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(comboMeses, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(130, 130, 130)
-                                .addComponent(btnCambiarEstado))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtCodigoCita, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addGap(88, 88, 88)
-                                    .addComponent(comboCambiarEstados, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addGap(88, 88, 88)
+                                .addComponent(txtCodigoCita, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -264,10 +254,13 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                         .addGap(99, 99, 99))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnFiltrarPorMesYAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(90, 90, 90))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblTotalCopagosAnio)
-                        .addGap(134, 134, 134))))
+                        .addGap(90, 90, 90))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(291, 291, 291)
+                .addComponent(btnCambiarEstado)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTotalCopagosAnio)
+                .addGap(134, 134, 134))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -283,7 +276,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblTotalCopagosMesAnio)
+                        .addComponent(lblTotalCopagosMes)
                         .addGap(18, 18, 18)
                         .addComponent(btnFiltrarPorMesYAnio))
                     .addGroup(layout.createSequentialGroup()
@@ -292,7 +285,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                             .addComponent(btnCitasporMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnFiltrarPorEstado))))
                 .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ComboAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -301,15 +294,10 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnCalcularTotalCopagosAnio)
                             .addComponent(txtCodigoCita, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblTotalCopagosAnio))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(comboCambiarEstados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCambiarEstado))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblTotalCopagosAnio)
+                            .addComponent(btnCambiarEstado)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(jLabel2)
@@ -319,7 +307,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtResultadoCopago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnConsultar))
@@ -516,27 +504,54 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnObtenerTotalCopagosActionPerformed
 
     private void btnFiltrarPorMesYAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarPorMesYAnioActionPerformed
-        // TODO add your handling code here:
-        String mesSeleccionado = (String) comboMesesCopago.getSelectedItem(); // Obtener el mes seleccionado como String
-        String anioSeleccionadoStr = (String) ComboAnioCopago.getSelectedItem(); // Obtener el año seleccionado como String
-        int anioSeleccionado = Integer.parseInt(anioSeleccionadoStr); // Convertir a Integer
+            // Obtener el mes seleccionado como String desde el JComboBox
+            String mesSeleccionado = (String) comboMesesCopago.getSelectedItem();
 
-        try {
-            // Convertir el nombre del mes a su índice numérico
-            int indiceMes = obtenerIndiceMes(mesSeleccionado);
+            // Obtener el año seleccionado como String desde el JComboBox y convertirlo a entero
+            String anioSeleccionadoStr = (String) ComboAnioCopago.getSelectedItem();
+            int anioSeleccionado = Integer.parseInt(anioSeleccionadoStr);
 
-            // Calcular el total de copagos para el mes y año seleccionados
-            int totalCopagosMesAnio = calcularTotalCopagosPorMesYAnio(citas, indiceMes, anioSeleccionado);
+            try {
+                // Convertir el nombre del mes a su número correspondiente (ejemplo: "Enero" -> 1)
+                int indiceMes = obtenerIndiceMes(mesSeleccionado); // Esta función debe estar implementada
 
-            // Mostrar el total de copagos por mes y año en algún componente de tu interfaz (por ejemplo, un JLabel)
-            lblTotalCopagosMesAnio.setText("Total Copagos " + mesSeleccionado + " " + anioSeleccionado + ": " + totalCopagosMesAnio);
-        } catch (NumberFormatException e) {
-            // Manejar la excepción si ocurre un error de conversión
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error: El año seleccionado no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+                // Calcular el total de copagos para el mes y año seleccionados
+                int totalCopagosMesAnio = calcularTotalCopagosPorMesYAnio(indiceMes + 1, anioSeleccionado);
+
+                // Mostrar el resultado en un componente de la interfaz (por ejemplo, un JLabel)
+                lblTotalCopagosMes.setText("Total Copagos " + mesSeleccionado + " " + anioSeleccionado + ": " + totalCopagosMesAnio);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error: El año seleccionado no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
     }//GEN-LAST:event_btnFiltrarPorMesYAnioActionPerformed
 
+    private int calcularTotalCopagosPorMesYAnio(int mes, int anio) {
+        int totalCopagos = 0;
+
+        try {
+            // Consulta SQL para calcular el total de copagos por mes y año
+            String query = "SELECT SUM(copago) AS total_copagos " +
+                           "FROM eps " +
+                           "WHERE MONTH(fechaCita) = ? AND YEAR(fechaCita) = ?";
+
+            PreparedStatement statement = conexionBD.getConnection().prepareStatement(query);
+            statement.setInt(1, mes);
+            statement.setInt(2, anio);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                totalCopagos = resultSet.getInt("total_copagos");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejar la excepción según sea necesario
+        }
+
+        return totalCopagos;
+    }
+    
     private void btnCalcularTotalCopagosAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularTotalCopagosAnioActionPerformed
         // TODO add your handling code here:
         try {
@@ -645,7 +660,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
             // Verificar si la actualización fue exitosa
             if (rowsUpdated > 0) {
                 // Actualizar la tabla después de cambiar el estado de la cita
-                MostrarInfo(citas); // Ajusta este método según tu implementación para actualizar la tabla con las citas actualizadas
+                mostrarCitasEnTabla(); // Actualizar la tabla
                 JOptionPane.showMessageDialog(this, "Estado de cita cambiado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 // Mostrar mensaje si no se encuentra la cita con el código especificado
@@ -674,10 +689,12 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         // Verificar si se seleccionó un nuevo estado y devolverlo
         if (nuevoEstadoSeleccionado != null && nuevoEstadoSeleccionado.length() > 0) {
             return nuevoEstadoSeleccionado;
+            
         } else {
             // Si no se selecciona ningún estado, puedes manejarlo devolviendo un estado predeterminado
             return "Programada"; // Estado predeterminado
         }
+        
     }
     
 
@@ -821,7 +838,6 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     private javax.swing.JButton btnFiltrarPorMesYAnio;
     private javax.swing.JButton btnObtenerTotalCopagos;
     private javax.swing.JButton btnRestablecer;
-    private javax.swing.JComboBox<String> comboCambiarEstados;
     private javax.swing.JComboBox<String> comboEstados;
     private javax.swing.JComboBox<String> comboMedico;
     private javax.swing.JComboBox<String> comboMeses;
@@ -834,7 +850,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTotalCopagosAnio;
-    private javax.swing.JLabel lblTotalCopagosMesAnio;
+    private javax.swing.JLabel lblTotalCopagosMes;
     private javax.swing.JTable tbRegistrosMedicos;
     private javax.swing.JTextField txtCodigoCita;
     private javax.swing.JTextField txtResultadoCopago;

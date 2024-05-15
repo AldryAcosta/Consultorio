@@ -41,7 +41,7 @@
               <EmptySpace min="-2" pref="274" max="-2" attributes="0"/>
               <Component id="btnCitasporMedico" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="lblTotalCopagosMesAnio" min="-2" max="-2" attributes="0"/>
+              <Component id="lblTotalCopagosMes" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
@@ -111,18 +111,8 @@
                               <Component id="comboMeses" min="-2" pref="132" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
-                              <Component id="btnCambiarEstado" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="txtCodigoCita" min="-2" pref="163" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
-                                  <Component id="comboCambiarEstados" min="-2" pref="163" max="-2" attributes="0"/>
-                              </Group>
+                              <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
+                              <Component id="txtCodigoCita" min="-2" pref="163" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -140,11 +130,14 @@
                       <Component id="btnFiltrarPorMesYAnio" min="-2" pref="162" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="lblTotalCopagosAnio" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
-                  </Group>
               </Group>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="-2" pref="291" max="-2" attributes="0"/>
+              <Component id="btnCambiarEstado" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="lblTotalCopagosAnio" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -163,7 +156,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="lblTotalCopagosMesAnio" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblTotalCopagosMes" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnFiltrarPorMesYAnio" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -176,7 +169,7 @@
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="ComboAnio" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -187,17 +180,10 @@
                           <Component id="btnCalcularTotalCopagosAnio" min="-2" max="-2" attributes="0"/>
                           <Component id="txtCodigoCita" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="lblTotalCopagosAnio" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="comboCambiarEstados" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btnCambiarEstado" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblTotalCopagosAnio" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnCambiarEstado" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -211,7 +197,7 @@
                       <Component id="dateFinal" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="11" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="txtResultadoCopago" min="-2" max="-2" attributes="0"/>
                   <Component id="btnConsultar" min="-2" max="-2" attributes="0"/>
@@ -423,7 +409,7 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblTotalCopagosMesAnio">
+    <Component class="javax.swing.JLabel" name="lblTotalCopagosMes">
       <Properties>
         <Property name="text" type="java.lang.String" value="(Resultado)"/>
       </Properties>
@@ -470,21 +456,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Cambiar Estado Individual"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="comboCambiarEstados">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Programada"/>
-            <StringItem index="1" value="Activa"/>
-            <StringItem index="2" value="Atendida"/>
-            <StringItem index="3" value="Cancelada"/>
-          </StringArray>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="btnCambiarEstado">
       <Properties>
