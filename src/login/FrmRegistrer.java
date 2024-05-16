@@ -54,7 +54,6 @@ public class FrmRegistrer extends javax.swing.JFrame {
         Right = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -160,10 +159,6 @@ public class FrmRegistrer extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Consultorio Medico");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel7.setText("copyright © Nombre Empresa Todos los derechos reservados.");
-
         javax.swing.GroupLayout RightLayout = new javax.swing.GroupLayout(Right);
         Right.setLayout(RightLayout);
         RightLayout.setHorizontalGroup(
@@ -175,11 +170,8 @@ public class FrmRegistrer extends javax.swing.JFrame {
                         .addComponent(jLabel5))
                     .addGroup(RightLayout.createSequentialGroup()
                         .addGap(74, 74, 74)
-                        .addComponent(jLabel6))
-                    .addGroup(RightLayout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jLabel7)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                        .addComponent(jLabel6)))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
         RightLayout.setVerticalGroup(
             RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,9 +180,7 @@ public class FrmRegistrer extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addGap(64, 64, 64)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 170, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addGap(78, 78, 78))
+                .addContainerGap(268, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -298,7 +288,6 @@ public class FrmRegistrer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPasswordField txtContraseñaRegistro;
     private javax.swing.JTextField txtUsuarioRegistro;
     // End of variables declaration//GEN-END:variables

@@ -271,7 +271,7 @@ public class FrmLogin extends javax.swing.JFrame {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                JOptionPane.showMessageDialog(this, "¡Bienvenido!");
+                Alert.showMessageSuccess("Completado", "Bienvenido",2);
                 // Aquí puedes continuar con la lógica después de un login exitoso
                 dispose();
                 FrmInterfazPrincipal LoginFrame = new FrmInterfazPrincipal();
@@ -279,7 +279,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 LoginFrame.pack();
                 LoginFrame.setLocationRelativeTo(null);
             } else {
-                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
+                Alert.showMessageError("Error", "Usuario o contraseña incorrectos",2);
             }
 
             // Cerrar el resultSet y el statement

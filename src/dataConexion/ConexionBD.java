@@ -14,9 +14,9 @@ import java.util.Date;
 
 
 public class ConexionBD {
-    private static final String URL = "jdbc:mysql://localhost:3306/AgendamientoCitas";
+    private static final String URL = "jdbc:mysql://localhost:3306/agendamientocitas";
     private static final String USER = "root";
-    private static final String PASSWORD = "3002366628as";
+    private static final String PASSWORD = "1084";
 
     private Connection connection;
 
