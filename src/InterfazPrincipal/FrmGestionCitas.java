@@ -38,6 +38,14 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         this.conexionBD = new ConexionBD();
         this.conexionBD.conectar();
         mostrarCitasEnTabla();
+        
+        
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnRegresarActionPerformed(evt);
+    }
+});
+
     }
 
     /**
@@ -76,7 +84,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnRegresar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -216,8 +224,8 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
-        jButton1.setFont(new java.awt.Font("Sitka Text", 0, 12)); // NOI18N
-        jButton1.setText("Regresar");
+        btnRegresar.setFont(new java.awt.Font("Sitka Text", 0, 12)); // NOI18N
+        btnRegresar.setText("Regresar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -228,7 +236,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(btnRegresar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -236,7 +244,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -416,12 +424,18 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {                                                     
+        FrmInterfazPrincipal frmInterfazPrincipal = new FrmInterfazPrincipal();
+        frmInterfazPrincipal.setVisible(true);
+        this.dispose();
+    } 
+    
     private void mostrarCitasEnTabla() {
     DefaultTableModel modelo = new DefaultTableModel(); // Crear un nuevo modelo de tabla
 
     try {
         // Realizar la consulta SQL para obtener las citas médicas con todas las columnas especificadas
-        String query = "SELECT c.id, c.codigo, c.fechaCita, c.hora, c.estado, " +
+        String query = "SELECT c.codigo, c.fechaCita, c.hora, c.estado, " +
                        "p.nombre AS nombre_paciente, " +
                        "e.nombre_eps AS nombre_eps, " + // Agregar nombre de la EPS
                        "e.copago AS copago, " + // Agregar copago de la EPS como columna separada
@@ -991,6 +1005,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnFiltrarPorEstado;
     private javax.swing.JButton btnFiltrarPorMesYAnio;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JButton btnRestablecer;
     private javax.swing.JComboBox<String> comboEstados;
     private javax.swing.JComboBox<String> comboMedico;
@@ -998,7 +1013,6 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboMesesCopago;
     private com.toedter.calendar.JDateChooser dateFinal;
     private com.toedter.calendar.JDateChooser dateInicial;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

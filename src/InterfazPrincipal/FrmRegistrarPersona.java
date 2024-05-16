@@ -295,7 +295,7 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
         }
 
         // Validar que los datos ingresados sean válidos
-        if (!esNombreValido(nombre)) {
+        if (!validarNombre(nombre)) {
             Alert.showMessageError("Error", "Ingrese un nombre válido (solo letras).");
             return;
         }
@@ -319,6 +319,8 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
             Alert.showMessageError("Error", "La fecha de nacimiento no es válida.");
             return;
         }
+        
+        
 
         // Proceder con la inserción en la base de datos
         guardarPacienteEnBaseDeDatos(nombre, documento, direccion, telefono, correo, fechaNacimiento, genero, afiliacion);
@@ -457,9 +459,13 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
         private boolean esDocumentoValido(String documento) {
         return documento.matches("\\d+"); // Verifica si la cadena contiene solo dígitos
     }
-        private boolean esNombreValido(String nombre) {
-        return nombre.matches("[a-zA-Z]+");
-    }
+        public static boolean validarNombre(String nombre) {
+        boolean correctoNombre = false;
+        if (nombre.matches("^[ÁÉÍÓÚA-Za-záéíóú]+(\\s+[ÁÉÍÓÚA-Za-záéíóú]+)*$")) {
+            correctoNombre = true;
+        }
+        return correctoNombre;
+     }
     public static void main(String args[]) {
         
         FrmInterfazPrincipal principal = new FrmInterfazPrincipal();

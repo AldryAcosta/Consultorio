@@ -348,7 +348,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     private void cargarDireccionesIPS(String epsNombre) {
         comboIPS.removeAllItems(); // Limpiar items previos
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/AgendamientoCitas", "root", "3002366628as");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/AgendamientoCitas", "root", "1084");
              PreparedStatement stmt = conn.prepareStatement("SELECT d.direccion FROM eps_ips ei JOIN direccionips d ON ei.direccionips_id = d.id JOIN eps e ON ei.eps_id = e.id WHERE e.nombre_eps = ?")) {
 
             stmt.setString(1, epsNombre);
@@ -427,6 +427,9 @@ public class FrmAgendamiento extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboMedicosActionPerformed
 
+    
+
+    
     private void btnAgendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendarActionPerformed
 
         // Obtener los datos ingresados por el usuario desde el formulario
