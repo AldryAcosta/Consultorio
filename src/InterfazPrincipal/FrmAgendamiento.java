@@ -49,28 +49,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     private ArrayList<CitasMedicas>citas = new ArrayList<CitasMedicas>();
     
      private int contadorCitas = 1;
-//     int numeroCitas;
-//     String documentoPaciente;
-//     String nombreyApellidoPaciente;
-//     Date fechaNacimientoPaciente;
-//     String afiliadoPaciente;
-//     String nombreMedico;
-//     String tipoEspecialidad;
-//     Date fechaCita;
-//     String horaCita;
-//     String ConsultorioCita;
-//     String EstadoCitas;
-     
-     
-     
-//     int coPago; 
-//     int COPAGO_EPS_SANITAS = 47700;
-//     int COPAGO_MUTUAL_SER = 45000;
-//     int COPAGO_COOSALUD = 40000;
-//     int COPAGO_SALUD_TOTAL = 50000;
-     
-     
-    
+       
     public FrmAgendamiento(FrmInterfazPrincipal interfazPrincipal) {
         initComponents(); 
         
@@ -390,8 +369,12 @@ public class FrmAgendamiento extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnFiltrarPorDocumentoActionPerformed
 
-    
     public void buscarPacientePorDocumento(String numeroDocumento) {
+        if (!verificarExistenciaDocumento(numeroDocumento)) {
+            JOptionPane.showMessageDialog(this, "No se encontró ningún paciente con el documento ingresado.", "Paciente no encontrado", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
         try {
             Connection conn = conexion.getConnection();
             String call = "{CALL buscar_paciente_por_documento(?)}";
@@ -428,6 +411,30 @@ public class FrmAgendamiento extends javax.swing.JFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al buscar paciente por documento: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    
+    
+    public boolean verificarExistenciaDocumento(String numeroDocumento) {
+        try {
+            Connection conn = conexion.getConnection();
+
+            // Llamar a la función almacenada para verificar la existencia del documento
+            String verificacionExistenciaQuery = "SELECT existe_documento_paciente(?) AS existe";
+            PreparedStatement verificacionStatement = conn.prepareStatement(verificacionExistenciaQuery);
+            verificacionStatement.setString(1, numeroDocumento);
+
+            ResultSet resultSet = verificacionStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getBoolean("existe");
+            }
+
+            resultSet.close();
+            verificacionStatement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false; // Devolver false si hay un error en la verificación
     }
     
     private void comboTipoCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTipoCitaActionPerformed

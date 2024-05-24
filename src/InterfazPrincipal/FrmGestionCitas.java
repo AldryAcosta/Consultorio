@@ -610,10 +610,6 @@ public class FrmGestionCitas extends javax.swing.JFrame {
 
     private void btnFiltrarPorMesYAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarPorMesYAnioActionPerformed
         // Validar las fechas antes de continuar
-        if (!validarFechas(dateInicial.getDate(), dateFinal.getDate())) {
-            JOptionPane.showMessageDialog(this, "La fecha inicial debe ser anterior a la fecha final", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         try {
             // Obtener el mes seleccionado como String desde el JComboBox
             String mesSeleccionadoStr = (String) comboMesesCopago.getSelectedItem();
