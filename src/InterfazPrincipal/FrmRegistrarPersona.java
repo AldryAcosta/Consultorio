@@ -12,6 +12,7 @@ import Escudero.Alert;
 import dataConexion.ConexionBD;
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.CallableStatement;
 import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import javax.swing.JTable;
@@ -366,11 +367,12 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
         conexion.conectar(); // Establece la conexión con la base de datos
 
         try {
-            // Consulta SQL para obtener los nombres de género
-            String query = "SELECT nombre_genero FROM genero;";
+            // Llamar al procedimiento almacenado para obtener los géneros
+            String call = "{CALL obtener_generos()}";
+            CallableStatement statement = conexion.getConnection().prepareCall(call);
 
-            // Ejecutar la consulta y obtener resultados
-            ResultSet rs = conexion.getConnection().createStatement().executeQuery(query);
+            // Ejecutar la llamada al procedimiento almacenado y obtener resultados
+            ResultSet rs = statement.executeQuery();
 
             // Recorrer los resultados y agregarlos al comboGenero
             while (rs.next()) {
@@ -379,6 +381,7 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
             }
 
             rs.close(); // Cierra el ResultSet
+            statement.close(); // Cierra el CallableStatement
         } catch (SQLException e) {
             e.printStackTrace();
             Alert.showMessageError("Error", "Error al obtener géneros desde la base de datos.");
@@ -395,11 +398,12 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
         conexion.conectar(); // Establece la conexión con la base de datos
 
         try {
-            // Consulta SQL para obtener los nombres de EPS
-            String query = "SELECT nombre_eps FROM eps;";
+            // Llamar al procedimiento almacenado para obtener los nombres de EPS
+            String call = "{CALL obtener_eps()}";
+            CallableStatement statement = conexion.getConnection().prepareCall(call);
 
-            // Ejecutar la consulta y obtener resultados
-            ResultSet rs = conexion.getConnection().createStatement().executeQuery(query);
+            // Ejecutar la llamada al procedimiento almacenado y obtener resultados
+            ResultSet rs = statement.executeQuery();
 
             // Recorrer los resultados y agregarlos al comboAfiliados
             while (rs.next()) {
@@ -408,6 +412,7 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
             }
 
             rs.close(); // Cierra el ResultSet
+            statement.close(); // Cierra el CallableStatement
         } catch (SQLException e) {
             e.printStackTrace();
             Alert.showMessageError("Error", "Error al obtener afiliaciones desde la base de datos.");
@@ -423,13 +428,11 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
             ConexionBD conexion = new ConexionBD();
             conexion.conectar();
 
-            // Preparar la consulta SQL para insertar un nuevo paciente
-            String query = "INSERT INTO paciente (nombre, documento, direccion, telefono, correo, fechaNacimiento, genero_id, eps_id) VALUES (?, ?, ?, ?, ?, ?, (SELECT id FROM genero WHERE nombre_genero = ?), (SELECT id FROM eps WHERE nombre_eps = ?));";
+            // Llamar al procedimiento almacenado para insertar un nuevo paciente
+            String call = "{CALL guardar_paciente(?, ?, ?, ?, ?, ?, ?, ?)}";
+            CallableStatement statement = conexion.getConnection().prepareCall(call);
 
-            // Crear una sentencia preparada para ejecutar la consulta SQL
-            PreparedStatement statement = conexion.getConnection().prepareStatement(query);
-
-            // Establecer los parámetros de la consulta con los valores del paciente
+            // Establecer los parámetros del procedimiento almacenado con los valores del paciente
             statement.setString(1, nombre);
             statement.setString(2, documento);
             statement.setString(3, direccion);
@@ -439,14 +442,11 @@ public class FrmRegistrarPersona extends javax.swing.JFrame {
             statement.setString(7, genero);
             statement.setString(8, afiliacion);
 
-            // Ejecutar la consulta SQL para insertar el nuevo paciente
-            int filasInsertadas = statement.executeUpdate();
+            // Ejecutar el procedimiento almacenado para insertar el nuevo paciente
+            statement.executeUpdate();
 
-            if (filasInsertadas > 0) {
-                Alert.showMessageSuccess("Éxito", "Paciente registrado correctamente.");
-            } else {
-                Alert.showMessageError("Error", "Error al registrar paciente en la base de datos.");
-            }
+            // Si no se lanza una excepción, significa que el paciente se ha insertado correctamente
+            Alert.showMessageSuccess("Éxito", "Paciente registrado correctamente.");
 
             // Cerrar la conexión
             conexion.desconectar();
