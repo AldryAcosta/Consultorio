@@ -7,6 +7,7 @@ package login;
 import Escudero.Alert;
 import dataConexion.ConexionBD;
 import java.awt.event.KeyEvent;
+import java.sql.CallableStatement;
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -222,7 +223,6 @@ public class FrmRegistrer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistroActionPerformed
-        // System.out.println("Sign up btn clicked");
         String usuario = txtUsuarioRegistro.getText();
         String contraseña = new String(txtContraseñaRegistro.getPassword());
 
@@ -230,13 +230,13 @@ public class FrmRegistrer extends javax.swing.JFrame {
             // Obtener la conexión a la base de datos
             Connection connection = conexion.getConnection();
 
-            // Preparar la consulta SQL para insertar un nuevo usuario
-            String sql = "INSERT INTO cuenta (usuario, contraseña) VALUES (?, ?)";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            // Llamar al procedimiento almacenado para insertar un nuevo usuario
+            String call = "{CALL registrar_usuario(?, ?)}";
+            CallableStatement statement = connection.prepareCall(call);
             statement.setString(1, usuario);
             statement.setString(2, contraseña);
 
-            // Ejecutar la consulta SQL
+            // Ejecutar el procedimiento almacenado
             int filasInsertadas = statement.executeUpdate();
             if (filasInsertadas > 0) {
                 JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente");

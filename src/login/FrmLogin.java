@@ -8,6 +8,7 @@ import Escudero.Alert;
 import InterfazPrincipal.FrmInterfazPrincipal;
 import dataConexion.ConexionBD;
 import java.awt.event.KeyEvent;
+import java.sql.CallableStatement;
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -252,8 +253,6 @@ public class FrmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_LoginBtnActionPerformed
 
     private void btnIngresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresoActionPerformed
-        // System.out.println("Sign up btn clicked");
-        
         String usuario = txtUsuarioIngreso.getText();
         String contraseña = new String(txtContraseñaIngreso.getPassword());
 
@@ -261,25 +260,29 @@ public class FrmLogin extends javax.swing.JFrame {
             // Obtener la conexión a la base de datos
             Connection connection = conexion.getConnection();
 
-            // Preparar la consulta SQL para verificar el login
-            String sql = "SELECT * FROM cuenta WHERE usuario = ? AND contraseña = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            // Llamar al procedimiento almacenado para verificar el inicio de sesión
+            String call = "{CALL verificar_login(?, ?)}";
+            CallableStatement statement = connection.prepareCall(call);
             statement.setString(1, usuario);
             statement.setString(2, contraseña);
 
-            // Ejecutar la consulta SQL
+            // Ejecutar el procedimiento almacenado
             ResultSet resultSet = statement.executeQuery();
 
+            // Leer el resultado del procedimiento almacenado
             if (resultSet.next()) {
-                JOptionPane.showMessageDialog(this, "¡Bienvenido!");
-                // Aquí puedes continuar con la lógica después de un login exitoso
-                dispose();
-                FrmInterfazPrincipal LoginFrame = new FrmInterfazPrincipal();
-                LoginFrame.setVisible(true);
-                LoginFrame.pack();
-                LoginFrame.setLocationRelativeTo(null);
-            } else {
-                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
+                int resultado = resultSet.getInt("resultado");
+                if (resultado > 0) {
+                    JOptionPane.showMessageDialog(this, "¡Bienvenido!");
+                    // Aquí puedes continuar con la lógica después de un inicio de sesión exitoso
+                    dispose();
+                    FrmInterfazPrincipal LoginFrame = new FrmInterfazPrincipal();
+                    LoginFrame.setVisible(true);
+                    LoginFrame.pack();
+                    LoginFrame.setLocationRelativeTo(null);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
+                }
             }
 
             // Cerrar el resultSet y el statement
@@ -287,7 +290,7 @@ public class FrmLogin extends javax.swing.JFrame {
             statement.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error al autenticar: " + e.getMessage());
-        }  
+        }    
     }//GEN-LAST:event_btnIngresoActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
