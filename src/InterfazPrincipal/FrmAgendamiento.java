@@ -49,25 +49,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     private ArrayList<CitasMedicas>citas = new ArrayList<CitasMedicas>();
     
      private int contadorCitas = 1;
-//     int numeroCitas;
-//     String documentoPaciente;
-//     String nombreyApellidoPaciente;
-//     Date fechaNacimientoPaciente;
-//     String afiliadoPaciente;
-//     String nombreMedico;
-//     String tipoEspecialidad;
-//     Date fechaCita;
-//     String horaCita;
-//     String ConsultorioCita;
-//     String EstadoCitas;
-     
-     
-     
-//     int coPago; 
-//     int COPAGO_EPS_SANITAS = 47700;
-//     int COPAGO_MUTUAL_SER = 45000;
-//     int COPAGO_COOSALUD = 40000;
-//     int COPAGO_SALUD_TOTAL = 50000;
+
      
      
     
