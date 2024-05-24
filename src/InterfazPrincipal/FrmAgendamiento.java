@@ -325,6 +325,43 @@ public class FrmAgendamiento extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void actualizarCita(CitasMedicas cita) {
+        try {
+            Connection conn = conexion.getConnection();
+
+            // Ejecutar la consulta SQL para verificar si hay solapamiento de citas
+            String verificacionSolapamientoQuery = "SELECT COUNT(*) AS num_citas_overlap " +
+                                                    "FROM cita " +
+                                                    "WHERE fechaCita = ? " +
+                                                    "AND hora = ? " +
+                                                    "AND codigo != ?";
+            PreparedStatement verificacionStatement = conn.prepareStatement(verificacionSolapamientoQuery);
+            verificacionStatement.setDate(1, new java.sql.Date(cita.getFechaCita().getTime()));
+            verificacionStatement.setString(2, cita.getHoraCita());
+            verificacionStatement.setInt(3, cita.getNumeroCita());
+
+            ResultSet resultSet = verificacionStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int numCitasOverlap = resultSet.getInt("num_citas_overlap");
+                if (numCitasOverlap > 0) {
+                    throw new IllegalStateException("La fecha y hora de la cita se solapa con otra cita existente.");
+                } else {
+                    // Continuar con la lógica de actualización de la cita si no hay solapamiento
+                }
+            }
+
+            // Cerrar recursos JDBC
+            resultSet.close();
+            verificacionStatement.close();
+
+            // Continuar con la lógica de actualización de la cita si no hay solapamiento
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Manejar la excepción según sea necesario
+        }
+    }
+    
     private void cargarDireccionesIPS(String epsNombre) {
     comboIPS.removeAllItems(); // Limpiar items previos
 
@@ -452,7 +489,11 @@ public class FrmAgendamiento extends javax.swing.JFrame {
             }
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al agendar la cita: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            if (ex.getSQLState().equals("45000")) {
+                JOptionPane.showMessageDialog(this, "No se pueden agendar citas para fechas pasadas.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al agendar la cita: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
             ex.printStackTrace(); // Mostrar detalles del error en consola
         }
         

@@ -319,6 +319,11 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private boolean validarFechas(Date fechaInicial, Date fechaFinal) {
+        // Verificar si la fecha inicial es anterior a la fecha final
+        return fechaInicial.before(fechaFinal);
+    }
+    
     private void mostrarCitasEnTabla() {
         DefaultTableModel modelo = new DefaultTableModel(); // Crear un nuevo modelo de tabla
 
@@ -386,6 +391,11 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         // TODO add your handling code here:
+        // Validar las fechas antes de continuar
+        if (!validarFechas(dateInicial.getDate(), dateFinal.getDate())) {
+            JOptionPane.showMessageDialog(this, "La fecha inicial debe ser anterior a la fecha final", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if (validarInformacion()) {
             try {
                 Date fechaInicial = dateInicial.getDate();
@@ -599,6 +609,11 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCalcularTotalCopagosActionPerformed
 
     private void btnFiltrarPorMesYAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarPorMesYAnioActionPerformed
+        // Validar las fechas antes de continuar
+        if (!validarFechas(dateInicial.getDate(), dateFinal.getDate())) {
+            JOptionPane.showMessageDialog(this, "La fecha inicial debe ser anterior a la fecha final", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         try {
             // Obtener el mes seleccionado como String desde el JComboBox
             String mesSeleccionadoStr = (String) comboMesesCopago.getSelectedItem();
@@ -656,72 +671,73 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCalcularTotalCopagosAnioActionPerformed
 
     private void btnFiltrarPorEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarPorEstadoActionPerformed
+
             try {
-            // Obtener el estado seleccionado en el JComboBox
-            String estadoSeleccionado = (String) comboEstados.getSelectedItem();
+                // Obtener el estado seleccionado en el JComboBox
+                String estadoSeleccionado = (String) comboEstados.getSelectedItem();
 
-            // Llamar al procedimiento almacenado para obtener las citas médicas por estado
-            String call = "{CALL obtener_citas_por_estado(?)}";
-            CallableStatement statement = conexionBD.getConnection().prepareCall(call);
-            statement.setString(1, estadoSeleccionado);
-            ResultSet resultSet = statement.executeQuery();
+                // Llamar al procedimiento almacenado para obtener las citas médicas por estado
+                String call = "{CALL obtener_citas_por_estado(?)}";
+                CallableStatement statement = conexionBD.getConnection().prepareCall(call);
+                statement.setString(1, estadoSeleccionado);
+                ResultSet resultSet = statement.executeQuery();
 
-            // Obtener metadatos de la consulta para determinar el número y nombre de las columnas
-            DefaultTableModel modelo = new DefaultTableModel();
-            int columnCount = resultSet.getMetaData().getColumnCount();
-            String[] columnNames = new String[columnCount];
+                // Obtener metadatos de la consulta para determinar el número y nombre de las columnas
+                DefaultTableModel modelo = new DefaultTableModel();
+                int columnCount = resultSet.getMetaData().getColumnCount();
+                String[] columnNames = new String[columnCount];
 
-            // Obtener nombres de columnas de metadatos y configurar nombres descriptivos
-            for (int i = 0; i < columnCount; i++) {
-                String columnName = resultSet.getMetaData().getColumnLabel(i + 1); // Los índices de columna en JDBC comienzan desde 1
-
-                // Configurar nombres descriptivos para columnas específicas
-                switch (columnName) {
-                    case "nombre_paciente":
-                        columnNames[i] = "Nombre Paciente";
-                        break;
-                    case "nombre_medico":
-                        columnNames[i] = "Nombre Médico";
-                        break;
-                    case "nombre_eps":
-                        columnNames[i] = "EPS Paciente";
-                        break;
-                    case "copago":
-                        columnNames[i] = "Copago";
-                        break;
-                    default:
-                        columnNames[i] = columnName; // Usar el nombre de columna original para las demás columnas
-                        break;
-                }
-            }
-
-            // Establecer nombres de columnas en el modelo de tabla
-            modelo.setColumnIdentifiers(columnNames);
-
-            // Recorrer el resultado de la consulta y agregar cada fila al modelo de la tabla
-            while (resultSet.next()) {
-                Object[] rowData = new Object[columnCount];
-
-                // Obtener valores de cada columna y agregar a la fila de datos
+                // Obtener nombres de columnas de metadatos y configurar nombres descriptivos
                 for (int i = 0; i < columnCount; i++) {
-                    rowData[i] = resultSet.getObject(i + 1); // Los índices de columna en JDBC comienzan desde 1
+                    String columnName = resultSet.getMetaData().getColumnLabel(i + 1); // Los índices de columna en JDBC comienzan desde 1
+
+                    // Configurar nombres descriptivos para columnas específicas
+                    switch (columnName) {
+                        case "nombre_paciente":
+                            columnNames[i] = "Nombre Paciente";
+                            break;
+                        case "nombre_medico":
+                            columnNames[i] = "Nombre Médico";
+                            break;
+                        case "nombre_eps":
+                            columnNames[i] = "EPS Paciente";
+                            break;
+                        case "copago":
+                            columnNames[i] = "Copago";
+                            break;
+                        default:
+                            columnNames[i] = columnName; // Usar el nombre de columna original para las demás columnas
+                            break;
+                    }
                 }
 
-                // Agregar una fila al modelo de la tabla con los datos de la cita
-                modelo.addRow(rowData);
+                // Establecer nombres de columnas en el modelo de tabla
+                modelo.setColumnIdentifiers(columnNames);
+
+                // Recorrer el resultado de la consulta y agregar cada fila al modelo de la tabla
+                while (resultSet.next()) {
+                    Object[] rowData = new Object[columnCount];
+
+                    // Obtener valores de cada columna y agregar a la fila de datos
+                    for (int i = 0; i < columnCount; i++) {
+                        rowData[i] = resultSet.getObject(i + 1); // Los índices de columna en JDBC comienzan desde 1
+                    }
+
+                    // Agregar una fila al modelo de la tabla con los datos de la cita
+                    modelo.addRow(rowData);
+                }
+
+                // Actualizar el modelo de la tabla con los nuevos datos
+                tbRegistrosMedicos.setModel(modelo);
+
+                // Cerrar recursos
+                resultSet.close();
+                statement.close();
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al filtrar citas por estado", "Error", JOptionPane.ERROR_MESSAGE);
             }
-
-            // Actualizar el modelo de la tabla con los nuevos datos
-            tbRegistrosMedicos.setModel(modelo);
-
-            // Cerrar recursos
-            resultSet.close();
-            statement.close();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al filtrar citas por estado", "Error", JOptionPane.ERROR_MESSAGE);
-        }
     }//GEN-LAST:event_btnFiltrarPorEstadoActionPerformed
 
     private void executeAndShowQueryEstado(String query) throws SQLException {
