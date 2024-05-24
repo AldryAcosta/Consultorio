@@ -320,78 +320,68 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mostrarCitasEnTabla() {
-    DefaultTableModel modelo = new DefaultTableModel(); // Crear un nuevo modelo de tabla
+        DefaultTableModel modelo = new DefaultTableModel(); // Crear un nuevo modelo de tabla
 
-    try {
-        // Realizar la consulta SQL para obtener las citas médicas con todas las columnas especificadas
-        String query = "SELECT c.codigo, c.fechaCita, c.hora, c.estado, " +
-                       "p.nombre AS nombre_paciente, " +
-                       "e.nombre_eps AS nombre_eps, " + // Agregar nombre de la EPS
-                       "e.copago AS copago, " + // Agregar copago de la EPS como columna separada
-                       "m.nombre AS nombre_medico, " +
-                       "d.direccion AS direccion_ips " +
-                       "FROM cita c " +
-                       "LEFT JOIN paciente p ON c.paciente_id = p.id " +
-                       "LEFT JOIN medico m ON c.medico_id = m.id " +
-                       "LEFT JOIN direccionips d ON c.direccionips_id = d.id " +
-                       "LEFT JOIN eps e ON p.eps_id = e.id"; // Unirse a la tabla eps para obtener el nombre de la EPS y su copago
+        try {
+            // Llamar al procedimiento almacenado para obtener las citas médicas
+            String call = "{CALL obtener_citas()}";
+            CallableStatement statement = conexionBD.getConnection().prepareCall(call);
+            ResultSet resultSet = statement.executeQuery();
 
-        ResultSet resultSet = conexionBD.getConnection().createStatement().executeQuery(query);
+            // Obtener metadatos de la consulta para determinar el número y nombre de las columnas
+            int columnCount = resultSet.getMetaData().getColumnCount();
+            String[] columnNames = new String[columnCount];
 
-        // Obtener metadatos de la consulta para determinar el número y nombre de las columnas
-        int columnCount = resultSet.getMetaData().getColumnCount();
-        String[] columnNames = new String[columnCount];
-
-        // Obtener nombres de columnas de metadatos y configurar nombres descriptivos
-        for (int i = 0; i < columnCount; i++) {
-            String columnName = resultSet.getMetaData().getColumnLabel(i + 1); // Los índices de columna en JDBC comienzan desde 1
-
-            // Configurar nombres descriptivos para columnas específicas
-            switch (columnName) {
-                case "nombre_paciente":
-                    columnNames[i] = "Nombre Paciente";
-                    break;
-                case "nombre_medico":
-                    columnNames[i] = "Nombre Médico";
-                    break;
-                case "nombre_eps":
-                    columnNames[i] = "EPS Paciente";
-                    break;
-                case "copago":
-                    columnNames[i] = "Copago";
-                    break;
-                default:
-                    columnNames[i] = columnName; // Usar el nombre de columna original para las demás columnas
-                    break;
-            }
-        }
-
-        // Establecer nombres de columnas en el modelo de tabla
-        modelo.setColumnIdentifiers(columnNames);
-
-        // Recorrer el resultado de la consulta y agregar cada fila al modelo de la tabla
-        while (resultSet.next()) {
-            Object[] rowData = new Object[columnCount];
-
-            // Obtener valores de cada columna y agregar a la fila de datos
+            // Obtener nombres de columnas de metadatos y configurar nombres descriptivos
             for (int i = 0; i < columnCount; i++) {
-                rowData[i] = resultSet.getObject(i + 1); // Los índices de columna en JDBC comienzan desde 1
+                String columnName = resultSet.getMetaData().getColumnLabel(i + 1); // Los índices de columna en JDBC comienzan desde 1
+
+                // Configurar nombres descriptivos para columnas específicas
+                switch (columnName) {
+                    case "nombre_paciente":
+                        columnNames[i] = "Nombre Paciente";
+                        break;
+                    case "nombre_medico":
+                        columnNames[i] = "Nombre Médico";
+                        break;
+                    case "nombre_eps":
+                        columnNames[i] = "EPS Paciente";
+                        break;
+                    case "copago":
+                        columnNames[i] = "Copago";
+                        break;
+                    default:
+                        columnNames[i] = columnName; // Usar el nombre de columna original para las demás columnas
+                        break;
+                }
             }
 
-            // Agregar una fila al modelo de la tabla con los datos de la cita
-            modelo.addRow(rowData);
+            // Establecer nombres de columnas en el modelo de tabla
+            modelo.setColumnIdentifiers(columnNames);
+
+            // Recorrer el resultado de la consulta y agregar cada fila al modelo de la tabla
+            while (resultSet.next()) {
+                Object[] rowData = new Object[columnCount];
+
+                // Obtener valores de cada columna y agregar a la fila de datos
+                for (int i = 0; i < columnCount; i++) {
+                    rowData[i] = resultSet.getObject(i + 1); // Los índices de columna en JDBC comienzan desde 1
+                }
+
+                // Agregar una fila al modelo de la tabla con los datos de la cita
+                modelo.addRow(rowData);
+            }
+
+            // Actualizar el modelo de la tabla con los nuevos datos
+            tbRegistrosMedicos.setModel(modelo);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejar el error según sea necesario
+        } finally {
+            // Cerrar recursos JDBC (no se recomienda manejar en la cláusula finally, pero puede ser necesario)
         }
-
-        // Actualizar el modelo de la tabla con los nuevos datos
-        tbRegistrosMedicos.setModel(modelo);
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        // Manejar el error según sea necesario
-    } finally {
-        // Cerrar recursos JDBC (no se recomienda manejar en la cláusula finally, pero puede ser necesario)
     }
-}
 
     
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
@@ -406,23 +396,65 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                 String fechaInicioStr = dateFormat.format(fechaInicial);
                 String fechaFinStr = dateFormat.format(fechaFinal);
 
-                // Construir la consulta SQL con las columnas requeridas y los parámetros de fechas
-               String query = "SELECT c.codigo, c.fechaCita, c.hora, c.estado, " +
-               "p.nombre AS nombre_paciente, " +
-               "e.nombre_eps AS nombre_eps, " + // Agregar nombre de la EPS
-               "e.copago AS copago, " + // Agregar copago de la EPS como columna separada
-               "m.nombre AS nombre_medico, " +
-               "d.direccion AS direccion_ips " +
-               "FROM cita c " +
-               "LEFT JOIN paciente p ON c.paciente_id = p.id " +
-               "LEFT JOIN medico m ON c.medico_id = m.id " +
-               "LEFT JOIN direccionips d ON c.direccionips_id = d.id " +
-               "LEFT JOIN eps e ON p.eps_id = e.id " +
-               "WHERE c.fechaCita BETWEEN '" + fechaInicioStr + "' AND '" + fechaFinStr + "'";
+                // Llamar al procedimiento almacenado para obtener las citas médicas por fecha
+                String call = "{CALL obtener_citas_por_fecha(?, ?)}";
+                CallableStatement statement = conexionBD.getConnection().prepareCall(call);
+                statement.setString(1, fechaInicioStr);
+                statement.setString(2, fechaFinStr);
+                ResultSet resultSet = statement.executeQuery();
 
-                // Ejecutar la consulta y mostrar los resultados en la tabla
-                executeAndShowQuery(query);
-                
+                // Obtener metadatos de la consulta para determinar el número y nombre de las columnas
+                DefaultTableModel modelo = new DefaultTableModel();
+                int columnCount = resultSet.getMetaData().getColumnCount();
+                String[] columnNames = new String[columnCount];
+
+                // Obtener nombres de columnas de metadatos y configurar nombres descriptivos
+                for (int i = 0; i < columnCount; i++) {
+                    String columnName = resultSet.getMetaData().getColumnLabel(i + 1); // Los índices de columna en JDBC comienzan desde 1
+
+                    // Configurar nombres descriptivos para columnas específicas
+                    switch (columnName) {
+                        case "nombre_paciente":
+                            columnNames[i] = "Nombre Paciente";
+                            break;
+                        case "nombre_medico":
+                            columnNames[i] = "Nombre Médico";
+                            break;
+                        case "nombre_eps":
+                            columnNames[i] = "EPS Paciente";
+                            break;
+                        case "copago":
+                            columnNames[i] = "Copago";
+                            break;
+                        default:
+                            columnNames[i] = columnName; // Usar el nombre de columna original para las demás columnas
+                            break;
+                    }
+                }
+
+                // Establecer nombres de columnas en el modelo de tabla
+                modelo.setColumnIdentifiers(columnNames);
+
+                // Recorrer el resultado de la consulta y agregar cada fila al modelo de la tabla
+                while (resultSet.next()) {
+                    Object[] rowData = new Object[columnCount];
+
+                    // Obtener valores de cada columna y agregar a la fila de datos
+                    for (int i = 0; i < columnCount; i++) {
+                        rowData[i] = resultSet.getObject(i + 1); // Los índices de columna en JDBC comienzan desde 1
+                    }
+
+                    // Agregar una fila al modelo de la tabla con los datos de la cita
+                    modelo.addRow(rowData);
+                }
+
+                // Actualizar el modelo de la tabla con los nuevos datos
+                tbRegistrosMedicos.setModel(modelo);
+
+                // Cerrar recursos
+                resultSet.close();
+                statement.close();
+
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Error al consultar citas por fecha", "Error", JOptionPane.ERROR_MESSAGE);
@@ -624,26 +656,67 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCalcularTotalCopagosAnioActionPerformed
 
     private void btnFiltrarPorEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarPorEstadoActionPerformed
-        try {
+            try {
             // Obtener el estado seleccionado en el JComboBox
             String estadoSeleccionado = (String) comboEstados.getSelectedItem();
 
-            // Construir la consulta SQL con el estado seleccionado
-            String query = "SELECT c.codigo, c.fechaCita, c.hora, c.estado, " +
-                           "p.nombre AS nombre_paciente, " +
-                           "e.nombre_eps AS nombre_eps, " + // Agregar nombre de la EPS
-                           "e.copago AS copago, " + // Agregar copago de la EPS como columna separada
-                           "m.nombre AS nombre_medico, " +
-                           "d.direccion AS direccion_ips " +
-                           "FROM cita c " +
-                           "LEFT JOIN paciente p ON c.paciente_id = p.id " +
-                           "LEFT JOIN medico m ON c.medico_id = m.id " +
-                           "LEFT JOIN direccionips d ON c.direccionips_id = d.id " +
-                           "LEFT JOIN eps e ON p.eps_id = e.id " +
-                           "WHERE c.estado = '" + estadoSeleccionado + "'";
+            // Llamar al procedimiento almacenado para obtener las citas médicas por estado
+            String call = "{CALL obtener_citas_por_estado(?)}";
+            CallableStatement statement = conexionBD.getConnection().prepareCall(call);
+            statement.setString(1, estadoSeleccionado);
+            ResultSet resultSet = statement.executeQuery();
 
-            // Ejecutar la consulta y mostrar los resultados en la tabla
-            executeAndShowQueryEstado(query);
+            // Obtener metadatos de la consulta para determinar el número y nombre de las columnas
+            DefaultTableModel modelo = new DefaultTableModel();
+            int columnCount = resultSet.getMetaData().getColumnCount();
+            String[] columnNames = new String[columnCount];
+
+            // Obtener nombres de columnas de metadatos y configurar nombres descriptivos
+            for (int i = 0; i < columnCount; i++) {
+                String columnName = resultSet.getMetaData().getColumnLabel(i + 1); // Los índices de columna en JDBC comienzan desde 1
+
+                // Configurar nombres descriptivos para columnas específicas
+                switch (columnName) {
+                    case "nombre_paciente":
+                        columnNames[i] = "Nombre Paciente";
+                        break;
+                    case "nombre_medico":
+                        columnNames[i] = "Nombre Médico";
+                        break;
+                    case "nombre_eps":
+                        columnNames[i] = "EPS Paciente";
+                        break;
+                    case "copago":
+                        columnNames[i] = "Copago";
+                        break;
+                    default:
+                        columnNames[i] = columnName; // Usar el nombre de columna original para las demás columnas
+                        break;
+                }
+            }
+
+            // Establecer nombres de columnas en el modelo de tabla
+            modelo.setColumnIdentifiers(columnNames);
+
+            // Recorrer el resultado de la consulta y agregar cada fila al modelo de la tabla
+            while (resultSet.next()) {
+                Object[] rowData = new Object[columnCount];
+
+                // Obtener valores de cada columna y agregar a la fila de datos
+                for (int i = 0; i < columnCount; i++) {
+                    rowData[i] = resultSet.getObject(i + 1); // Los índices de columna en JDBC comienzan desde 1
+                }
+
+                // Agregar una fila al modelo de la tabla con los datos de la cita
+                modelo.addRow(rowData);
+            }
+
+            // Actualizar el modelo de la tabla con los nuevos datos
+            tbRegistrosMedicos.setModel(modelo);
+
+            // Cerrar recursos
+            resultSet.close();
+            statement.close();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -705,9 +778,9 @@ public class FrmGestionCitas extends javax.swing.JFrame {
             // Obtener el nuevo estado seleccionado por el usuario
             String nuevoEstado = obtenerNuevoEstado();
 
-            // Preparar la consulta SQL para actualizar el estado de la cita
-            String sql = "UPDATE cita SET estado = ? WHERE codigo = ?";
-            PreparedStatement statement = conexionBD.getConnection().prepareStatement(sql);
+            // Llamar al procedimiento almacenado para cambiar el estado de la cita
+            String call = "{CALL cambiar_estado_cita(?, ?)}";
+            CallableStatement statement = conexionBD.getConnection().prepareCall(call);
             statement.setString(1, nuevoEstado);
             statement.setString(2, codigoCitaStr);
 
@@ -723,6 +796,10 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                 // Mostrar mensaje si no se encuentra la cita con el código especificado
                 JOptionPane.showMessageDialog(this, "La cita con el código especificado no existe", "Error", JOptionPane.ERROR_MESSAGE);
             }
+
+            // Cerrar el statement
+            statement.close();
+
         } catch (SQLException e) {
             // Manejar la excepción si ocurre un error de SQL
             e.printStackTrace();
