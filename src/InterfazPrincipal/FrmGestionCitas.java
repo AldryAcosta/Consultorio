@@ -63,7 +63,6 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         comboMeses = new javax.swing.JComboBox<>();
         btnRestablecer = new javax.swing.JButton();
         btnCalcularTotalCopagos = new javax.swing.JButton();
-        txtResultadoCopago = new javax.swing.JTextField();
         btnFiltrarPorMesYAnio = new javax.swing.JButton();
         comboMesesCopago = new javax.swing.JComboBox<>();
         ComboAnioCopago = new javax.swing.JComboBox<>();
@@ -196,73 +195,70 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                 .addComponent(lblTotalCopagosMes)
                 .addGap(139, 139, 139))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnFiltrarPorMesYAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(90, 90, 90))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(btnRestablecer)
-                .addGap(78, 78, 78)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(jLabel4)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ComboAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnCalcularTotalCopagosAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(90, 90, 90))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(txtResultadoCopago, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(66, 66, 66))))
+                            .addComponent(ComboAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnCalcularTotalCopagos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCalcularTotalCopagosAnio, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)))
+                        .addGap(10, 10, 10)))
+                .addGap(90, 90, 90))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(59, 59, 59)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addComponent(comboEstados, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnFiltrarPorEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(28, 28, 28)
-                                            .addComponent(jLabel3))
-                                        .addComponent(dateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(6, 6, 6)
-                                            .addComponent(btnConsultar)))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(dateInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(23, 23, 23)
-                                            .addComponent(jLabel2))))))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(49, 49, 49)
-                                .addComponent(comboMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(comboMeses, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(88, 88, 88)
-                                .addComponent(txtCodigoCita, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(291, 291, 291)
                         .addComponent(btnCambiarEstado)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(comboEstados, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnFiltrarPorEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(28, 28, 28)
+                                    .addComponent(jLabel3))
+                                .addComponent(dateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(6, 6, 6)
+                                    .addComponent(btnConsultar)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(dateInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(23, 23, 23)
+                                    .addComponent(jLabel2))))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addComponent(comboMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(comboMeses, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(txtCodigoCita, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnCalcularTotalCopagos, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(99, 99, 99))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnFiltrarPorMesYAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(90, 90, 90))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblTotalCopagos)
-                        .addGap(128, 128, 128))))
+                        .addGap(151, 151, 151))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,18 +285,15 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtCodigoCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(ComboAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtCodigoCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnCambiarEstado))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addComponent(btnCalcularTotalCopagosAnio))))
+                            .addComponent(btnCambiarEstado)
+                            .addComponent(ComboAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addComponent(btnCalcularTotalCopagosAnio))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(jLabel2)
@@ -310,15 +303,13 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtResultadoCopago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsultar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnConsultar)
+                    .addComponent(lblTotalCopagos))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCalcularTotalCopagos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTotalCopagos)
-                .addGap(10, 10, 10)
+                .addGap(26, 26, 26)
                 .addComponent(btnRestablecer)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -333,7 +324,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
 
     try {
         // Realizar la consulta SQL para obtener las citas médicas con todas las columnas especificadas
-        String query = "SELECT c.id, c.codigo, c.fechaCita, c.hora, c.estado, " +
+        String query = "SELECT c.codigo, c.fechaCita, c.hora, c.estado, " +
                        "p.nombre AS nombre_paciente, " +
                        "e.nombre_eps AS nombre_eps, " + // Agregar nombre de la EPS
                        "e.copago AS copago, " + // Agregar copago de la EPS como columna separada
@@ -416,7 +407,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
                 String fechaFinStr = dateFormat.format(fechaFinal);
 
                 // Construir la consulta SQL con las columnas requeridas y los parámetros de fechas
-               String query = "SELECT c.id, c.codigo, c.fechaCita, c.hora, c.estado, " +
+               String query = "SELECT c.codigo, c.fechaCita, c.hora, c.estado, " +
                "p.nombre AS nombre_paciente, " +
                "e.nombre_eps AS nombre_eps, " + // Agregar nombre de la EPS
                "e.copago AS copago, " + // Agregar copago de la EPS como columna separada
@@ -448,7 +439,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         ResultSet resultSet = conexionBD.getConnection().createStatement().executeQuery(query);
 
         // Configurar el modelo de tabla con las columnas deseadas
-        modelo.addColumn("ID");
+       
         modelo.addColumn("Código");
         modelo.addColumn("Fecha Cita");
         modelo.addColumn("Hora");
@@ -464,19 +455,19 @@ public class FrmGestionCitas extends javax.swing.JFrame {
             Object[] rowData = new Object[10]; // Crear arreglo para cada fila con 10 columnas
 
             // Obtener valores específicos de cada columna y agregarlos al arreglo de datos de fila
-            rowData[0] = resultSet.getInt("id");
-            rowData[1] = resultSet.getString("codigo");
-            rowData[2] = resultSet.getDate("fechaCita");
-            rowData[3] = resultSet.getTime("hora");
-            rowData[4] = resultSet.getString("estado");
-            rowData[5] = resultSet.getString("nombre_paciente");
+            
+            rowData[0] = resultSet.getString("codigo");
+            rowData[1] = resultSet.getDate("fechaCita");
+            rowData[2] = resultSet.getTime("hora");
+            rowData[3] = resultSet.getString("estado");
+            rowData[4] = resultSet.getString("nombre_paciente");
 
             // Acceder a la columna 'nombre_eps' (verifica el nombre exacto de la columna en tu base de datos)
-            rowData[6] = resultSet.getString("nombre_eps"); // Asegúrate de que el nombre de la columna sea correcto
+            rowData[5] = resultSet.getString("nombre_eps"); // Asegúrate de que el nombre de la columna sea correcto
 
-            rowData[7] = resultSet.getInt("copago");
-            rowData[8] = resultSet.getString("nombre_medico");
-            rowData[9] = resultSet.getString("direccion_ips");
+            rowData[6] = resultSet.getInt("copago");
+            rowData[7] = resultSet.getString("nombre_medico");
+            rowData[8] = resultSet.getString("direccion_ips");
 
             // Agregar la fila al modelo de la tabla
             modelo.addRow(rowData);
@@ -515,7 +506,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         DefaultTableModel modelo = new DefaultTableModel();
 
         // Configurar el modelo de tabla con las columnas deseadas
-        modelo.addColumn("ID");
+        
         modelo.addColumn("Código");
         modelo.addColumn("Fecha Cita");
         modelo.addColumn("Hora");
@@ -531,16 +522,16 @@ public class FrmGestionCitas extends javax.swing.JFrame {
             Object[] rowData = new Object[10]; // Crear arreglo para cada fila con 10 columnas
 
             // Obtener valores específicos de cada columna y agregarlos al arreglo de datos de fila
-            rowData[0] = resultSet.getInt("id");
-            rowData[1] = resultSet.getString("codigo");
-            rowData[2] = resultSet.getDate("fechaCita");
-            rowData[3] = resultSet.getTime("hora");
-            rowData[4] = resultSet.getString("estado");
-            rowData[5] = resultSet.getString("nombre_paciente");
-            rowData[6] = resultSet.getString("nombre_eps");
-            rowData[7] = resultSet.getInt("copago");
-            rowData[8] = resultSet.getString("nombre_medico");
-            rowData[9] = resultSet.getString("direccion_ips");
+            
+            rowData[0] = resultSet.getString("codigo");
+            rowData[1] = resultSet.getDate("fechaCita");
+            rowData[2] = resultSet.getTime("hora");
+            rowData[3] = resultSet.getString("estado");
+            rowData[4] = resultSet.getString("nombre_paciente");
+            rowData[5] = resultSet.getString("nombre_eps");
+            rowData[6] = resultSet.getInt("copago");
+            rowData[7] = resultSet.getString("nombre_medico");
+            rowData[8] = resultSet.getString("direccion_ips");
 
             // Agregar la fila al modelo de la tabla
             modelo.addRow(rowData);
@@ -625,7 +616,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
             int totalCopagos = stmt.getInt(2);
 
             // Mostrar el resultado en un componente de la interfaz (por ejemplo, un JLabel)
-            lblTotalCopagos.setText("Total Copagos " + anioSeleccionado + ": " + totalCopagos);
+            lblTotalCopagos.setText("Total Copagos en el Año " + anioSeleccionado + ": " + totalCopagos);
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al calcular el total de copagos", "Error", JOptionPane.ERROR_MESSAGE);
@@ -638,7 +629,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
             String estadoSeleccionado = (String) comboEstados.getSelectedItem();
 
             // Construir la consulta SQL con el estado seleccionado
-            String query = "SELECT c.id, c.codigo, c.fechaCita, c.hora, c.estado, " +
+            String query = "SELECT c.codigo, c.fechaCita, c.hora, c.estado, " +
                            "p.nombre AS nombre_paciente, " +
                            "e.nombre_eps AS nombre_eps, " + // Agregar nombre de la EPS
                            "e.copago AS copago, " + // Agregar copago de la EPS como columna separada
@@ -667,7 +658,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         ResultSet resultSet = conexionBD.getConnection().createStatement().executeQuery(query);
 
         // Configurar el modelo de tabla con las columnas deseadas
-        modelo.addColumn("ID");
+        
         modelo.addColumn("Código");
         modelo.addColumn("Fecha Cita");
         modelo.addColumn("Hora");
@@ -683,16 +674,16 @@ public class FrmGestionCitas extends javax.swing.JFrame {
             Object[] rowData = new Object[10]; // Crear arreglo para cada fila con 10 columnas
 
             // Obtener valores específicos de cada columna y agregarlos al arreglo de datos de fila
-            rowData[0] = resultSet.getInt("id");
-            rowData[1] = resultSet.getString("codigo");
-            rowData[2] = resultSet.getDate("fechaCita");
-            rowData[3] = resultSet.getTime("hora");
-            rowData[4] = resultSet.getString("estado");
-            rowData[5] = resultSet.getString("nombre_paciente");
-            rowData[6] = resultSet.getString("nombre_eps");
-            rowData[7] = resultSet.getInt("copago");
-            rowData[8] = resultSet.getString("nombre_medico");
-            rowData[9] = resultSet.getString("direccion_ips");
+           
+            rowData[0] = resultSet.getString("codigo");
+            rowData[1] = resultSet.getDate("fechaCita");
+            rowData[2] = resultSet.getTime("hora");
+            rowData[3] = resultSet.getString("estado");
+            rowData[4] = resultSet.getString("nombre_paciente");
+            rowData[5] = resultSet.getString("nombre_eps");
+            rowData[6] = resultSet.getInt("copago");
+            rowData[7] = resultSet.getString("nombre_medico");
+            rowData[8] = resultSet.getString("direccion_ips");
 
             // Agregar la fila al modelo de la tabla
             modelo.addRow(rowData);
@@ -762,24 +753,7 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         }
         
     }
-    
 
-    private int calcularTotalCopagosPorAnio(ArrayList<CitasMedicas> citas, int anio) {
-        int totalCopagos = 0;
-        for (CitasMedicas cita : citas) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(cita.getFechaCita());
-            int anioCita = cal.get(Calendar.YEAR);
-
-            // Comparar el año de la cita con el año seleccionado
-            if (anioCita == anio) {
-                totalCopagos += cita.getCoPago();
-            }
-        }
-        return totalCopagos;
-    }
-    
-    
     private int obtenerIndiceMes(String nombreMes) {
         String[] nombresMeses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 
@@ -826,71 +800,9 @@ public class FrmGestionCitas extends javax.swing.JFrame {
         
         return result;
     }
-    
-     private void generarReporteCitasPorMedicoEnMes(String nombreMedico, int mes) {
-        ArrayList<CitasMedicas> citasFiltradas = new ArrayList<>();
-
-        
-        for (CitasMedicas cita : citas) {
-            
-            String nombreMedicoCita = cita.getNombreMedico();
-            
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(cita.getFechaCita());
-            int mesCita = cal.get(Calendar.MONTH);
-
-            
-            if (nombreMedicoCita.equals(nombreMedico) && mesCita == mes) {
-                citasFiltradas.add(cita);
-            }
-        }
-        MostrarInfo(citasFiltradas);
-    }
      
-     private int calcularTotalCopagos(ArrayList<CitasMedicas> citas) {
-        int totalCopagos = 0;
-        for (CitasMedicas cita : citas) {
-            totalCopagos += cita.getCoPago();
-        }
-        return totalCopagos;
-    }
-     
-     private int calcularTotalCopagosPorMesYAnio(ArrayList<CitasMedicas> citas, int mes, int anio) {
-        int totalCopagos = 0;
-        for (CitasMedicas cita : citas) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(cita.getFechaCita());
-            int mesCita = cal.get(Calendar.MONTH);
-            int anioCita = cal.get(Calendar.YEAR);
-
-            // Comparar mes y año de la cita con el mes y año seleccionados
-            if (mesCita == mes && anioCita == anio) {
-                totalCopagos += cita.getCoPago();
-            }
-        }
-        return totalCopagos;
-    }
-     
-     private String obtenerNombreMes(int indiceMes) {
-        String[] nombresMeses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
-        return nombresMeses[indiceMes];
-    }
-     
-     private ArrayList<CitasMedicas> filtrarCitasPorEstado(ArrayList<CitasMedicas> citas, String estado) {
-        ArrayList<CitasMedicas> citasFiltradas = new ArrayList<>();
-
-        for (CitasMedicas cita : citas) {
-            if (cita.getEstadoCitas().equalsIgnoreCase(estado)) {
-                citasFiltradas.add(cita);
-            }
-        }
-
-        return citasFiltradas;
-    }
-  
     public static void main(String args[]) {
-        ArrayList<CitasMedicas>citas = new ArrayList<CitasMedicas>();
-        
+  
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -919,6 +831,5 @@ public class FrmGestionCitas extends javax.swing.JFrame {
     private javax.swing.JLabel lblTotalCopagosMes;
     private javax.swing.JTable tbRegistrosMedicos;
     private javax.swing.JTextField txtCodigoCita;
-    private javax.swing.JTextField txtResultadoCopago;
     // End of variables declaration//GEN-END:variables
 }

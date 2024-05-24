@@ -49,25 +49,25 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     private ArrayList<CitasMedicas>citas = new ArrayList<CitasMedicas>();
     
      private int contadorCitas = 1;
-     int numeroCitas;
-     String documentoPaciente;
-     String nombreyApellidoPaciente;
-     Date fechaNacimientoPaciente;
-     String afiliadoPaciente;
-     String nombreMedico;
-     String tipoEspecialidad;
-     Date fechaCita;
-     String horaCita;
-     String ConsultorioCita;
-     String EstadoCitas;
+//     int numeroCitas;
+//     String documentoPaciente;
+//     String nombreyApellidoPaciente;
+//     Date fechaNacimientoPaciente;
+//     String afiliadoPaciente;
+//     String nombreMedico;
+//     String tipoEspecialidad;
+//     Date fechaCita;
+//     String horaCita;
+//     String ConsultorioCita;
+//     String EstadoCitas;
      
      
      
-     int coPago; 
-     int COPAGO_EPS_SANITAS = 47700;
-     int COPAGO_MUTUAL_SER = 45000;
-     int COPAGO_COOSALUD = 40000;
-     int COPAGO_SALUD_TOTAL = 50000;
+//     int coPago; 
+//     int COPAGO_EPS_SANITAS = 47700;
+//     int COPAGO_MUTUAL_SER = 45000;
+//     int COPAGO_COOSALUD = 40000;
+//     int COPAGO_SALUD_TOTAL = 50000;
      
      
     
@@ -326,22 +326,22 @@ public class FrmAgendamiento extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cargarDireccionesIPS(String epsNombre) {
-        comboIPS.removeAllItems(); // Limpiar items previos
+    comboIPS.removeAllItems(); // Limpiar items previos
 
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/AgendamientoCitas", "root", "3002366628as");
-             PreparedStatement stmt = conn.prepareStatement("SELECT d.direccion FROM eps_ips ei JOIN direccionips d ON ei.direccionips_id = d.id JOIN eps e ON ei.eps_id = e.id WHERE e.nombre_eps = ?")) {
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/AgendamientoCitas", "root", "3002366628as");
+         CallableStatement stmt = conn.prepareCall("{CALL obtener_direcciones_ips_por_eps(?)}")) {
 
-            stmt.setString(1, epsNombre);
-            ResultSet rs = stmt.executeQuery();
+        stmt.setString(1, epsNombre);
+        ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                comboIPS.addItem(rs.getString("direccion"));
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        while (rs.next()) {
+            comboIPS.addItem(rs.getString("direccion"));
         }
+
+    } catch (SQLException ex) {
+        ex.printStackTrace();
     }
+}
     
     
     private void btnFiltrarPorDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarPorDocumentoActionPerformed
@@ -355,15 +355,10 @@ public class FrmAgendamiento extends javax.swing.JFrame {
 
     
     public void buscarPacientePorDocumento(String numeroDocumento) {
-            try {
+        try {
             Connection conn = conexion.getConnection();
-            String sql = "SELECT p.nombre, g.nombre_genero, p.correo, p.fechaNacimiento, e.nombre_eps " +
-                         "FROM paciente p " +
-                         "JOIN genero g ON p.genero_id = g.id " +
-                         "JOIN eps e ON p.eps_id = e.id " +
-                         "WHERE p.documento = ?";
-
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            String call = "{CALL buscar_paciente_por_documento(?)}";
+            CallableStatement stmt = conn.prepareCall(call);
             stmt.setString(1, numeroDocumento);
 
             ResultSet rs = stmt.executeQuery();
@@ -424,7 +419,7 @@ public class FrmAgendamiento extends javax.swing.JFrame {
         }
 
         try {
-            // Establecer conexión con la base de datos (suponiendo que 'conexion' es tu objeto de conexión)
+            // Establecer conexión con la base de datos 
             Connection conn = conexion.getConnection();
 
             // Llamar al procedimiento almacenado 'sp_insertar_cita' utilizando un CallableStatement
@@ -483,11 +478,11 @@ public class FrmAgendamiento extends javax.swing.JFrame {
      */
     
     private void llenarComboboxEspecialidades() {
-        String query = "SELECT nombre_especialidad FROM especialidad";
-        
+        String call = "{CALL obtener_especialidades()}";
+
         try {
             Connection conn = conexion.getConnection(); // Obtener la conexión de la clase ConexionBD
-            PreparedStatement statement = conn.prepareStatement(query);
+            CallableStatement statement = conn.prepareCall(call);
             ResultSet resultSet = statement.executeQuery();
 
             // Limpiar el combobox antes de agregar nuevos elementos
